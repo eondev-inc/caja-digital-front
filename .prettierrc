@@ -1,0 +1,39 @@
+{
+  "semi": true,
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindAttributes": ["theme"],
+  "tailwindFunctions": ["twMerge", "createTheme"],
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "jsxSingleQuote": true,
+  "jsxBracketSameLine": false,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "./src/*.js",
+      "options": {
+        "parser": "babel"
+      }
+    },
+    {
+      "files": "./src/*.jsx",
+      "options": {
+        "parser": "babel"
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "parser": "scss"
+      }
+    }
+  ]
+}
