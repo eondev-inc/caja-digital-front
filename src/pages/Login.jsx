@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 export const Login = () => {
   const [show, setShow] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState({});
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -107,10 +107,10 @@ export const Login = () => {
         title={error.error}
         show={show} 
         typeModal={"error"} 
-        buttonMessage={error.message} 
+        buttonMessage={"Cerrar"} 
         onClose={handleModalClose}
       >
-        <p> An error has ocurred, please retry!</p>
+        <p> { error.message } </p>
       </GeneralModal>
     </>
   )

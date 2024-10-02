@@ -10,9 +10,6 @@ RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
 
-# Crear usuario y grupo no-root
-RUN addgroup react && adduser -S -G react react
-
 # Instalar dependencias globales
 RUN npm install -g @nestjs/cli
 RUN npm install -g pnpm
@@ -21,18 +18,14 @@ RUN npm install -g pnpm
 WORKDIR /src
 
 # Copiar archivos necesarios y ajustar permisos
-COPY --chown=react:react package*.json pnpm-lock.yaml postcss.config.js tailwind.config.js vite.config.js index.html ./
-RUN chown -R react:react /src
-
-# Cambiar al usuario react
-USER react
+COPY package*.json pnpm-lock.yaml postcss.config.js tailwind.config.js vite.config.js index.html ./
 
 # Instalar dependencias de la app
 RUN pnpm install
 
 # Copiar el resto del código al contenedor
-COPY --chown=react:react src ./src
-COPY --chown=react:react public ./public
+COPY src ./src
+COPY public ./public
 
 # Exponer puertos
 EXPOSE 3000
