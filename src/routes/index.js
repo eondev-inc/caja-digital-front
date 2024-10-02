@@ -1,6 +1,7 @@
 import NotFound from "../components/Commons/NotFound";
 import { LoginLayout } from "../layout/login/LoginLayout";
 import { NoLoginLayout } from "../layout/nologin/NoLoginLayout";
+import Main from "../pages/dashboard/Main";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
@@ -29,6 +30,12 @@ const routes = [
     element: NotFound, 
     layout: NoLoginLayout,
     isProtected: false 
+  },
+  {
+    path: 'dashboard',
+    layout: LoginLayout,
+    isProtected: true,
+    element: Main,
   }
 ]
 
