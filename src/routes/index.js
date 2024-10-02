@@ -1,10 +1,10 @@
-import NotFound from '../components/Commons/NotFound';
-import { LoginLayout } from '../layout/login/LoginLayout';
-import { NoLoginLayout } from '../layout/nologin/NoLoginLayout';
-import { Dashboard } from '../pages/Dashboard';
-import { Home } from '../pages/Home';
-import { Login } from '../pages/Login';
-import { Register } from '../pages/Register';
+import NotFound from "../components/Commons/NotFound";
+import { LoginLayout } from "../layout/login/LoginLayout";
+import { NoLoginLayout } from "../layout/nologin/NoLoginLayout";
+import Main from "../pages/dashboard/Main";
+import { Home } from "../pages/Home";
+import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 
 const routes = [
   {
@@ -29,14 +29,14 @@ const routes = [
     path: '*',
     element: NotFound,
     layout: NoLoginLayout,
-    isProtected: false,
+    isProtected: false 
   },
   {
-    path: '/dashboard',
+    path: 'dashboard',
     layout: LoginLayout,
-    isProtected: false,
-    element: Dashboard,
-  },
-];
+    isProtected: true,
+    element: Main,
+  }
+]
 
 export default routes;

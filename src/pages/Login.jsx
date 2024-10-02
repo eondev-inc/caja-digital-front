@@ -6,7 +6,6 @@ import { login } from "../api/auth/login.post";
 import { useStore } from "../app/store";
 import { GeneralModal } from "../components/Commons/GeneralModal";
 import { useState } from "react";
-import { useEffect } from "react";
 
 export const Login = () => {
   const [show, setShow] = useState(false);
@@ -104,13 +103,13 @@ export const Login = () => {
         </div>
       </section>
       <GeneralModal
-        title={error.error}
+        title={error ? error.error : "Error"}
         show={show} 
         typeModal={"error"} 
-        buttonMessage={"Cerrar"} 
+        buttonMessage={" Ok "} 
         onClose={handleModalClose}
       >
-        <p> { error.message } </p>
+        <p> {error ? error.message : "Mensaje de error"}</p>
       </GeneralModal>
     </>
   )
