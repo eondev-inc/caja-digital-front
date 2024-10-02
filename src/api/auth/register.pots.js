@@ -1,15 +1,23 @@
 import axios from 'axios';
-
+import { apiKey, apiUrl } from '../../config';
 export const registerUser = async (data) => {
   try {
-    const response = await axios.post('http://localhost:3001/api/auth/register', data, {
+    console.log(data.nidType.toUpperCase());
+    const response = await axios({
+      method: 'POST',
+      url: `${apiUrl}/api/v1/auth/register`,
+      data : {
+        nidType: data.nidType.toUpperCase(),
+        ...data,
+      },
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        apikey: apiKey,
       }
     });
+
     return response.data;
   } catch (error) {
-    return error.response.data;
+    return error.response ? error.response.data : error;
   }
 }

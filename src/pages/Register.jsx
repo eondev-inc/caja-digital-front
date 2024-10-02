@@ -19,7 +19,7 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     setFormData(data);
-    registerUser(data);
+    registerUser(formData);
   }
 
   return(
@@ -32,40 +32,40 @@ export const Register = () => {
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <Label htmlFor="name" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Name" />
-                <TextInput type="text" name="name" 
-                  {...register('name')}
-                  id="name" 
-                  className="block w-full rounded-lg text-sm text-gray-900 
-                    focus:border-primary-600 focus:ring-primary-600 
+                <Label htmlFor="surnames" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Name" />
+                <TextInput type="text" name="surnames" 
+                  {...register('surnames')}
+                  id="surnames" 
+                  className="block w-full rounded-lg 
+                    text-sm text-gray-900 
                     dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                     dark:placeholder:text-gray-400 
                     dark:focus:border-blue-500 
                     dark:focus:ring-blue-500" 
                   placeholder="John"
                 />
-                { errors.name && <p className="mx-1 text-left text-sm text-red-500">{ errors.name.message }</p> }
+                { errors.surnames && <p className="mx-1 text-left text-sm text-red-500">{ errors.surnames.message }</p> }
               </div>
               <div>
-                <Label htmlFor="forename" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Lastnames" />
-                <TextInput type="text" name="forename"
-                  {...register('forename')}
-                  id="forename" 
-                  className="block w-full rounded-lg text-sm text-gray-900 
-                  focus:border-primary-600 focus:ring-primary-600 
+                <Label htmlFor="forenames" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Lastnames" />
+                <TextInput type="text" name="forenames"
+                  {...register('forenames')}
+                  id="forenames" 
+                  className="block w-full rounded-lg 
+                  text-sm text-gray-900 
                   dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                   dark:placeholder:text-gray-400 dark:focus:border-blue-500 
                   dark:focus:ring-blue-500" 
                   placeholder="Doe" 
                 />
-                { errors.forename && <p className="mx-1 text-left text-sm text-red-500">{ errors.forename.message }</p> }
+                { errors.forenames && <p className="mx-1 text-left text-sm text-red-500">{ errors.forenames.message }</p> }
               </div>
               <Label htmlFor="nidType" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Identification" />
               <div className="flex flex-row items-start space-x-16">
                 <div className="flex h-5 items-center">
-                  <Select defaultValue="rut" id="nidType" name="nidType" 
-                    className="block w-full rounded-lg text-gray-900 
-                    focus:border-primary-600 focus:ring-primary-600 
+                  <Select defaultValue="rut" id="nidType" name="nidType" htmlFor="nidType"
+                    className="block w-full 
+                    rounded-lg text-gray-900 
                     dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                     dark:placeholder:text-gray-400 dark:focus:border-blue-500 
                     dark:focus:ring-blue-500"
@@ -78,9 +78,9 @@ export const Register = () => {
                 <div className="flex h-5 items-center">
                   <TextInput type="text" name="nid" id="nid"
                     {...register('nid')}
-                    className="block w-full rounded-lg text-sm 
-                    text-gray-900 focus:border-primary-600 
-                    focus:ring-primary-600 dark:border-gray-600 
+                    className="block w-full 
+                    rounded-lg text-sm 
+                    text-gray-900 dark:border-gray-600 
                     dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
                     dark:focus:border-blue-500 dark:focus:ring-blue-500" 
                     placeholder="11.111.111-1"
@@ -93,9 +93,9 @@ export const Register = () => {
                 <TextInput type="email" name="email"
                   {...register('email')}
                   id="email" 
-                  className="block w-full rounded-lg text-sm 
-                  text-gray-900 focus:border-primary-600 
-                  focus:ring-primary-600 dark:border-gray-600 
+                  className="block w-full 
+                  rounded-lg text-sm 
+                  text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white 
                   dark:placeholder:text-gray-400 
                   dark:focus:border-blue-500 dark:focus:ring-blue-500" 
@@ -108,9 +108,9 @@ export const Register = () => {
                 <TextInput type="password" name="password" 
                   {...register('password')}
                   id="password" placeholder="••••••••" 
-                  className="block w-full rounded-lg text-sm 
-                  text-gray-900 focus:border-primary-600 
-                  focus:ring-primary-600 dark:border-gray-600 
+                  className="block w-full 
+                  rounded-lg text-sm 
+                  text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
                   dark:focus:border-blue-500 dark:focus:ring-blue-500" 
                 />
@@ -121,9 +121,9 @@ export const Register = () => {
                 <TextInput type="password" name="confirm-password"
                   {...register('confirmPassword')}
                   id="confirm-password" placeholder="••••••••" 
-                  className="block w-full rounded-lg text-sm 
-                  text-gray-900 focus:border-primary-600 
-                  focus:ring-primary-600 dark:border-gray-600 
+                  className="block w-full 
+                  rounded-lg text-sm 
+                  text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
                   dark:focus:border-blue-500 dark:focus:ring-blue-500" 
                 />

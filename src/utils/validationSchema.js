@@ -26,8 +26,8 @@ const passwordSchema = z
 
 
 export const schema = z.object({
-  name: z.string().min(1, 'Name is required').max(30),
-  forename: z.string().min(1, 'Forename is required').max(30),
+  surnames: z.string().min(1, 'Name is required').max(30),
+  forenames: z.string().min(1, 'Forename is required').max(30),
   nidType: z.enum(['rut', 'pasaporte']),
   nid: z.string().min(1, 'NID is required').max(12),
   email: z.string().email('Invalid email address'),

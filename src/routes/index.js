@@ -13,21 +13,21 @@ const routes = [
     isProtected: false,
     element: Home,
   },
-  { 
-    path: '/login', 
-    element: Login, 
+  {
+    path: '/login',
+    element: Login,
     layout: NoLoginLayout,
-    isProtected: false 
+    isProtected: false,
   },
-  { 
-    path: '/register', 
-    element: Register, 
+  {
+    path: '/register',
+    element: Register,
     layout: NoLoginLayout,
-    isProtected: false 
+    isProtected: false,
   },
-  { 
-    path: '*', 
-    element: NotFound, 
+  {
+    path: '*',
+    element: NotFound,
     layout: NoLoginLayout,
     isProtected: false 
   },

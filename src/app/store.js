@@ -5,8 +5,8 @@ export const useStore = create(
   persist(
     (set) => ({
       formData: {
-        name: '',
-        forename: '',
+        surnames: '',
+        forenames: '',
         nidType: 'rut',
         nid: '',
         email: '',
