@@ -4,24 +4,33 @@ import { useForm } from "react-hook-form";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { login } from "../api/auth/login.post";
 import { useStore } from "../app/store";
+import { useNavigate } from "react-router-dom";
 import { GeneralModal } from "../components/Commons/GeneralModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorModal } from "../components/Commons/ErrorModal";
 
 export const Login = () => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState({});
+  const navigateTo = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onBlur"
   });
   //Access Token para guardar en el store
-  const { setAccessToken } = useStore();
+  const { setAccessToken, accessToken } = useStore();
 
   const handleModalClose = () => {
     setShow(false)
   }
+
+  useEffect(() => {
+    if (accessToken) {
+      navigateTo('/dashboard');
+    }
+  }, [accessToken])
+
 
   const onSubmit = async (data) => {
     
@@ -29,6 +38,8 @@ export const Login = () => {
 
     if (response.access_token) {
       setAccessToken(response.access_token);
+      navigateTo('/dashboard');
+
     } else {
       setError(response)
       setShow(true)
