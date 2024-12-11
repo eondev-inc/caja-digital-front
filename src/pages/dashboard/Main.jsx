@@ -1,4 +1,5 @@
-import { Card } from "flowbite-react";
+import { Breadcrumb, Card } from "flowbite-react";
+import { HiHome } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 
@@ -48,24 +49,42 @@ const Main = () => {
   }
   return (
     <section>
-      <div className="container mx-auto mt-5 p-4">
-        <div className="-mx-2 flex flex-wrap">
+      <div className="container mx-auto mt-5 max-w-screen-xl p-3">
+        <Card className="mx-2 mt-8 p-5">
+          <Breadcrumb>
+            <Breadcrumb.Item href="#" icon={HiHome}>Home</Breadcrumb.Item>
+            <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
+          </Breadcrumb>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Register Machine
+          </h1>
+          <p className="font-normal tracking-tight text-gray-700 dark:text-gray-400">
+            Manage your finances online with everything you need. 
+            <span className="font-bold">
+              Open and close your register, 
+              void transactions, balance, enter receipts, and check reports.
+            </span>
+          </p>
+          <br className="border-solid"/>
+          <div className="grid grid-cols-2 p-5">
           { [...dashboardOptions].map((element, index) => (
-            <Card 
-              className="m-3 w-[460px] max-w-sm cursor-pointer" 
-              imgSrc="img/cash-register.jpg" horizontal key={index} 
-              onClick={() => goTo(element.link)}
-            >
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                { element.title }
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                { element.description }
-              </p>
-
-            </Card>
+            <div  key={index} className="justify-center">
+              <Card 
+                className="mx-5 mb-5 h-[160px] w-[417px] max-w-[417px] cursor-pointer hover:shadow-lg" 
+                imgSrc="img/cash-register.jpg" horizontal
+                onClick={() => goTo(element.link)}
+              >
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  { element.title }
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  { element.description }
+                </p>
+              </Card>
+            </div>
           )) }
-        </div>
+          </div>
+        </Card>
       </div>
     </section>
   );

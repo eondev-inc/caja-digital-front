@@ -5,7 +5,7 @@ export const HeaderLogin = ({ title }) => {
 
   return (
     <>
-      <Navbar fluid rounded className="sticky top-0 z-50 rounded-b-sm border-solid">
+      <Navbar fluid rounded className="sticky top-0 z-50 rounded-b-sm border-solid shadow-md">
         <Navbar.Brand href="#">
           <img src="img/image.png" alt="Logo" className="mr-3 h-6 sm:h-9" />
           <span className="text-lg font-bold">{ title }</span>
