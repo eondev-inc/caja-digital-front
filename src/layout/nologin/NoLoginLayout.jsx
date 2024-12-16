@@ -1,9 +1,10 @@
 
 import { HeaderNoLogin } from "./HeaderNoLogin";
 import { FooterNoLogin } from "./FooterNoLogin";
+import PropTypes from 'prop-types';
 
 export const NoLoginLayout = ({ children }) => {
-  const title = "No Login Layout";
+  const title = "Welcome to Cash Register";
   return (
     <div className="flex min-h-screen flex-col">
       <HeaderNoLogin title={title}/>
@@ -13,5 +14,8 @@ export const NoLoginLayout = ({ children }) => {
       />
     </div>
   );
-  
-} 
+}
+
+NoLoginLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

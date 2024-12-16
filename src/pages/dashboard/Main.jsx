@@ -49,7 +49,7 @@ const Main = () => {
   }
   return (
     <section>
-      <div className="container mx-auto mt-5 max-w-screen-xl p-3">
+      <div className="container mx-auto mt-1 max-w-screen-xl p-3">
         <Card className="mx-2 mt-8 p-5">
           <Breadcrumb>
             <Breadcrumb.Item href="#" icon={HiHome}>Home</Breadcrumb.Item>
