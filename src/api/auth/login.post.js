@@ -1,22 +1,12 @@
-import axios from 'axios';
-import { apiKey, apiUrl } from '../../config';
+import axiosInstance from '../axios';
+
 export const login = async (data) => {
-  console.log('data', data);
-  console.log('apiKey', apiKey);
-  console.log('apiUrl', apiUrl);
   try {
-    const response = await axios({
-      method: 'post',
-      url: `${apiUrl}/api/v1/auth/authenticate`,
-      data: data,
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: apiKey,
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
-    });
+    const response = await axiosInstance.post('/auth/authenticate', data);
+
     return response.data;
   } catch (error) {
+    console.error('Error authenticating user', error);
     return error.response ? error.response.data : error;
   }
 }

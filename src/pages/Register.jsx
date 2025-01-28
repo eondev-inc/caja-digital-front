@@ -1,16 +1,22 @@
 import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
 import { useStore } from "../app/store";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { schema } from "../utils/validationSchema";
 import { registerUser } from "../api/auth/register.pots";
+import { GeneralModal } from "../components/Commons/GeneralModal";
+import { ErrorModal } from "../components/Commons/ErrorModal";
+import { set } from "zod";
 
 export const Register = () => {
   const { formData, setFormData } = useStore();
-  const { 
-    register, 
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const {
+    register,
     handleSubmit,
-    formState: { errors } 
+    formState: { errors }
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: formData,
@@ -19,46 +25,53 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     setFormData(data);
-    registerUser(formData);
+    const response = await registerUser(formData);
+    if (response.status !== 201) {
+      setShowError(true);
+    } else {
+      setFormData();
+      setShowSuccess(true);
+    }
   }
 
-  return(
+
+  return (
     <section className="dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
         <div className="w-full rounded-lg border-slate-400 bg-white shadow-xl dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-                Create an account
+              Create an account
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <Label htmlFor="surnames" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Name" />
-                <TextInput type="text" name="surnames" 
+                <TextInput type="text" name="surnames"
                   {...register('surnames')}
-                  id="surnames" 
+                  id="surnames"
                   className="block w-full rounded-lg 
                     text-sm text-gray-900 
                     dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                     dark:placeholder:text-gray-400 
                     dark:focus:border-blue-500 
-                    dark:focus:ring-blue-500" 
+                    dark:focus:ring-blue-500"
                   placeholder="John"
                 />
-                { errors.surnames && <p className="mx-1 text-left text-sm text-red-500">{ errors.surnames.message }</p> }
+                {errors.surnames && <p className="mx-1 text-left text-sm text-red-500">{errors.surnames.message}</p>}
               </div>
               <div>
                 <Label htmlFor="forenames" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Lastnames" />
                 <TextInput type="text" name="forenames"
                   {...register('forenames')}
-                  id="forenames" 
+                  id="forenames"
                   className="block w-full rounded-lg 
                   text-sm text-gray-900 
                   dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                   dark:placeholder:text-gray-400 dark:focus:border-blue-500 
-                  dark:focus:ring-blue-500" 
-                  placeholder="Doe" 
+                  dark:focus:ring-blue-500"
+                  placeholder="Doe"
                 />
-                { errors.forenames && <p className="mx-1 text-left text-sm text-red-500">{ errors.forenames.message }</p> }
+                {errors.forenames && <p className="mx-1 text-left text-sm text-red-500">{errors.forenames.message}</p>}
               </div>
               <Label htmlFor="nidType" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Identification" />
               <div className="flex flex-row items-start space-x-16">
@@ -82,37 +95,37 @@ export const Register = () => {
                     rounded-lg text-sm 
                     text-gray-900 dark:border-gray-600 
                     dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
-                    dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                    dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     placeholder="11.111.111-1"
                   />
                 </div>
               </div>
-              { errors.nid && <p className="mx-1 text-left text-sm text-red-500">{errors.nid.message}</p> }
+              {errors.nid && <p className="mx-1 text-left text-sm text-red-500">{errors.nid.message}</p>}
               <div>
                 <Label htmlFor="email" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Your email" />
                 <TextInput type="email" name="email"
                   {...register('email')}
-                  id="email" 
+                  id="email"
                   className="block w-full 
                   rounded-lg text-sm 
                   text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white 
                   dark:placeholder:text-gray-400 
-                  dark:focus:border-blue-500 dark:focus:ring-blue-500" 
-                  placeholder="name@company.com" 
+                  dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  placeholder="name@company.com"
                 />
                 {errors.email && <p className="mx-1 text-left text-sm text-red-500">{errors.email.message}</p>}
               </div>
               <div>
                 <Label htmlFor="password" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Password" />
-                <TextInput type="password" name="password" 
+                <TextInput type="password" name="password"
                   {...register('password')}
-                  id="password" placeholder="••••••••" 
+                  id="password" placeholder="••••••••"
                   className="block w-full 
                   rounded-lg text-sm 
                   text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
-                  dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                  dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 />
                 {errors.password && <p className="mx-1 text-left text-sm text-red-500">{errors.password.message}</p>}
               </div>
@@ -120,12 +133,12 @@ export const Register = () => {
                 <Label htmlFor="confirm-password" className="mb-2 block text-start text-sm font-medium text-gray-900 dark:text-white" value="Confirm password" />
                 <TextInput type="password" name="confirm-password"
                   {...register('confirmPassword')}
-                  id="confirm-password" placeholder="••••••••" 
+                  id="confirm-password" placeholder="••••••••"
                   className="block w-full 
                   rounded-lg text-sm 
                   text-gray-900 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
-                  dark:focus:border-blue-500 dark:focus:ring-blue-500" 
+                  dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 />
                 {errors.confirmPassword && <p className="mx-1 text-left text-sm text-red-500">{errors.confirmPassword.message}</p>}
               </div>
@@ -136,11 +149,11 @@ export const Register = () => {
                     className="size-4 rounded border border-gray-300 
                     bg-gray-50 focus:ring-primary-300 dark:border-gray-600 
                     dark:bg-gray-700 dark:ring-offset-gray-800 
-                    dark:focus:ring-primary-600" 
+                    dark:focus:ring-primary-600"
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <Label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300" value="I accept the "/>
+                  <Label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300" value="I accept the " />
                   <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</a>
                 </div>
               </div>
@@ -152,6 +165,9 @@ export const Register = () => {
           </div>
         </div>
       </div>
+
+      {showSuccess && <GeneralModal message="User created successfully" show={showSuccess} onClose={() => setShowSuccess(false)} />}
+      {showError && <ErrorModal message="Error creating user" show={showError} onClose={() => setShowError(false)} />}
     </section>
   )
 }
