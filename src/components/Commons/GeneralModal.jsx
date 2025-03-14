@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-export const GeneralModal = ({ title, children, show, typeModal, buttonMessage, onClose}) => {
+export const GeneralModal = ({ title, children, show, typeModal, buttonMessage, onClose }) => {
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
@@ -12,10 +12,7 @@ export const GeneralModal = ({ title, children, show, typeModal, buttonMessage, 
   }, [show]);
 
   const handleClose = () => {
-    setOpenModal(false);
-    if(onClose){
-      onClose();
-    }
+    onClose(false);
   }
 
   return (
@@ -32,7 +29,7 @@ export const GeneralModal = ({ title, children, show, typeModal, buttonMessage, 
             color={typeModal === 'error' ? 'failure' : 'blue'}
             onClick={handleClose}
           >
-            { buttonMessage } 
+            {buttonMessage}
           </Button>
         </div>
       </Modal.Footer>

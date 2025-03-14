@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { login } from "../api/auth/login.post";
 import { useStore } from "../app/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorModal } from "../components/Commons/ErrorModal";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState({});
+  const [showError, setShowError] = useState(false);
   const navigateTo = useNavigate()
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -18,25 +17,31 @@ export const Login = () => {
     mode: "onBlur"
   });
   //Access Token para guardar en el store
-  const { setAccessToken } = useStore();
-
-  const handleModalClose = () => {
-    setShow(false)
-  }
+  const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo } = useStore();
 
   const onSubmit = async (data) => {
-
     const response = await login(data);
 
-    if (response) {
-      console.log({ response });
+    if (response.statusCode !== 404) {
       setAccessToken(response.accessToken);
-      navigateTo('/dashboard')
+      setUserInfo(response.user);
+      setIsAuthenticated(true);
+      setShowError(false)
+
     } else {
-      setError(response)
-      setShow(true)
+      setShowError(true)
     }
   }
+
+  const handleCloseModal = (data) => {
+    setShowError(data)
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo('/dashboard')
+    }
+  }, [isAuthenticated])
 
   return (
     <>
@@ -106,7 +111,7 @@ export const Login = () => {
           </div>
         </div>
       </section>
-      <ErrorModal message={error ? error.message : "Mensaje de error"} show={show} onClose={handleModalClose} />
+      {showError && <ErrorModal message="Credenciales incorrectas" show={showError} onClose={handleCloseModal} />}
     </>
   )
 }

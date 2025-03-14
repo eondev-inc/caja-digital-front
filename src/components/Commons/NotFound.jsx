@@ -1,7 +1,5 @@
-
-
 // Define the NotFound component as a functional component
-export const NotFound = () => {
+const NotFound = () => {
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <h1 className="mb-4 text-4xl font-bold">404 Not Found</h1>

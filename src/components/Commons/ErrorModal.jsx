@@ -5,7 +5,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-export const ErrorModal = ({ message, show, onClose}) => {
+export const ErrorModal = ({ message, show, onClose }) => {
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
@@ -13,24 +13,21 @@ export const ErrorModal = ({ message, show, onClose}) => {
   }, [show]);
 
   const handleClose = () => {
-    setOpenModal(false);
-    if(onClose){
-      onClose();
-    }
+    onClose(false);
   }
 
   return (
-    <Modal show={openModal} onClose={handleClose} size="md" popup>
+    <Modal show={openModal} onClose={() => handleClose()} size="md" popup>
       <Modal.Header />
       <Modal.Body>
-      <div className="text-center">
-        <HiOutlineExclamationCircle className="mx-auto mb-4 size-14 text-gray-400 dark:text-gray-200" />
+        <div className="text-center">
+          <HiOutlineExclamationCircle className="mx-auto mb-4 size-14 text-gray-400 dark:text-gray-200" />
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            { message }
+            {message}
           </h3>
           <div className="flex justify-center gap-4">
-            <Button color="failure" onClick={() => setOpenModal(false)}>
-              { "Cerrar" }
+            <Button color="failure" onClick={handleClose}>
+              {"Cerrar"}
             </Button>
           </div>
         </div>

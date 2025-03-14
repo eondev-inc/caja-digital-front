@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiKey, apiUrl } from '../config';
+import { useStore } from '../app/store';
 
 let isRefreshing = false;
 let failedRequests = [];
@@ -11,12 +12,16 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    apikey: apiKey,
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    apikey: apiKey
   }
 });
 
-// Add a response interceptor
+axiosInstance.interceptors.request.use((config) => {
+  const { accessToken } = useStore.getState();
+  config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
+});
+
 axiosInstance.interceptors.response.use(
   (response) => Promise.resolve(response),
   async (error) => {
@@ -33,8 +38,9 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await axiosInstance.post('/auth/refresh')// Lógica para refrescar
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.accessToken}`;
+        const response = await axiosInstance.post('/auth/refresh')
+        // Lógica para refrescar
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`;
         failedRequests.forEach((cb) => cb());
         failedRequests = [];
         return axios(originalRequest);
@@ -46,7 +52,6 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
       }
     }
-
     return Promise.reject(error);
   }
 );

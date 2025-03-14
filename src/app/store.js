@@ -18,10 +18,20 @@ export const useStore = create(
 
       accessToken: '',
       setAccessToken: (accessToken) => set({ accessToken }),
+
+      isAuthenticated: false,
+      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+
+      userInfo: {},
+      setUserInfo: (userInfo) => set({ userInfo }),
+
+      openRegister: {},
+      setOpenRegister: (openRegister) => set({ openRegister }),
+
     }),
     {
-      name: 'register-form',
-      storage: createJSONStorage(() => localStorage),
+      name: 'allData',
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

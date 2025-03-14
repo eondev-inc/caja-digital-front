@@ -34,6 +34,14 @@ export const Register = () => {
     }
   }
 
+  const handleCloseSuccess = (data) => {
+    setShowSuccess(data);
+  }
+
+  const handleCloseError = (data) => {
+    setShowError(data);
+  }
+
 
   return (
     <section className="dark:bg-gray-900">
@@ -166,8 +174,8 @@ export const Register = () => {
         </div>
       </div>
 
-      {showSuccess && <GeneralModal message="User created successfully" show={showSuccess} onClose={() => setShowSuccess(false)} />}
-      {showError && <ErrorModal message="Error creating user" show={showError} onClose={() => setShowError(false)} />}
+      {showSuccess && <GeneralModal message="User created successfully" show={showSuccess} onClose={handleCloseSuccess} />}
+      {showError && <ErrorModal message="Error creating user" show={showError} onClose={handleCloseError} />}
     </section>
   )
 }
