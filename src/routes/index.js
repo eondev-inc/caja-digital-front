@@ -51,6 +51,7 @@ const routes = [
     isProtected: true,
     element: Sales,
   }
+
 ]
 
 export default routes;

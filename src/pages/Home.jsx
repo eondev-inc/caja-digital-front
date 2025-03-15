@@ -1,20 +1,18 @@
 import { Badge, Button, Card } from "flowbite-react";
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+>>>>>>> refs/remotes/origin/master
 
 export const Home = () => {
 
-  const [count, setCount] = useState(0);
-
-  const handleClick = () => {
-    setCount(count + 1);
-  };
   return (
     <>
       <Card className="bg-white antialiased dark:bg-gray-900 max-w-screen-xl mx-auto m-20 rounded-lg shadow-lg">
         <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6 lg:py-24">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-              Our work
+              Cash Register
             </h2>
             <p className="mt-4 text-base font-normal text-gray-500 dark:text-gray-400 sm:text-xl">
               Crafted with skill and care to help our clients grow their business!

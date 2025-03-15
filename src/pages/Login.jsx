@@ -19,6 +19,13 @@ export const Login = () => {
   //Access Token para guardar en el store
   const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo } = useStore();
 
+  useEffect(() => {
+    if (accessToken) {
+      navigateTo('/dashboard');
+    }
+  }, [accessToken])
+
+
   const onSubmit = async (data) => {
     const response = await login(data);
 
