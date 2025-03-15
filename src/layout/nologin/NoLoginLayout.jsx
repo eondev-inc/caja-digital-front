@@ -1,7 +1,6 @@
 
 import { HeaderNoLogin } from "./HeaderNoLogin";
 import { FooterNoLogin } from "./FooterNoLogin";
-import PropTypes from 'prop-types';
 
 export const NoLoginLayout = ({ children }) => {
   const title = "Welcome to Cash Register";
@@ -15,7 +14,3 @@ export const NoLoginLayout = ({ children }) => {
     </div>
   );
 }
-
-NoLoginLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};

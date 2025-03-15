@@ -17,7 +17,7 @@ export const Login = () => {
     mode: "onBlur"
   });
   //Access Token para guardar en el store
-  const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo } = useStore();
+  const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo, accessToken } = useStore();
 
   useEffect(() => {
     if (accessToken) {

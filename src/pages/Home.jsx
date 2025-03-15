@@ -1,8 +1,5 @@
 import { Badge, Button, Card } from "flowbite-react";
-<<<<<<< HEAD
 import { useState } from "react";
-=======
->>>>>>> refs/remotes/origin/master
 
 export const Home = () => {
 
