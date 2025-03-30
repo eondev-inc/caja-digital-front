@@ -1,15 +1,16 @@
 import { loginSchema } from "../utils/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { login } from "../api/auth/login.post";
+import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
 import { useStore } from "../app/store";
 import { useEffect, useState } from "react";
 import { ErrorModal } from "../components/Commons/ErrorModal";
 import { useNavigate } from "react-router-dom";
+import { getEntities,login } from "../api";
 
 export const Login = () => {
   const [showError, setShowError] = useState(false);
+  const [entities, setEntities] = useState([]);
   const navigateTo = useNavigate()
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -18,13 +19,6 @@ export const Login = () => {
   });
   //Access Token para guardar en el store
   const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo, accessToken } = useStore();
-
-  useEffect(() => {
-    if (accessToken) {
-      navigateTo('/dashboard');
-    }
-  }, [accessToken])
-
 
   const onSubmit = async (data) => {
     const response = await login(data);
@@ -45,10 +39,25 @@ export const Login = () => {
   }
 
   useEffect(() => {
+    const fetchEntities = async () => {
+      const response = await getEntities();
+      setEntities(response);
+    }
+    fetchEntities();
+  }
+  , [])
+
+  useEffect(() => {
     if (isAuthenticated) {
       navigateTo('/dashboard')
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, navigateTo])
+
+  useEffect(() => {
+    if (accessToken) {
+      navigateTo('/dashboard');
+    }
+  }, [accessToken, navigateTo])
 
   return (
     <>
@@ -64,11 +73,7 @@ export const Login = () => {
                   <Label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Your email</Label>
                   <TextInput type="email" name="email"
                     {...register('email')}
-                    id="email" className="focus:border-primary-600 focus:ring-primary-600 
-                    block w-full 
-                    text-gray-900 dark:border-gray-600 
-                    dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 
-                    dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    id="email" className="block w-full text-gray-900"
                     placeholder="name@company.com"
                   />
                   {errors.email && <p className="mx-1 text-left text-sm text-red-500">{errors.email.message}</p>}
@@ -78,22 +83,27 @@ export const Login = () => {
                   <TextInput type="password" name="password"
                     {...register('password')}
                     id="password" placeholder="••••••••"
-                    className="focus:border-primary-600 focus:ring-primary-600  block
-                    w-full text-gray-900 
-                    dark:border-gray-600 dark:bg-gray-700 
-                    dark:text-white dark:placeholder:text-gray-400 
-                    dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="block w-full text-gray-900" 
                   />
                   {errors.password && <p className="mx-1 text-left text-sm text-red-500">{errors.password.message}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="entity" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Select your Entity</Label>
+                  <Select id="entity" name="entity"
+                    {...register('entity')}
+                    className="block w-full text-gray-900"
+                  >
+                    { entities.map((entity) => (
+                        <option key={entity.id} value={entity.id}>{entity.name}</option>
+                      ))
+                    }
+                  </Select>
+                  {errors.entity && <p className="mx-1 text-left text-sm text-red-500">{errors.entity.message}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-start">
                     <div className="flex h-5 items-center">
-                      <Checkbox id="remember" aria-describedby="remember" type="checkbox"
-                        className="focus:ring-primary-300 dark:focus:ring-primary-600 
-                        dark:border-gray-600 dark:bg-gray-700 
-                        dark:ring-offset-gray-800"
-                      />
+                      <Checkbox id="remember" aria-describedby="remember" type="checkbox"/>
                     </div>
                     <div className="ml-3 text-sm">
                       <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
@@ -102,11 +112,10 @@ export const Login = () => {
                   <a href="#" className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">Forgot password?</a>
                 </div>
                 <Button type="submit"
-                  className="hover:bg-primary-700 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 
-                  dark:focus:ring-primary-800 w-full 
+                  className="w-full 
                   text-center text-sm 
-                  font-medium text-white 
-                  focus:outline-none focus:ring-4"
+                  font-medium text-white"
+                  color="blue"
                 >
                   Sign in
                 </Button>

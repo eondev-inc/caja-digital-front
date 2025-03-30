@@ -33,18 +33,22 @@ const OpenRegister = () => {
   useEffect(() => {
     if (Object.keys(openRegister).length <= 0) {
       //Hay que solicitar el estado de la caja
-      async function fetchOpenRegister() {
-        const registerReponse = await getOpenRegister();
+      const [ userEntityInfo ] = userInfo.entity_users.map((entities) => {
+        return entities
+      })
 
-        console.log(registerReponse.status, JSON.stringify(registerReponse.data));
+      const fetchOpenRegister = async (entityId) => {
+        const registerResponse = await getOpenRegister(entityId);
 
-        if (registerReponse.status === 200) {
-          setOpenRegister(registerReponse.data);
+        console.log(registerResponse.status, JSON.stringify(registerResponse.data));
+
+        if (registerResponse.status === 200) {
+          setOpenRegister(registerResponse.data);
           navigateTo('/dashboard');
         }
-      }
+      };
 
-      fetchOpenRegister();
+      fetchOpenRegister(userEntityInfo.entities.id);
     } else {
       navigateTo('/dashboard');
     }
