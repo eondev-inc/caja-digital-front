@@ -21,22 +21,12 @@ export const transactionSchema = z.object({
   description: z.string().min(1, 'La descripción es requerida'),
   transaction_type_id: z.string().min(1, 'El tipo de transacción es requerido'),
   payment_method_id: z.string().min(1, 'El método de pago es requerido'),
-  folio: z.string().optional().refine((val) => {
-    if (!val) return true; // Si no hay valor, la validación pasa
-    return /^\d+$/.test(val); // Si hay valor, debe ser solo números
-  }, 'El número de folio debe contener solo números'),
+  folio: z.string().optional().refine((val, ctx) => {
+    const isBono = ctx.parent.payment_method_id?.toLowerCase().includes('bono');
+    if (isBono && !val) {
+      return false;
+    }
+    return true;
+  }, 'El número de folio es requerido para bonos'),
   invoice: invoiceSchema
-}).refine((data) => {
-  // Si el método de pago es un bono, el folio es requerido
-  const isBono = data.payment_method_id && 
-    (data.payment_method_id.toLowerCase().includes('bono papel') || 
-     data.payment_method_id.toLowerCase().includes('bono electronico'));
-  
-  if (isBono) {
-    return !!data.folio;
-  }
-  return true;
-}, {
-  message: "El número de folio es requerido para bonos",
-  path: ["folio"]
-}); 
+});
