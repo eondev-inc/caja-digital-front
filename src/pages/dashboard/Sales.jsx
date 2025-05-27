@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '../../utils/transactionSchema';
+import { createTransaction } from '../../api/transactions/transactions.post.js';
 import { Button, Card, Label, TextInput, Select, Textarea } from 'flowbite-react';
 import { HiTrash, HiPlus } from 'react-icons/hi';
 
@@ -93,8 +94,20 @@ const Sales = () => {
     setInvoiceItems(updatedItems);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log('Form submitted:', data);
+    // Populate additional required fields
+    data.open_register_id = 'some-default-id';
+    data.transaction_type_id = '1';
+    data.description = 'Venta';
+    data.amount = data.invoice?.total_amount || 0;
+
+    try {
+      const response = await createTransaction(data);
+      console.log('Transaction response:', response);
+    } catch (error) {
+      console.error('Transaction error:', error);
+    }
   };
 
   return (
