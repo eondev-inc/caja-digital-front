@@ -1,45 +1,30 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '../../utils/transactionSchema';
-import { Button, Card, Label, TextInput, Select, Textarea } from 'flowbite-react';
+import { Button, Card, Label, TextInput, Select, Textarea, Datepicker } from 'flowbite-react';
 import { HiTrash, HiPlus } from 'react-icons/hi';
+import { getPaymentMethods, getPrevisions, createTransaction } from '../../api';
+import { useStore } from '../../app/store';
 
 const Sales = () => {
   const [showFolioInput, setShowFolioInput] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [previsions, setPrevisions] = useState([]);
+  const [formData, setFormData] = useState({});
+  const { openRegister } = useStore();
   const [invoiceItems, setInvoiceItems] = useState([
     {
       description: '',
-      professional_uuid: '',
       quantity: 1,
       total_price: 0,
-      prevision_id: ''
     }
   ]);
+
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
     resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      open_register_id: '',
-      amount: '',
-      description: '',
-      transaction_type_id: '',
-      payment_method_id: '',
-      folio: '',
-      invoice: {
-        custumer_nid: '',
-        total_amount: '',
-        notes: '',
-        invoice_items: [
-          {
-            description: '',
-            professional_uuid: '',
-            quantity: 1,
-            total_price: 0,
-            prevision_id: ''
-          }
-        ]
-      }
-    }
+    mode: "onBlur",
+    defaultValues: formData
   });
 
   const paymentMethod = watch('payment_method_id');
@@ -49,6 +34,25 @@ const Sales = () => {
     const isBono = paymentMethod?.toLowerCase().includes('bono');
     setShowFolioInput(isBono);
   }, [paymentMethod]);
+
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      const response = await getPaymentMethods();
+      setPaymentMethods(response);
+    }
+
+    const fetchPrevisions = async () => {
+      const response = await getPrevisions();
+      setPrevisions(response);
+    }
+    fetchPrevisions();
+    fetchPaymentMethods();
+
+    // Set default values for the form
+    setValue('open_register_id', openRegister.id);
+    setValue('transaction_type_id', 'e66064ea-fd72-49da-8503-95412af64f33');
+
+  }, []);
 
   // Sync invoice items with react-hook-form
   useEffect(() => {
@@ -66,10 +70,8 @@ const Sales = () => {
       ...invoiceItems,
       {
         description: '',
-        professional_uuid: '',
         quantity: 1,
         total_price: 0,
-        prevision_id: ''
       }
     ]);
   };
@@ -93,8 +95,19 @@ const Sales = () => {
     setInvoiceItems(updatedItems);
   };
 
-  const onSubmit = (data) => {
-    console.log('Form submitted:', data);
+  const onSubmit = async (data) => {
+    try {
+      // Enviar los datos validados directamente
+      const response = await createTransaction(data);
+      if (response.status === 200) {
+        alert('Transacción creada exitosamente');
+      } else {
+        alert('Error al crear la transacción');
+      }
+    } catch (error) {
+      console.error('Error creating transaction:', error);
+      alert('Error al crear la transacción');
+    }
   };
 
   return (
@@ -103,7 +116,7 @@ const Sales = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-4">
             <img src="/logo.png" alt="Logo" className="w-16 h-16" />
-            <h2 className="text-3xl font-bold">FACTURA</h2>
+            <h2 className="text-3xl font-bold">Factura</h2>
           </div>
           <div className="flex items-center gap-2">
             <Label htmlFor="invoice_number" className="whitespace-nowrap">#</Label>
@@ -116,9 +129,11 @@ const Sales = () => {
             <div className="space-y-4">
               <div>
                 <Label htmlFor="from">Nombre de cliente</Label>
-                <TextInput id="from" placeholder="Nombre o empresa" {...register('invoice.custumer_nid')} />
-                {errors.invoice?.custumer_nid && (
-                  <p className="text-sm text-red-500">{errors.invoice.custumer_nid.message}</p>
+                <TextInput id="from" placeholder="Nombre de persona"
+                  {...register('invoice.custumer_name')}
+                />
+                {errors.invoice?.custumer_name && (
+                  <p className="text-sm text-red-500">{errors.invoice.custumer_name.message}</p>
                 )}
               </div>
               <div>
@@ -134,15 +149,23 @@ const Sales = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Fecha</Label>
-                  <TextInput type="text" placeholder="DD/MM/YYYY" />
+                  <Datepicker 
+                    language="es-CL" 
+                    labelTodayButton="Hoy" 
+                    labelClearButton="Limpiar" 
+                    value={watch('invoice.date')} 
+                    onChange={(date) => setValue('invoice.date', date)} 
+                  />
                 </div>
                 <div>
                   <Label>Método de pago</Label>
                   <Select {...register('payment_method_id')}>
-                    <option value="">Seleccionar</option>
-                    <option value="1">Efectivo</option>
-                    <option value="2">Tarjeta</option>
-                    <option value="bono">Bono</option>
+                    <option value="">Seleccionar método de pago</option>
+                    {paymentMethods.map((method) => (
+                      <option key={method.id} value={method.id}>
+                        {method.description}
+                      </option>
+                    ))}
                   </Select>
                   {errors.payment_method_id && (
                     <p className="text-sm text-red-500">{errors.payment_method_id.message}</p>
@@ -161,25 +184,29 @@ const Sales = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Profesional</Label>
-                  <Select {...register('invoice.invoice_items.0.professional_uuid')}>
+                  <Select {...register('invoice.professional_uuid')}>
                     <option value="">Seleccionar profesional</option>
                     <option value="1">Alberto Portillo</option>
                   </Select>
-                  {errors.invoice?.invoice_items?.[0]?.professional_uuid && (
+                  {errors.invoice?.professional_uuid && (
                     <p className="text-sm text-red-500">
-                      {errors.invoice.invoice_items[0].professional_uuid.message}
+                      {errors.invoice.professional_uuid.message}
                     </p>
                   )}
                 </div>
                 <div>
                   <Label>Selecciona Previsión</Label>
-                  <Select {...register('invoice.invoice_items.0.prevision_id')}>
+                  <Select {...register('invoice.prevision_id')}>
                     <option value="">Seleccionar previsión</option>
-                    <option value="1">Fonasa</option>
+                    {previsions.map((prevision) => (
+                      <option key={prevision.id} value={prevision.id}>
+                        {prevision.name}
+                      </option>
+                    ))}
                   </Select>
                   {errors.invoice?.invoice_items?.[0]?.prevision_id && (
                     <p className="text-sm text-red-500">
-                      {errors.invoice.invoice_items[0].prevision_id.message}
+                      {errors.invoice.prevision_id.message}
                     </p>
                   )}
                 </div>
@@ -218,7 +245,7 @@ const Sales = () => {
                     type="number"
                     className="text-center"
                     value={item.total_price}
-                    onChange={(e) => updateInvoiceItem(index, 'total_price', parseFloat(e.target.value))}
+                    onChange={(e) => updateInvoiceItem(index, 'total_price', parseInt(e.target.value))}
                   />
                 </div>
                 <div className="col-span-2">
@@ -244,7 +271,7 @@ const Sales = () => {
 
             <Button type="button" color="gray" size="sm" className="mt-4" onClick={addInvoiceItem}>
               <HiPlus className="h-4 w-4 mr-2" />
-              Elemento en línea
+              Agregar item
             </Button>
           </div>
 
@@ -262,7 +289,7 @@ const Sales = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">Impuesto</span>
-                  <TextInput type="number" className="w-20" placeholder="0" />
+                  <TextInput type="number" className="w-20" placeholder="0" value={19} disabled/>
                   <span>%</span>
                 </div>
                 <span>$0</span>
@@ -270,7 +297,7 @@ const Sales = () => {
               <div className="flex justify-between items-center">
                 <span className="font-semibold">Total</span>
                 <span className="text-xl font-bold">
-                  ${invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0)}
+                  ${invoiceItems.reduce((sum, item) => parseInt(sum + (item.subtotal || 0) * 1.19), 0)}
                 </span>
               </div>
             </div>
