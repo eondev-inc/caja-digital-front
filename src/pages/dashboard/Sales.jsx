@@ -324,9 +324,8 @@ const Sales = () => {
               <Label htmlFor="payment_method_id">Método de Pago *</Label>
               <Select
                 id="payment_method_id"
-                {...register('payment_method_id')}
+                {...register('payment_method_id', { onChange: handlePaymentMethodChange })}
                 error={errors.payment_method_id?.message}
-                onChange={handlePaymentMethodChange}
               >
                 <option value="">Seleccione un método</option>
                 {paymentMethods.map((method) => (
