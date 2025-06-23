@@ -55,6 +55,7 @@ const Sales = () => {
       description: '',
       transaction_type_id: "e66064ea-fd72-49da-8503-95412af64f33", // ID fijo para ventas
       payment_method_id: '',
+      is_bono: false,
       folio: '',
       invoice: {
         custumer_nid: '',
@@ -143,9 +144,10 @@ const Sales = () => {
 
   const onSubmit = async (data) => {
     try {
+      const { is_bono, ...payload } = data;
 
-      console.log('Formulario enviado:', data);
-      const response = await createTransaction(data);
+      console.log('Formulario enviado:', payload);
+      const response = await createTransaction(payload);
       console.log('Respuesta del servidor:', response);
       
       if (response.status === 201) {
@@ -179,7 +181,9 @@ const Sales = () => {
 
   const handlePaymentMethodChange = (e) => {
     const selectedMethod = paymentMethods.find(method => method.id === e.target.value);
-    setShowFolioInput(selectedMethod?.description?.toLowerCase().includes('bono'));
+    const isBono = selectedMethod?.description?.toLowerCase().includes('bono');
+    setShowFolioInput(isBono);
+    setValue('is_bono', isBono);
   };
 
   return (
