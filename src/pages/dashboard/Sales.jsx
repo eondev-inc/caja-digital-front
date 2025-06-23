@@ -72,6 +72,13 @@ const Sales = () => {
     setValue('invoice.total_amount', totalAmount);
   }, [invoiceItems, setValue]);
 
+  // Efecto para actualizar el id de la caja abierta cuando cambie
+  useEffect(() => {
+    if (openRegister && openRegister.id) {
+      setValue('open_register_id', openRegister.id);
+    }
+  }, [openRegister, setValue]);
+
   useEffect(() => {
     const fetchPrevisions = async () => {
       const response = await getPrevisions();
