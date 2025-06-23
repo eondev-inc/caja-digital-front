@@ -7,8 +7,8 @@ const invoiceItemSchema = z.object({
 });
 
 const invoiceSchema = z.object({
-  custumer_nid: z.string().min(1, 'El RUT del cliente es requerido'),
-  custumer_name: z.string().min(1, 'El nombre del cliente es requerido'),
+  customer_nid: z.string().min(1, 'El RUT del cliente es requerido'),
+  customer_name: z.string().min(1, 'El nombre del cliente es requerido'),
   professional_uuid: z.string().min(1, 'El profesional es requerido'),
   total_amount: z.number().min(1, 'El monto total debe ser mayor a 0'),
   notes: z.string().optional(),
