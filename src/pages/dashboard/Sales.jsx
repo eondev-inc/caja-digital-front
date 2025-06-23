@@ -10,7 +10,6 @@ import { useStore } from '../../app/store';
 const Sales = () => {
   const [showFolioInput, setShowFolioInput] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [previsions, setPrevisions] = useState([]);
   const [formData, setFormData] = useState({});
   const { openRegister } = useStore();
   const [invoiceItems, setInvoiceItems] = useState([
@@ -40,17 +39,11 @@ const Sales = () => {
       const response = await getPaymentMethods();
       setPaymentMethods(response);
     }
-
-    const fetchPrevisions = async () => {
-      const response = await getPrevisions();
-      setPrevisions(response);
-    }
-    fetchPrevisions();
     fetchPaymentMethods();
 
     // Set default values for the form
     setValue('open_register_id', openRegister.id);
-    setValue('transaction_type_id', 'e66064ea-fd72-49da-8503-95412af64f33');
+    setValue('transaction_type_id', '5059e4f4-f111-4747-92b1-bdc1f069c1fb');
 
   }, []);
 
@@ -187,6 +180,9 @@ const Sales = () => {
                   <Select {...register('invoice.professional_uuid')}>
                     <option value="">Seleccionar profesional</option>
                     <option value="1">Alberto Portillo</option>
+                    <option value="2">María González</option>
+                    <option value="3">Juan Pérez</option>
+                    <option value="4">Ana Torres</option>
                   </Select>
                   {errors.invoice?.professional_uuid && (
                     <p className="text-sm text-red-500">
@@ -194,7 +190,7 @@ const Sales = () => {
                     </p>
                   )}
                 </div>
-                <div>
+                {/* <div>
                   <Label>Selecciona Previsión</Label>
                   <Select {...register('invoice.prevision_id')}>
                     <option value="">Seleccionar previsión</option>
@@ -209,7 +205,7 @@ const Sales = () => {
                       {errors.invoice.prevision_id.message}
                     </p>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
