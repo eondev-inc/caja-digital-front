@@ -21,6 +21,8 @@ export const transactionSchema = z.object({
   description: z.string().min(1, 'La descripción es requerida'),
   transaction_type_id: z.string().min(1, 'El tipo de transacción es requerido'),
   payment_method_id: z.string().min(1, 'El método de pago es requerido'),
+  // Bandera interna para determinar si el método de pago exige folio
+  is_bono: z.boolean().optional(),
   folio: z.string().optional().refine((val) => {
     if (!val) return true; // Si no hay valor, la validación pasa
     return /^\d+$/.test(val); // Si hay valor, debe ser solo números
@@ -28,15 +30,11 @@ export const transactionSchema = z.object({
   invoice: invoiceSchema
 }).refine((data) => {
   // Si el método de pago es un bono, el folio es requerido
-  const isBono = data.payment_method_id && 
-    (data.payment_method_id.toLowerCase().includes('bono papel') || 
-     data.payment_method_id.toLowerCase().includes('bono electronico'));
-  
-  if (isBono) {
+  if (data.is_bono) {
     return !!data.folio;
   }
   return true;
 }, {
   message: "El número de folio es requerido para bonos",
   path: ["folio"]
-}); 
+});
