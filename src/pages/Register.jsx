@@ -4,7 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { schema } from "../utils/validationSchema";
-import { registerUser } from "../api/auth/register.pots";
+import { registerUser } from "../api/auth/register.post";
 import { GeneralModal } from "../components/Commons/GeneralModal";
 import { ErrorModal } from "../components/Commons/ErrorModal";
 import { set } from "zod";
