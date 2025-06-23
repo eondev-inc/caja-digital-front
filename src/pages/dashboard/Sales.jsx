@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '../../utils/transactionSchema';
 import { Button, Card, Label, TextInput, Select, Textarea, Datepicker } from 'flowbite-react';
 import { HiTrash, HiPlus } from 'react-icons/hi';
-import { getPaymentMethods, getPrevisions, createTransaction } from '../../api';
+import { getPaymentMethods, createTransaction } from '../../api';
 import { useStore } from '../../app/store';
 
 const Sales = () => {
@@ -56,6 +56,7 @@ const Sales = () => {
   useEffect(() => {
     const total = invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
     setValue('invoice.total_amount', total); // Update the total_amount field in the form
+    setValue('amount', total); // Keep transaction amount in sync
   }, [invoiceItems, setValue]);
 
   const addInvoiceItem = () => {
@@ -123,17 +124,17 @@ const Sales = () => {
               <div>
                 <Label htmlFor="from">Nombre de cliente</Label>
                 <TextInput id="from" placeholder="Nombre de persona"
-                  {...register('invoice.custumer_name')}
+                  {...register('invoice.customer_name')}
                 />
-                {errors.invoice?.custumer_name && (
-                  <p className="text-sm text-red-500">{errors.invoice.custumer_name.message}</p>
+                {errors.invoice?.customer_name && (
+                  <p className="text-sm text-red-500">{errors.invoice.customer_name.message}</p>
                 )}
               </div>
               <div>
-                <Label htmlFor="custumer_nid">Número de identificación</Label>
-                <TextInput id="custumer_nid" placeholder="RUT del cliente" {...register('invoice.custumer_nid')} />
-                {errors.invoice?.custumer_nid && (
-                  <p className="text-sm text-red-500">{errors.invoice.custumer_nid.message}</p>
+                <Label htmlFor="customer_nid">Número de identificación</Label>
+                <TextInput id="customer_nid" placeholder="RUT del cliente" {...register('invoice.customer_nid')} />
+                {errors.invoice?.customer_nid && (
+                  <p className="text-sm text-red-500">{errors.invoice.customer_nid.message}</p>
                 )}
               </div>
             </div>
@@ -190,22 +191,6 @@ const Sales = () => {
                     </p>
                   )}
                 </div>
-                {/* <div>
-                  <Label>Selecciona Previsión</Label>
-                  <Select {...register('invoice.prevision_id')}>
-                    <option value="">Seleccionar previsión</option>
-                    {previsions.map((prevision) => (
-                      <option key={prevision.id} value={prevision.id}>
-                        {prevision.name}
-                      </option>
-                    ))}
-                  </Select>
-                  {errors.invoice?.invoice_items?.[0]?.prevision_id && (
-                    <p className="text-sm text-red-500">
-                      {errors.invoice.prevision_id.message}
-                    </p>
-                  )}
-                </div> */}
               </div>
             </div>
           </div>
