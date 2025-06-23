@@ -1,388 +1,311 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { set, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Card, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { useStore } from '../../app/store';
 import { transactionSchema } from '../../utils/transactionSchema';
-import { ErrorModal } from '../../components/Commons/ErrorModal';
-import { GeneralModal } from '../../components/Commons/GeneralModal';
-import { createTransaction, getPaymentMethods, getPrevisions } from '../../api/';
-import { HiTrash } from 'react-icons/hi';
+import { Button, Card, Label, TextInput, Select, Textarea, Datepicker } from 'flowbite-react';
+import { HiTrash, HiPlus } from 'react-icons/hi';
+import { getPaymentMethods, getPrevisions, createTransaction } from '../../api';
+import { useStore } from '../../app/store';
 
 const Sales = () => {
-  const { openRegister } = useStore();
-  const [showError, setShowError] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [invoiceItems, setInvoiceItems] = useState([{
-    description: '',
-    professional_uuid: '',
-    quantity: 1,
-    total_price: 0,
-    prevision_id: ''
-  }]);
-  const [previsions, setPrevisions] = useState([])
-  const [paymentMethods, setPaymentMethods] = useState([])
-  const [professionals, setProfessionals] = useState([])
   const [showFolioInput, setShowFolioInput] = useState(false);
-
-  // Función para formatear números a formato CLP
-  const formatToCLP = (number) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(number);
-  };
-
-  // Función para convertir string formateado a número
-  const parseFormattedNumber = (formattedString) => {
-    return parseInt(formattedString.replace(/[^0-9]/g, '')) || 0;
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setValue,
-    watch,
-    reset
-  } = useForm({
-    resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      open_register_id: openRegister.id,
-      amount: 0,
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [formData, setFormData] = useState({});
+  const { openRegister } = useStore();
+  const [invoiceItems, setInvoiceItems] = useState([
+    {
       description: '',
-      transaction_type_id: "e66064ea-fd72-49da-8503-95412af64f33", // ID fijo para ventas
-      payment_method_id: '',
-      is_bono: false,
-      folio: '',
-      invoice: {
-        custumer_nid: '',
-        total_amount: 0,
-        notes: '',
-        invoice_items: invoiceItems
-      }
-    }
-  });
-
-  // Efecto para calcular el monto total cuando cambien los items
-  useEffect(() => {
-    const totalAmount = invoiceItems.reduce((sum, item) => sum + (item.total_price || 0), 0);
-    setValue('amount', totalAmount);
-    setValue('invoice.total_amount', totalAmount);
-  }, [invoiceItems, setValue]);
-
-  // Efecto para actualizar el id de la caja abierta cuando cambie
-  useEffect(() => {
-    if (openRegister && openRegister.id) {
-      setValue('open_register_id', openRegister.id);
-    }
-  }, [openRegister, setValue]);
-
-  useEffect(() => {
-    const fetchPrevisions = async () => {
-      const response = await getPrevisions();
-      setPrevisions(response);
-    }
-
-    const fetchPaymentMethods = async () => {
-      const response = await getPaymentMethods();
-      setPaymentMethods(response)
-    }
-
-    const fetchProfessionals = async () => {
-      const response = [
-        {
-          id: '1e852f2b-c696-4c11-9d88-1b8f31e16a01',
-          name: "Alberto Portillo",
-          uuid: '1e852f2b-c696-4c11-9d88-1b8f31e16a01'
-        }
-      ]
-
-      setProfessionals(response)
-    }
-    fetchProfessionals();
-    fetchPaymentMethods();
-    fetchPrevisions();
-  }
-  , [])
-
-  const addInvoiceItem = () => {
-    setInvoiceItems([...invoiceItems, {
-      description: '',
-      professional_uuid: '',
       quantity: 1,
       total_price: 0,
-      prevision_id: ''
-    }]);
-    // Limpiar la descripción de la transacción cuando se agrega un nuevo item
-    setValue('description', '');
+    }
+  ]);
+
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    resolver: zodResolver(transactionSchema),
+    mode: "onBlur",
+    defaultValues: formData
+  });
+
+  const paymentMethod = watch('payment_method_id');
+
+  // Show or hide folio input based on payment method
+  useEffect(() => {
+    const isBono = paymentMethod?.toLowerCase().includes('bono');
+    setShowFolioInput(isBono);
+  }, [paymentMethod]);
+
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      const response = await getPaymentMethods();
+      setPaymentMethods(response);
+    }
+    fetchPaymentMethods();
+
+    // Set default values for the form
+    setValue('open_register_id', openRegister.id);
+    setValue('transaction_type_id', '5059e4f4-f111-4747-92b1-bdc1f069c1fb');
+
+  }, []);
+
+  // Sync invoice items with react-hook-form
+  useEffect(() => {
+    setValue('invoice.invoice_items', invoiceItems);
+  }, [invoiceItems, setValue]);
+
+  // Function to calculate the total dynamically
+  useEffect(() => {
+    const total = invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
+    setValue('invoice.total_amount', total); // Update the total_amount field in the form
+  }, [invoiceItems, setValue]);
+
+  const addInvoiceItem = () => {
+    setInvoiceItems([
+      ...invoiceItems,
+      {
+        description: '',
+        quantity: 1,
+        total_price: 0,
+      }
+    ]);
   };
 
   const removeInvoiceItem = (index) => {
-    const newItems = invoiceItems.filter((_, i) => i !== index);
-    setInvoiceItems(newItems);
-    setValue(`invoice.invoice_items`, newItems);
-    
-    // Si queda solo un item, actualizar la descripción de la transacción con su descripción
-    if (newItems.length === 1) {
-      setValue('description', newItems[0].description);
-    }
+    setInvoiceItems(invoiceItems.filter((_, i) => i !== index));
   };
 
+  // Function to update an invoice item
   const updateInvoiceItem = (index, field, value) => {
-    const newItems = [...invoiceItems];
-    if (field === 'total_price') {
-      // Convertir el valor formateado a número
-      const numericValue = parseFormattedNumber(value);
-      newItems[index] = { ...newItems[index], [field]: numericValue };
-    } else {
-      newItems[index] = { ...newItems[index], [field]: value };
-    }
-    setInvoiceItems(newItems);
-    setValue(`invoice.invoice_items`, newItems);
+    const updatedItems = [...invoiceItems];
+    updatedItems[index] = { ...updatedItems[index], [field]: value };
 
-    // Si solo hay un item y se actualiza la descripción, actualizar también la descripción de la transacción
-    if (invoiceItems.length === 1 && field === 'description') {
-      setValue('description', value);
+    // Recalculate subtotal when quantity or total_price changes
+    if (field === 'quantity' || field === 'total_price') {
+      const quantity = updatedItems[index].quantity || 1;
+      const totalPrice = updatedItems[index].total_price || 0;
+      updatedItems[index].subtotal = quantity * totalPrice;
     }
+
+    setInvoiceItems(updatedItems);
   };
 
   const onSubmit = async (data) => {
     try {
-      const { is_bono, ...payload } = data;
-
-      console.log('Formulario enviado:', payload);
-      const response = await createTransaction(payload);
-      console.log('Respuesta del servidor:', response);
-      
-      if (response.status === 201) {
-        // Limpiar el formulario
-        setInvoiceItems([{
-          description: '',
-          professional_uuid: '',
-          quantity: 1,
-          total_price: 0,
-          prevision_id: ''
-        }]);
-        reset();
-        setShowFolioInput(false);
-        setShowSuccess(true);
+      // Enviar los datos validados directamente
+      const response = await createTransaction(data);
+      if (response.status === 200) {
+        alert('Transacción creada exitosamente');
       } else {
-        setShowError(true);
+        alert('Error al crear la transacción');
       }
     } catch (error) {
-      console.error('Error al enviar el formulario:', error);
-      setShowError(true);
+      console.error('Error creating transaction:', error);
+      alert('Error al crear la transacción');
     }
-  };
-
-  const handleCloseError = () => {
-    setShowError(false);
-  };
-
-  const handleCloseSuccess = () => {
-    setShowSuccess(false);
-  };
-
-  const handlePaymentMethodChange = (e) => {
-    const selectedMethod = paymentMethods.find(method => method.id === e.target.value);
-    const isBono = selectedMethod?.description?.toLowerCase().includes('bono');
-    setShowFolioInput(isBono);
-    setValue('is_bono', isBono);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card>
-        <h2 className="text-2xl font-bold mb-6">Registrar Venta</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Información de la Factura */}
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-4">Información de la Factura</h3>
-            <div className="grid grid-cols-2 gap-4">
+      <Card className="max-w-5xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-4">
+            <img src="/logo.png" alt="Logo" className="w-16 h-16" />
+            <h2 className="text-3xl font-bold">Factura</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="invoice_number" className="whitespace-nowrap">#</Label>
+            <TextInput id="invoice_number" className="w-20" value="2" disabled />
+          </div>
+        </div>
+
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-4">
               <div>
-                <Label htmlFor="custumer_nid">RUT del Cliente *</Label>
-                <TextInput
-                  id="custumer_nid"
-                  {...register('invoice.custumer_nid')}
-                  error={errors.invoice?.custumer_nid?.message}
-                  placeholder="Ingrese el RUT del cliente"
+                <Label htmlFor="from">Nombre de cliente</Label>
+                <TextInput id="from" placeholder="Nombre de persona"
+                  {...register('invoice.custumer_name')}
                 />
+                {errors.invoice?.custumer_name && (
+                  <p className="text-sm text-red-500">{errors.invoice.custumer_name.message}</p>
+                )}
               </div>
               <div>
-                <Label htmlFor="invoice_notes">Notas</Label>
-                <Textarea
-                  id="invoice_notes"
-                  {...register('invoice.notes')}
-                  error={errors.invoice?.notes?.message}
-                  placeholder="Ingrese notas adicionales"
-                />
+                <Label htmlFor="custumer_nid">Número de identificación</Label>
+                <TextInput id="custumer_nid" placeholder="RUT del cliente" {...register('invoice.custumer_nid')} />
+                {errors.invoice?.custumer_nid && (
+                  <p className="text-sm text-red-500">{errors.invoice.custumer_nid.message}</p>
+                )}
               </div>
             </div>
-          </div>
 
-          {/* Items de la Factura */}
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-4">Items de la Factura</h3>
-            {invoiceItems.map((item, index) => (
-              <div key={index} className="grid grid-cols-5 gap-4 mb-4 p-4 border rounded">
-                <div className="flex flex-col">
-                  <Label>Descripción *</Label>
-                  <TextInput
-                    value={item.description}
-                    onChange={(e) => updateInvoiceItem(index, 'description', e.target.value)}
-                    error={errors.invoice?.invoice_items?.[index]?.description?.message}
-                    placeholder="Descripción del servicio"
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Fecha</Label>
+                  <Datepicker 
+                    language="es-CL" 
+                    labelTodayButton="Hoy" 
+                    labelClearButton="Limpiar" 
+                    value={watch('invoice.date')} 
+                    onChange={(date) => setValue('invoice.date', date)} 
                   />
                 </div>
-                <div className="flex flex-col">
-                  <Label>Profesional *</Label>
-                  <Select
-                    value={item.professional_uuid}
-                    onChange={(e) => updateInvoiceItem(index, 'professional_uuid', e.target.value)}
-                    error={errors.invoice?.invoice_items?.[index]?.professional_uuid?.message}
-                  >
-                    <option value="">Seleccione un profesional</option>
-                    {professionals.map((professional) => (
-                      <option key={professional.id} value={professional.id}>
-                        {professional.name}
+                <div>
+                  <Label>Método de pago</Label>
+                  <Select {...register('payment_method_id')}>
+                    <option value="">Seleccionar método de pago</option>
+                    {paymentMethods.map((method) => (
+                      <option key={method.id} value={method.id}>
+                        {method.description}
                       </option>
                     ))}
                   </Select>
+                  {errors.payment_method_id && (
+                    <p className="text-sm text-red-500">{errors.payment_method_id.message}</p>
+                  )}
                 </div>
-                <div className="flex flex-col">
-                  <Label>Precio Total *</Label>
-                  <TextInput
-                    type="text"
-                    value={formatToCLP(item.total_price)}
-                    onChange={(e) => updateInvoiceItem(index, 'total_price', e.target.value)}
-                    onKeyDown={(e) => {
-                      if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
-                        e.preventDefault();
-                      }
-                    }}
-                    error={errors.invoice?.invoice_items?.[index]?.total_price?.message}
-                  />
+              </div>
+              {showFolioInput && (
+                <div>
+                  <Label htmlFor="folio">Número de folio</Label>
+                  <TextInput id="folio" placeholder="Folio" {...register('folio')} />
+                  {errors.folio && (
+                    <p className="text-sm text-red-500">{errors.folio.message}</p>
+                  )}
                 </div>
-                <div className="flex flex-col">
-                  <Label>Previsión *</Label>
-                  <Select
-                    value={item.prevision_id}
-                    onChange={(e) => updateInvoiceItem(index, 'prevision_id', e.target.value)}
-                    error={errors.invoice?.invoice_items?.[index]?.prevision_id?.message}
-                  >
-                    <option value="">Seleccione una previsión</option>
+              )}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Profesional</Label>
+                  <Select {...register('invoice.professional_uuid')}>
+                    <option value="">Seleccionar profesional</option>
+                    <option value="1">Alberto Portillo</option>
+                    <option value="2">María González</option>
+                    <option value="3">Juan Pérez</option>
+                    <option value="4">Ana Torres</option>
+                  </Select>
+                  {errors.invoice?.professional_uuid && (
+                    <p className="text-sm text-red-500">
+                      {errors.invoice.professional_uuid.message}
+                    </p>
+                  )}
+                </div>
+                {/* <div>
+                  <Label>Selecciona Previsión</Label>
+                  <Select {...register('invoice.prevision_id')}>
+                    <option value="">Seleccionar previsión</option>
                     {previsions.map((prevision) => (
                       <option key={prevision.id} value={prevision.id}>
                         {prevision.name}
                       </option>
                     ))}
                   </Select>
+                  {errors.invoice?.invoice_items?.[0]?.prevision_id && (
+                    <p className="text-sm text-red-500">
+                      {errors.invoice.prevision_id.message}
+                    </p>
+                  )}
+                </div> */}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <div className="bg-gray-800 text-white grid grid-cols-12 gap-4 p-3 rounded-t-lg">
+              <div className="col-span-5">Descripción</div>
+              <div className="col-span-2 text-center">Cantidad</div>
+              <div className="col-span-2 text-center">Precio</div>
+              <div className="col-span-2 text-center">Subtotal</div>
+              <div className="col-span-1"></div>
+            </div>
+
+            {invoiceItems.map((item, index) => (
+              <div key={index} className="grid grid-cols-12 gap-4 p-3 border-b items-center">
+                <div className="col-span-5">
+                  <TextInput
+                    placeholder="Descripción del servicio"
+                    value={item.description}
+                    onChange={(e) => updateInvoiceItem(index, 'description', e.target.value)}
+                  />
                 </div>
-                <div className="flex flex-col">
-                  <Label className="invisible">Eliminar</Label>
+                <div className="col-span-2">
+                  <TextInput
+                    type="number"
+                    className="text-center"
+                    value={item.quantity}
+                    onChange={(e) => updateInvoiceItem(index, 'quantity', parseInt(e.target.value, 10))}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <TextInput
+                    type="number"
+                    className="text-center"
+                    value={item.total_price}
+                    onChange={(e) => updateInvoiceItem(index, 'total_price', parseInt(e.target.value))}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <TextInput
+                    type="text"
+                    className="text-center"
+                    value={item.subtotal || 0}
+                    disabled
+                  />
+                </div>
+                <div className="col-span-1 flex justify-center">
                   <Button
-                    type="button"
                     color="failure"
                     size="sm"
                     onClick={() => removeInvoiceItem(index)}
                     disabled={invoiceItems.length === 1}
-                    className="w-full"
                   >
-                    <HiTrash className="h-5 w-5" />
+                    <HiTrash className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
             ))}
-            <Button
-              type="button"
-              color="light"
-              onClick={addInvoiceItem}
-              className="mt-2"
-            >
-              Agregar Item
+
+            <Button type="button" color="gray" size="sm" className="mt-4" onClick={addInvoiceItem}>
+              <HiPlus className="h-4 w-4 mr-2" />
+              Agregar item
             </Button>
           </div>
 
-          {/* Información de la Transacción */}
-          <div className="grid grid-cols-2 gap-4 mt-6">
+          <div className="grid grid-cols-2 gap-8 mt-8">
             <div>
-              <Label htmlFor="amount">Monto Total</Label>
-              <TextInput
-                id="amount"
-                type="text"
-                disabled
-                value={formatToCLP(watch('amount'))}
-                className="bg-gray-50"
-              />
+              <Label>Notas</Label>
+              <Textarea placeholder="Cualquier información relevante que no esté ya cubierta" rows={4} {...register('invoice.notes')} />
             </div>
-            <div>
-              <Label htmlFor="description">
-                {invoiceItems.length === 1 ? 'Descripción (Sincronizada con el item)' : 'Descripción de la Transacción'}
-              </Label>
-              <TextInput
-                id="description"
-                {...register('description')}
-                error={errors.description?.message}
-                placeholder="Descripción de la transacción"
-                disabled={invoiceItems.length === 1}
-                className={invoiceItems.length === 1 ? 'bg-gray-50' : ''}
-              />
-            </div>
-            <div>
-              <Label htmlFor="payment_method_id">Método de Pago *</Label>
-              <Select
-                id="payment_method_id"
-                {...register('payment_method_id', { onChange: handlePaymentMethodChange })}
-                error={errors.payment_method_id?.message}
-              >
-                <option value="">Seleccione un método</option>
-                {paymentMethods.map((method) => (
-                  <option key={method.id} value={method.id}>
-                    {method.description}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            {showFolioInput && (
-              <div>
-                <Label htmlFor="folio">Número de Folio *</Label>
-                <TextInput
-                  id="folio"
-                  {...register('folio')}
-                  error={errors.folio?.message}
-                  placeholder="Ingrese el número de folio del bono"
-                />
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold">Subtotal</span>
+                <span>${invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0)}</span>
               </div>
-            )}
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold">Impuesto</span>
+                  <TextInput type="number" className="w-20" placeholder="0" value={19} disabled/>
+                  <span>%</span>
+                </div>
+                <span>$0</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold">Total</span>
+                <span className="text-xl font-bold">
+                  ${invoiceItems.reduce((sum, item) => parseInt(sum + (item.subtotal || 0) * 1.19), 0)}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-6">
-            <Button 
-              type="submit" 
-              color="blue" 
-              className="w-full"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Registrando...' : 'Registrar Venta'}
+          <div className="flex justify-end mt-8">
+            <Button type="submit" color="blue">
+              Registrar Venta
             </Button>
           </div>
         </form>
       </Card>
-
-      <ErrorModal
-        show={showError}
-        onClose={handleCloseError}
-        message="Error al registrar la venta. Por favor, intente nuevamente."
-      />
-
-      <GeneralModal
-        show={showSuccess}
-        onClose={handleCloseSuccess}
-        message="Venta registrada exitosamente."
-      />
     </div>
   );
 };
