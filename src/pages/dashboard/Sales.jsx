@@ -10,7 +10,6 @@ import { useStore } from '../../app/store';
 const Sales = () => {
   const [showFolioInput, setShowFolioInput] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [formData, setFormData] = useState({});
   const { openRegister } = useStore();
   const [invoiceItems, setInvoiceItems] = useState([
     {
@@ -20,17 +19,29 @@ const Sales = () => {
     }
   ]);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, watch, formState: { errors, isValid } } = useForm({
     resolver: zodResolver(transactionSchema),
-    mode: "onBlur",
-    defaultValues: formData
+    mode: "onChange", // Cambio a onChange para validación más reactiva
+    defaultValues: {
+      invoice: {
+        custumer_nid: '',
+        professional_uuid: '',
+        total_amount: 0,
+        notes: '',
+        invoice_items: []
+      },
+      description: 'Venta realizada', // Valor por defecto para description
+      amount: 0,
+      folio: ''
+    }
   });
 
   const paymentMethod = watch('payment_method_id');
 
   // Show or hide folio input based on payment method
   useEffect(() => {
-    const isBono = paymentMethod?.toLowerCase().includes('bono');
+    const isBono = paymentMethod === '2a9c03ff-4d55-4f0a-b611-06ec999e5a36';
+
     setShowFolioInput(isBono);
   }, [paymentMethod]);
 
@@ -45,7 +56,7 @@ const Sales = () => {
     setValue('open_register_id', openRegister.id);
     setValue('transaction_type_id', '5059e4f4-f111-4747-92b1-bdc1f069c1fb');
 
-  }, []);
+  }, [openRegister.id, setValue]);
 
   // Sync invoice items with react-hook-form
   useEffect(() => {
@@ -77,6 +88,14 @@ const Sales = () => {
   // Function to update an invoice item
   const updateInvoiceItem = (index, field, value) => {
     const updatedItems = [...invoiceItems];
+    
+    // Convertir valores numéricos apropiadamente
+    if (field === 'quantity') {
+      value = parseInt(value, 10) || 1; // Asegurar que siempre sea al menos 1
+    } else if (field === 'total_price') {
+      value = parseFloat(value) || 0;
+    }
+    
     updatedItems[index] = { ...updatedItems[index], [field]: value };
 
     // Recalculate subtotal when quantity or total_price changes
@@ -91,25 +110,43 @@ const Sales = () => {
 
   const onSubmit = async (data) => {
     try {
-      // Enviar los datos validados directamente
-      const response = await createTransaction(data);
+      // Asegurar que los datos estén en el formato correcto
+      const formattedData = {
+        ...data,
+        amount: parseFloat(data.amount) || 0,
+        invoice: {
+          ...data.invoice,
+          total_amount: parseFloat(data.invoice.total_amount) || 0,
+          invoice_items: data.invoice.invoice_items.map(item => ({
+            ...item,
+            quantity: parseInt(item.quantity, 10) || 1,
+            total_price: parseFloat(item.total_price) || 0
+          }))
+        }
+      };
+
+      console.log('Datos enviados:', formattedData);
+      const response = await createTransaction(formattedData);
+      
       if (response.status === 200) {
         alert('Transacción creada exitosamente');
+        // Opcional: resetear el formulario
+        // reset();
       } else {
         alert('Error al crear la transacción');
       }
     } catch (error) {
       console.error('Error creating transaction:', error);
-      alert('Error al crear la transacción');
+      alert(`Error al crear la transacción: ${error.message || 'Error desconocido'}`);
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+      <Card className="mx-auto max-w-5xl">
+        <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img src="/logo.png" alt="Logo" className="w-16 h-16" />
+            <img src="/logo.png" alt="Logo" className="size-16" />
             <h2 className="text-3xl font-bold">Factura</h2>
           </div>
           <div className="flex items-center gap-2">
@@ -124,17 +161,17 @@ const Sales = () => {
               <div>
                 <Label htmlFor="from">Nombre de cliente</Label>
                 <TextInput id="from" placeholder="Nombre de persona"
-                  {...register('invoice.customer_name')}
+                  {...register('invoice.custumer_name')}
                 />
-                {errors.invoice?.customer_name && (
-                  <p className="text-sm text-red-500">{errors.invoice.customer_name.message}</p>
+                {errors.invoice?.custumer_name && (
+                  <p className="text-sm text-red-500">{errors.invoice.custumer_name.message}</p>
                 )}
               </div>
               <div>
-                <Label htmlFor="customer_nid">Número de identificación</Label>
-                <TextInput id="customer_nid" placeholder="RUT del cliente" {...register('invoice.customer_nid')} />
-                {errors.invoice?.customer_nid && (
-                  <p className="text-sm text-red-500">{errors.invoice.customer_nid.message}</p>
+                <Label htmlFor="custumer_nid">Número de identificación</Label>
+                <TextInput id="custumer_nid" placeholder="RUT del cliente" {...register('invoice.custumer_nid')} />
+                {errors.invoice?.custumer_nid && (
+                  <p className="text-sm text-red-500">{errors.invoice.custumer_nid.message}</p>
                 )}
               </div>
             </div>
@@ -196,7 +233,7 @@ const Sales = () => {
           </div>
 
           <div className="mt-8">
-            <div className="bg-gray-800 text-white grid grid-cols-12 gap-4 p-3 rounded-t-lg">
+            <div className="grid grid-cols-12 gap-4 rounded-t-lg bg-gray-800 p-3 text-white">
               <div className="col-span-5">Descripción</div>
               <div className="col-span-2 text-center">Cantidad</div>
               <div className="col-span-2 text-center">Precio</div>
@@ -205,7 +242,7 @@ const Sales = () => {
             </div>
 
             {invoiceItems.map((item, index) => (
-              <div key={index} className="grid grid-cols-12 gap-4 p-3 border-b items-center">
+              <div key={index} className="grid grid-cols-12 items-center gap-4 border-b p-3">
                 <div className="col-span-5">
                   <TextInput
                     placeholder="Descripción del servicio"
@@ -216,17 +253,20 @@ const Sales = () => {
                 <div className="col-span-2">
                   <TextInput
                     type="number"
+                    min="1"
                     className="text-center"
                     value={item.quantity}
-                    onChange={(e) => updateInvoiceItem(index, 'quantity', parseInt(e.target.value, 10))}
+                    onChange={(e) => updateInvoiceItem(index, 'quantity', e.target.value)}
                   />
                 </div>
                 <div className="col-span-2">
                   <TextInput
                     type="number"
+                    min="0"
+                    step="0.01"
                     className="text-center"
                     value={item.total_price}
-                    onChange={(e) => updateInvoiceItem(index, 'total_price', parseInt(e.target.value))}
+                    onChange={(e) => updateInvoiceItem(index, 'total_price', e.target.value)}
                   />
                 </div>
                 <div className="col-span-2">
@@ -244,38 +284,38 @@ const Sales = () => {
                     onClick={() => removeInvoiceItem(index)}
                     disabled={invoiceItems.length === 1}
                   >
-                    <HiTrash className="h-4 w-4" />
+                    <HiTrash className="size-4" />
                   </Button>
                 </div>
               </div>
             ))}
 
             <Button type="button" color="gray" size="sm" className="mt-4" onClick={addInvoiceItem}>
-              <HiPlus className="h-4 w-4 mr-2" />
+              <HiPlus className="mr-2 size-4" />
               Agregar item
             </Button>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 mt-8">
+          <div className="mt-8 grid grid-cols-2 gap-8">
             <div>
               <Label>Notas</Label>
               <Textarea placeholder="Cualquier información relevante que no esté ya cubierta" rows={4} {...register('invoice.notes')} />
             </div>
 
             <div className="space-y-4">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <span className="font-semibold">Subtotal</span>
                 <span>${invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0)}</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">Impuesto</span>
                   <TextInput type="number" className="w-20" placeholder="0" value={19} disabled/>
                   <span>%</span>
                 </div>
-                <span>$0</span>
+                <span>{(invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0) * 0.19).toFixed(0)}</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <span className="font-semibold">Total</span>
                 <span className="text-xl font-bold">
                   ${invoiceItems.reduce((sum, item) => parseInt(sum + (item.subtotal || 0) * 1.19), 0)}
@@ -284,8 +324,28 @@ const Sales = () => {
             </div>
           </div>
 
-          <div className="flex justify-end mt-8">
-            <Button type="submit" color="blue">
+          <div className="mt-8 flex justify-end">
+            {/* Campo oculto para description requerido por el schema */}
+            <input type="hidden" {...register('description')} />
+            
+            {/* Debug section - puedes eliminar esto después */}
+            {import.meta.env.DEV && (
+              <div className="mr-4 text-sm">
+                <p>Errores: {Object.keys(errors).length}</p>
+                {Object.keys(errors).length > 0 && (
+                  <details className="text-red-500">
+                    <summary>Ver errores</summary>
+                    <pre className="text-xs">{JSON.stringify(errors, null, 2)}</pre>
+                  </details>
+                )}
+              </div>
+            )}
+            
+            <Button 
+              type="submit" 
+              color="blue"
+              disabled={Object.keys(errors).length > 0}
+            >
               Registrar Venta
             </Button>
           </div>

@@ -14,9 +14,12 @@ const OpenRegister = () => {
   const navigateTo = useNavigate()
 
   const handleOpenRegister = async () => {
-    const response = await createOpenRegister(openingAmount);
+    const data = {
+      initial_amount: parseInt(openingAmount),
+    }
+    const response = await createOpenRegister(data);
     console.log(response);
-    if (response.statusCode === 200 || response.statusCode === 201) {
+    if (response.status === 200 || response.status === 201) {
 
       setOpenRegister(response.data);
       navigateTo('/dashboard');
