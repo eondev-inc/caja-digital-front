@@ -63,9 +63,9 @@ export const Login = () => {
     <>
       <section className="dark:bg-gray-900">
         <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-          <div className="w-full rounded-lg border border-slate-300 bg-white shadow-2xl sm:max-w-md md:mt-0 xl:p-0 dark:border dark:border-gray-700 dark:bg-gray-800">
+          <div className="w-full rounded-lg border border-slate-300 bg-white shadow-2xl dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
             <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
                 Sign in to your account
               </h1>
               <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +109,7 @@ export const Login = () => {
                       <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                     </div>
                   </div>
-                  <a href="#" className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline">Forgot password?</a>
+                  <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                 </div>
                 <Button type="submit"
                   className="w-full 
@@ -120,7 +120,7 @@ export const Login = () => {
                   Sign in
                 </Button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don’t have an account yet? <a href="/register" className="text-primary-600 dark:text-primary-500 font-medium hover:underline">Sign up</a>
+                  Don’t have an account yet? <a href="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                 </p>
               </form>
             </div>

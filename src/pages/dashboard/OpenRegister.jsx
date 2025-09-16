@@ -58,12 +58,12 @@ const OpenRegister = () => {
   }, [openRegister]);
 
   return (
-    <div className="p-4 max-w-[1080px] mx-auto">
+    <div className="mx-auto max-w-[1080px] p-4">
       {/* Register Details Card */}
       <Card className="mb-6">
         {/* Header Navigation */}
         <div className="mb-6">
-          <Breadcrumb className="px-2 py-1 rounded">
+          <Breadcrumb className="rounded px-2 py-1">
             <Breadcrumb.Item icon={HiArrowLeft} href='/dashboard'>Volver</Breadcrumb.Item>
             <Breadcrumb.Item>Caja digital</Breadcrumb.Item>
             <Breadcrumb.Item className="text-blue-600">Apertura de caja</Breadcrumb.Item>
@@ -72,22 +72,22 @@ const OpenRegister = () => {
 
         {/* Main Title */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-navy-700">Apertura de caja</h1>
+          <h1 className="text-navy-700 text-2xl font-bold">Apertura de caja</h1>
           <p className="text-gray-600">
             Abre tu caja para registrar, ingresar comprobantes, anular y ver tu historial de movimientos.
           </p>
         </div>
         <div className="space-y-6">
           <div className="flex items-center gap-2 pb-4">
-            <div className="p-2 bg-green-100 rounded">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="rounded bg-green-100 p-2">
+              <svg className="size-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
             <h2 className="text-lg font-semibold text-green-500">Datos de caja</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-2 p-4 rounded-xl shadow-sm">
+          <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm md:grid-cols-2">
             <div>
               <p className="text-sm font-medium text-gray-500">Nombre cajero</p>
               <p className="mt-1 text-gray-900">{userInfo.surnames} { userInfo.forenames}</p>
@@ -108,7 +108,7 @@ const OpenRegister = () => {
             </Label>
             <div className="mt-2">
               <Label>Fondo inicial</Label>
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <TextInput
                   id="initial-amount"
                   type="number"
