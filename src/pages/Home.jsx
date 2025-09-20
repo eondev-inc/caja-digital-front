@@ -34,7 +34,7 @@ export const Home = () => {
                   width="320"
                   height="320"
                 />
-                <div className="from-primary-500/20 to-secondary-500/20 absolute -inset-2 rounded-2xl bg-gradient-to-r blur-xl"></div>
+                <div className="from-primary-500/20 to-secondary-500/20 absolute -inset-2 rounded-2xl"></div>
               </div>
             </div>
             <div className="order-1 space-y-6 text-center lg:order-2 lg:text-left">
