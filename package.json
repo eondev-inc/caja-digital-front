@@ -1,5 +1,5 @@
 {
-  "name": "mi-banco-fron-v2",
+  "name": "caja-digital-front",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,9 @@
     "husky": "husky install"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.1",
+    "@fortawesome/free-solid-svg-icons": "^7.0.1",
+    "@fortawesome/react-fontawesome": "^3.0.2",
     "@hookform/resolvers": "^3.9.0",
     "axios": "^1.7.7",
     "flowbite-react": "^0.10.1",

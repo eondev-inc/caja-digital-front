@@ -1,145 +1,225 @@
-# COPILOT EDITS OPERATIONAL GUIDELINES
-                
-## PRIME DIRECTIVE
-	Avoid working on more than one file at a time.
-	Multiple simultaneous edits to a file will cause corruption.
-	Be chatting and teach about what you are doing while coding.
+# COPILOT INSTRUCTIONS - React Frontend
 
-## LARGE FILE & COMPLEX CHANGE PROTOCOL
+## TECH STACK
+- React 18.2.0 + Vite
+- Zustand 4.5.5 (state + persistence)
+- React Hook Form + Zod validation
+- TailwindCSS + Flowbite React
+- React Router DOM v6
+- Axios for API calls
 
-### MANDATORY PLANNING PHASE
-	When working with large files (>300 lines) or complex changes:
-		1. ALWAYS start by creating a detailed plan BEFORE making any edits
-            2. Your plan MUST include:
-                   - All functions/sections that need modification
-                   - The order in which changes should be applied
-                   - Dependencies between changes
-                   - Estimated number of separate edits required
-                
-            3. Format your plan as:
-## PROPOSED EDIT PLAN
-	Working with: [filename]
-	Total planned edits: [number]
+## ARCHITECTURE RULES
 
-### MAKING EDITS
-	- Focus on one conceptual change at a time
-	- Show clear "before" and "after" snippets when proposing changes
-	- Include concise explanations of what changed and why
-	- Always check if the edit maintains the project's coding style
+### File Organization
+- Components in `src/components/` (Commons/, Wrappers/)
+- Pages in `src/pages/` for route components
+- API services in `src/api/` organized by feature
+- Validation schemas in `src/utils/`
+- Zustand store in `src/app/store.js`
 
-### Edit sequence:
-	1. [First specific change] - Purpose: [why]
-	2. [Second specific change] - Purpose: [why]
-	3. Do you approve this plan? I'll proceed with Edit [number] after your confirmation.
-	4. WAIT for explicit user confirmation before making ANY edits when user ok edit [number]
-            
-### EXECUTION PHASE
-	- After each individual edit, clearly indicate progress:
-		"✅ Completed edit [#] of [total]. Ready for next edit?"
-	- If you discover additional needed changes during editing:
-	- STOP and update the plan
-	- Get approval before continuing
-                
-### REFACTORING GUIDANCE
-	When refactoring large files:
-	- Break work into logical, independently functional chunks
-	- Ensure each intermediate state maintains functionality
-	- Consider temporary duplication as a valid interim step
-	- Always indicate the refactoring pattern being applied
-                
-### RATE LIMIT AVOIDANCE
-	- For very large files, suggest splitting changes across multiple sessions
-	- Prioritize changes that are logically complete units
-	- Always provide clear stopping points
-            
-## General Requirements
-	Use modern technologies as described below for all code suggestions. Prioritize clean, maintainable code with appropriate comments.
-            
-### Accessibility
-	- Ensure compliance with **WCAG 2.1** AA level minimum, AAA whenever feasible.
-	- Always suggest:
-	- Labels for form fields.
-	- Proper **ARIA** roles and attributes.
-	- Adequate color contrast.
-	- Alternative texts (`alt`, `aria-label`) for media elements.
-	- Semantic HTML for clear structure.
-	- Tools like **Lighthouse** for audits.
-        
-## Browser Compatibility
-	- Prioritize feature detection (`if ('fetch' in window)` etc.).
-        - Support latest two stable releases of major browsers:
-	- Firefox, Chrome, Edge, Safari (macOS/iOS)
-        - Emphasize progressive enhancement with polyfills or bundlers (e.g., **Babel**, **Vite**) as needed.
-                        
-## HTML/CSS Requirements
-	- **HTML**:
-	- Use HTML5 semantic elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`, `<search>`, etc.)
-	- Include appropriate ARIA attributes for accessibility
-	- Ensure valid markup that passes W3C validation
-	- Use responsive design practices
-	- Optimize images using modern formats (`WebP`, `AVIF`)
-	- Include `loading="lazy"` on images where applicable
-	- Generate `srcset` and `sizes` attributes for responsive images when relevant
-	- Prioritize SEO-friendly elements (`<title>`, `<meta description>`, Open Graph tags)
-            
-	- **CSS**:
-	- Use modern Tailwindcss class
-  - Use flowbite-react components along side with tailwindcss
-            
-## JavaScript Requirements
-		    
-	- **Minimum Compatibility**: ECMAScript 2020 (ES11) or higher
-	- **Features to Use**:
-	- Arrow functions
-	- Template literals
-	- Destructuring assignment
-	- Spread/rest operators
-	- Promises for asynchronous code
-	- Classes with proper inheritance when OOP is needed
-	- Object shorthand notation
-	- Optional chaining (`?.`)
-	- Nullish coalescing (`??`)
-	- Dynamic imports
-	- BigInt for large integers
-	- `Promise.allSettled()`
-	- `String.prototype.matchAll()`
-	- `globalThis` object
-	- Private class fields and methods
-	- Export * as namespace syntax
-	- Array methods (`map`, `filter`, `reduce`, `flatMap`, etc.)
-	- **Avoid**:
-	- `var` keyword (use `const` and `let`)
-	- jQuery or any external libraries
-	- Callback-based asynchronous patterns when promises can be used
-	- Internet Explorer compatibility
-	- Legacy module formats (use ES modules)
-	- Limit use of `eval()` due to security risks
-	- **Performance Considerations:**
-	- Recommend code splitting and dynamic imports for lazy loading
-	**Error Handling**:
-	- Use `try-catch` blocks **when needed** for asynchronous and API calls, and handle promise rejections explicitly.
-	- Differentiate among:
-	- **Network errors** (e.g., timeouts, server errors, rate-limiting)
-	- **Functional/business logic errors** (logical missteps, invalid user input, validation failures)
-	- **Runtime exceptions** (unexpected errors such as null references)
-	- Provide **user-friendly** error messages (e.g., “Something went wrong. Please try again shortly.”) and log more technical details to dev/ops (e.g., via a logging service).
-	- Consider a central error handler function or global event (e.g., `window.addEventListener('unhandledrejection')`) to consolidate reporting.
-	- Carefully handle and validate JSON responses, incorrect HTTP status codes, etc.
-            
-## Documentation Requirements
-	- Include JSDoc comments for JavaScript/TypeScript.
-	- Document complex functions with clear examples.
-	- Maintain concise Markdown documentation.
-	- Minimum docblock info: `param`, `return`, `throws`, `author`
-    
-## Database Requirements (Sequelize 7.0+)
-	- Leverage JSON columns, generated columns, strict mode, foreign keys, check constraints, and transactions.
-    
-## Security Considerations
-	- Sanitize all user inputs thoroughly.
-	- Parameterize database queries.
-	- Enforce strong Content Security Policies (CSP).
-	- Use CSRF protection where applicable.
-	- Ensure secure cookies (`HttpOnly`, `Secure`, `SameSite=Strict`).
-	- Limit privileges and enforce role-based access control.
-	- Implement detailed internal logging and monitoring.
+### Component Standards
+- Use ONLY functional components with hooks
+- PascalCase naming for components
+- Destructure props and use meaningful names
+- Max 200 lines per component - split if larger
+- One component per file
+
+## STATE MANAGEMENT (ZUSTAND)
+
+### Store Guidelines
+- Follow existing store pattern in `src/app/store.js`
+- Use `persist` middleware for data that survives refreshes
+- Actions as functions within store: `setFormData`, `setAccessToken`
+- Use shallow comparison for complex selectors
+- NO sensitive data in persisted state (passwords, tokens expire)
+- Group related state together (auth, user, forms)
+
+## FORMS & VALIDATION
+
+### React Hook Form Rules
+- ALWAYS use `zodResolver` for validation
+- Import schemas from `src/utils/validationSchema.js`
+- Handle `errors` and `isSubmitting` states
+- Use `register` for inputs, `handleSubmit` for form submission
+- Set meaningful `defaultValues`
+
+### Zod Schema Requirements
+- Follow existing patterns in `src/utils/`
+- Use `.refine()` for complex validations
+- Provide clear error messages in Spanish
+- Chain validations: `.min().max().regex()`
+## STYLING (TAILWIND + FLOWBITE)
+
+### TailwindCSS Rules
+- Use utility classes ONLY - no custom CSS
+- Mobile-first responsive: `sm:`, `md:`, `lg:`, `xl:`
+- Consistent spacing: `p-4`, `m-2`, `gap-3`
+- Use Flexbox/Grid utilities for layouts
+- Follow existing color scheme in project
+
+### Flowbite Components
+- Import components from `flowbite-react`
+- Use existing components: `Button`, `Card`, `Modal`, `Alert`
+- Combine with Tailwind classes for customization
+- Follow Flowbite props and color schemes
+
+## ROUTING (REACT ROUTER V6)
+
+### Route Structure
+- Follow existing pattern in `src/routes/`
+- Use `createBrowserRouter` for route definition
+- Nested routes with `children` array
+- Index routes for default paths
+
+### Navigation Rules
+- Use `useNavigate` hook for programmatic navigation
+- Use `Link` component for declarative navigation
+- Use `replace: true` for login/logout redirects
+- Handle protected routes with authentication checks
+```
+
+## STYLING WITH TAILWINDCSS + FLOWBITE
+
+### TailwindCSS Best Practices
+```js
+// Use utility classes consistently
+<div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow-sm">
+  <span className="text-lg font-semibold text-gray-900">Title</span>
+  <button className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+    Action
+  </button>
+</div>
+```
+
+### Flowbite React Integration
+```js
+import { Button, Card, Modal, Alert } from 'flowbite-react';
+
+// Use Flowbite components consistently
+<Card className="max-w-sm">
+  <Alert color="success">
+    <span className="font-medium">Success!</span> Operation completed.
+  </Alert>
+  <Button color="blue" onClick={handleClick}>
+    Submit
+```javascript
+import { Button, Card, Modal, Alert } from 'flowbite-react';
+
+// Use Flowbite components consistently
+<Card className="max-w-sm">
+  <Alert color="success">
+    <span className="font-medium">Success!</span> Operation completed.
+  </Alert>
+  <Button color="blue" onClick={handleClick}>
+    Submit
+  </Button>
+</Card>
+```
+
+### Responsive Design Patterns
+- Mobile-first approach: `sm:`, `md:`, `lg:`, `xl:`
+- Use Flexbox and Grid utilities
+- Implement proper spacing with `p-`, `m-`, `gap-`
+- Ensure proper contrast ratios for accessibility
+
+## REACT ROUTER DOM V6
+
+### Route Configuration
+```javascript
+// Follow existing pattern in src/routes/
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'dashboard', element: <Dashboard /> },
+    ]
+  }
+]);
+```
+
+### Navigation Patterns
+```javascript
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
+// Programmatic navigation
+const navigate = useNavigate();
+const handleLogin = () => navigate('/dashboard', { replace: true });
+
+// Declarative navigation
+<Link to="/dashboard" className="text-blue-600 hover:underline">
+  Go to Dashboard
+</Link>
+```
+
+## API CALLS (AXIOS)
+
+### Service Organization
+- Group API calls by feature in `src/api/`
+- Use configured axios instance from `src/api/axios.js`
+- Export service objects with methods
+- Handle authentication headers automatically
+
+### Error Handling Rules
+- ALWAYS use try-catch for async calls
+- Handle 401 errors with logout/redirect
+- Show user-friendly error messages
+- Log technical errors for debugging
+
+## JAVASCRIPT STANDARDS
+
+### Modern Syntax Requirements
+- ES6+: arrow functions, destructuring, template literals
+- Use `const`/`let`, NEVER `var`
+- Optional chaining (`?.`) and nullish coalescing (`??`)
+- Async/await over promise chains
+- ES module imports/exports only
+
+### React Hooks Rules
+- Custom hooks start with `use` prefix
+- Extract reusable logic into custom hooks
+- Always handle loading, error, and success states
+- Use proper dependency arrays in `useEffect`
+
+## ACCESSIBILITY
+
+### Required Standards
+- Use semantic HTML elements (`button`, `nav`, `main`, `section`)
+- Add proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Maintain color contrast ratios (WCAG AA minimum)
+- Include alt text for images
+- Link forms inputs with labels using `htmlFor`
+
+## PERFORMANCE
+
+### Optimization Rules
+- Use `React.memo()` for components that re-render frequently
+- Lazy load routes with `React.lazy()`
+- Optimize images: WebP format, lazy loading
+- Use proper dependency arrays in hooks
+- Avoid inline functions in render
+
+## SECURITY
+
+### Frontend Security Rules
+- Validate ALL user inputs with Zod schemas
+- Never store passwords or sensitive data in localStorage
+- Use HTTPS for API communications
+- Sanitize data before rendering to prevent XSS
+- Implement token expiration checks
+
+## FORBIDDEN PRACTICES
+
+### Never Do This
+- Direct DOM manipulation - use React state
+- Inline styles - use Tailwind classes only  
+- Mutating props or state directly
+- Ignoring form validation
+- Missing loading/error states
+- Excessive prop drilling - use Zustand
+- Components over 200 lines - split them
+- Hardcoded values - use constants or config

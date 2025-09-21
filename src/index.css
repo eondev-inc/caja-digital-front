@@ -1,3 +1,129 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Variables de tema personalizadas para Flowbite - Healthcare Professional */
+@layer base {
+  :root {
+    /* Mapeo de colores primarios (Verde Salud) */
+    --color-primary-50: #ecfdf5;
+    --color-primary-100: #d1fae5;
+    --color-primary-200: #a7f3d0;
+    --color-primary-300: #6ee7b7;
+    --color-primary-400: #34d399;
+    --color-primary-500: #10b981;
+    --color-primary-600: #059669;
+    --color-primary-700: #047857;
+    --color-primary-800: #065f46;
+    --color-primary-900: #064e3b;
+    --color-primary-950: #022c22;
+
+    /* Mapeo de colores azules (Azul Marino Profesional) */
+    --color-blue-50: #f8fafc;
+    --color-blue-100: #f1f5f9;
+    --color-blue-200: #e2e8f0;
+    --color-blue-300: #cbd5e1;
+    --color-blue-400: #94a3b8;
+    --color-blue-500: #64748b;
+    --color-blue-600: #475569;
+    --color-blue-700: #334155;
+    --color-blue-800: #1e293b;
+    --color-blue-900: #0f172a;
+
+    /* Colores semánticos - Success (Verde Éxito) */
+    --color-green-50: #f0fdf4;
+    --color-green-100: #dcfce7;
+    --color-green-200: #bbf7d0;
+    --color-green-300: #86efac;
+    --color-green-400: #4ade80;
+    --color-green-500: #22c55e;
+    --color-green-600: #16a34a;
+    --color-green-700: #15803d;
+    --color-green-800: #166534;
+    --color-green-900: #14532d;
+
+    /* Colores semánticos - Warning (Amarillo Advertencia) */
+    --color-yellow-50: #fffbeb;
+    --color-yellow-100: #fef3c7;
+    --color-yellow-200: #fed7aa;
+    --color-yellow-300: #fdba74;
+    --color-yellow-400: #fb923c;
+    --color-yellow-500: #f59e0b;
+    --color-yellow-600: #d97706;
+    --color-yellow-700: #b45309;
+    --color-yellow-800: #92400e;
+    --color-yellow-900: #78350f;
+
+    /* Colores semánticos - Error (Rojo Error) */
+    --color-red-50: #fef2f2;
+    --color-red-100: #fee2e2;
+    --color-red-200: #fecaca;
+    --color-red-300: #fca5a5;
+    --color-red-400: #f87171;
+    --color-red-500: #ef4444;
+    --color-red-600: #dc2626;
+    --color-red-700: #b91c1c;
+    --color-red-800: #991b1b;
+    --color-red-900: #7f1d1d;
+
+    /* Colores semánticos - Info (Azul Información) */
+    --color-info-50: #eff6ff;
+    --color-info-100: #dbeafe;
+    --color-info-200: #bfdbfe;
+    --color-info-300: #93c5fd;
+    --color-info-400: #60a5fa;
+    --color-info-500: #3b82f6;
+    --color-info-600: #2563eb;
+    --color-info-700: #1d4ed8;
+    --color-info-800: #1e40af;
+    --color-info-900: #1e3a8a;
+
+    /* Colores neutrales (Grises) - Mantener estándar de Tailwind */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+
+    /* Colores para modo oscuro */
+    --color-slate-50: var(--color-gray-50);
+    --color-slate-100: var(--color-gray-100);
+    --color-slate-200: var(--color-gray-200);
+    --color-slate-300: var(--color-gray-300);
+    --color-slate-400: var(--color-gray-400);
+    --color-slate-500: var(--color-gray-500);
+    --color-slate-600: var(--color-gray-600);
+    --color-slate-700: var(--color-gray-700);
+    --color-slate-800: var(--color-gray-800);
+    --color-slate-900: var(--color-gray-900);
+  }
+
+  /* Variables específicas para modo oscuro */
+  .dark {
+    /* En modo oscuro invertir algunos colores para mejor contraste */
+    --color-primary-50: #022c22;
+    --color-primary-100: #064e3b;
+    --color-primary-200: #065f46;
+    --color-primary-300: #047857;
+    --color-primary-400: #059669;
+    --color-primary-500: #10b981;
+    --color-primary-600: #34d399;
+    --color-primary-700: #6ee7b7;
+    --color-primary-800: #a7f3d0;
+    --color-primary-900: #d1fae5;
+    --color-primary-950: #ecfdf5;
+  }
+}
+
+/* Estilos básicos para impresión del comprobante */
+@media print {
+  /* Ocultar elementos UI no esenciales */
+  .print:hidden { display: none !important; }
+  /* Asegurar fondo blanco sin sombras */
+  body { background: #ffffff !important; }
+}

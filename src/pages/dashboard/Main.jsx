@@ -1,5 +1,7 @@
 import { Breadcrumb, Card } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileInvoice, faCalculator, faTimes, faChartBar, faFolder } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 
 
@@ -7,40 +9,34 @@ const Main = () => {
   const navigateTo = useNavigate()
   const dashboardOptions = [
     {
-      title: "Open Register",
-      description: "Open a new cash register for your store",
-      imgSrc: "img/cash-register.jpg",
+      title: "Apertura de caja",
+      description: "Abre aquí tu caja diariamente para asociar las distintas transacciones de dinero directamente a caja.",
+      icon: faFolder,
       link: "./open-register"
     },
     {
-      title: "Close Register",
-      description: "Close an existing cash register for your store",
-      imgSrc: "img/cash-register.jpg",
-      link: "./close-register"
-    },
-    {
-      title: "Sales",
-      description: "View sales data for your store",
-      imgSrc: "img/cash-register.jpg",
+      title: "Ingreso de comprobante",
+      description: "Ingresa aquí los comprobantes de pago de las transacciones realizadas.",
+      icon: faFileInvoice,
       link: "./sales"
     },
     {
-      title: "Anullments",
-      description: "Manage products for your store",
-      imgSrc: "img/cash-register.jpg",
+      title: "Cuadratura y cierre de caja",
+      description: "Realiza aquí el recuento diario y cierre de tu caja para consolidar las transacciones de dinero de tu centro médico.",
+      icon: faCalculator,
+      link: "./close-register"
+    },
+    {
+      title: "Anulación de movimiento",
+      description: "Anula aquí los movimientos que necesites. Podrás revisar las transacciones en el historial.",
+      icon: faTimes,
       link: "./anullments"
     },
     {
-      title: "Customers",
-      description: "Manage customers for your store",
-      imgSrc: "img/cash-register.jpg",
-      link: "./customers"
-    },
-    {
-      title: "Settings",
-      description: "Manage settings for your store",
-      imgSrc: "img/cash-register.jpg",
-      link: "./settings"
+      title: "Reportes",
+      description: "Revisa aquí el resumen de transacciones de dinero por financiador e histórico de cortes de caja.",
+      icon: faChartBar,
+      link: "./reports"
     }
   ]
 
@@ -48,40 +44,55 @@ const Main = () => {
     navigateTo(route)
   }
   return (
-    <section>
-      <div className="container mx-auto mt-1 max-w-screen-xl p-3">
-        <Card className="mx-2 mt-8 p-5">
+    <section className="min-h-screen bg-gray-50">
+      <div className="container mx-auto max-w-7xl px-4 py-6">
+        <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg">
           <Breadcrumb>
-            <Breadcrumb.Item href="#" icon={HiHome}>Home</Breadcrumb.Item>
-            <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
+            <Breadcrumb.Item href="#" icon={HiHome} className="text-green-600">Inicio</Breadcrumb.Item>
+            <Breadcrumb.Item href="#" className="text-gray-600">Sistema POS</Breadcrumb.Item>
           </Breadcrumb>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Register Machine
-          </h1>
-          <p className="font-normal tracking-tight text-gray-700 dark:text-gray-400">
-            Manage your finances online with everything you need. 
-            <span className="font-bold">
-              Open and close your register, 
-              void transactions, balance, enter receipts, and check reports.
-            </span>
-          </p>
-          <br className="border-solid"/>
-          <div className="grid grid-cols-2 p-5">
+          <div className="mb-6 mt-4">
+            <h1 className="mb-2 text-3xl font-bold text-gray-800">
+              Sistema de Caja Registradora
+            </h1>
+            <p className="text-lg leading-relaxed text-gray-600">
+              Gestiona las finanzas de tu centro médico con todas las herramientas necesarias. 
+              <span className="font-semibold text-secondary-700">
+                {' '}Abre y cierra tu caja registradora, 
+                anula transacciones, balancea movimientos, ingresa comprobantes y revisa reportes.
+              </span>
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
           { [...dashboardOptions].map((element, index) => (
-            <div  key={index} className="justify-center">
-              <Card 
-                className="mx-5 mb-5 h-[160px] w-[417px] max-w-[417px] cursor-pointer hover:shadow-lg" 
-                imgSrc="img/cash-register.jpg" horizontal
-                onClick={() => goTo(element.link)}
-              >
-                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  { element.title }
-                </h5>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
-                  { element.description }
-                </p>
-              </Card>
-            </div>
+            <Card 
+              key={index}
+              className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all duration-200 hover:bg-gray-50 hover:shadow-lg"
+              onClick={() => goTo(element.link)}
+            >
+              <div className="flex items-center gap-6">
+                {/* Icono */}
+                <FontAwesomeIcon 
+                  icon={element.icon} 
+                  className="size-10 text-secondary-600"
+                />
+                
+                {/* Contenido */}
+                <div className="flex-1">
+                  <h5 className="mb-1 text-lg font-semibold text-gray-800">
+                    { element.title }
+                  </h5>
+                  <p className="text-sm leading-relaxed text-gray-600">
+                    { element.description }
+                  </p>
+                </div>
+
+                {/* Indicador de acción */}
+                <div className="flex size-8 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                  <span className="text-sm">→</span>
+                </div>
+              </div>
+            </Card>
           )) }
           </div>
         </Card>

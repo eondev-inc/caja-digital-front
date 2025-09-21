@@ -7,6 +7,7 @@ import Sales from "../pages/dashboard/Sales";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
+import { ColorTestComponent } from "../components/Commons/ColorTestComponent";
 
 const routes = [
   {
@@ -14,6 +15,12 @@ const routes = [
     layout: NoLoginLayout,
     isProtected: false,
     element: Home,
+  },
+  {
+    path: '/test',
+    element: ColorTestComponent,
+    isProtected: false,
+    layout: NoLoginLayout,
   },
   {
     path: '/login',
