@@ -73,7 +73,6 @@ const Sales = () => {
       setPaymentMethods(methods);
       setPrevisions(prevs);
       setProfessionals(professionals);
-      // TODO: setProfessionals(await getEntities()) si aplica
     };
     fetchData();
 
