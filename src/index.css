@@ -119,3 +119,11 @@
     --color-primary-950: #ecfdf5;
   }
 }
+
+/* Estilos básicos para impresión del comprobante */
+@media print {
+  /* Ocultar elementos UI no esenciales */
+  .print:hidden { display: none !important; }
+  /* Asegurar fondo blanco sin sombras */
+  body { background: #ffffff !important; }
+}

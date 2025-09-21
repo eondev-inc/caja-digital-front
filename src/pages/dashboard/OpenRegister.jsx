@@ -16,6 +16,7 @@ const OpenRegister = () => {
   const handleOpenRegister = async () => {
     const data = {
       initial_amount: parseInt(openingAmount),
+      entity_id: userInfo.entity_users[0].entities.id,
     }
     const response = await createOpenRegister(data);
     console.log(response);
