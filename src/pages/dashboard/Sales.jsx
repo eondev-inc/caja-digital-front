@@ -226,6 +226,7 @@ const Sales = () => {
                 size='md'
                 color="gray"
                 className="flex items-center px-4 py-3"
+                onClick={() => { reset(); setInvoiceItems([{ description: '', quantity: 1, total_price: 0 }]); }}
               >
                 <FontAwesomeIcon icon={faTimes} className="mr-2 size-4" />
                 <span className='text-base text-gray-700'>Cancelar</span>

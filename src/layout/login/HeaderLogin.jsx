@@ -1,6 +1,7 @@
 import { Navbar, Button } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faHospital, faUserMd, faChartLine, faCalendarAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 // eslint-disable-next-line react/prop-types
 export const HeaderLogin = ({ title }) => {
@@ -34,7 +35,7 @@ export const HeaderLogin = ({ title }) => {
           {/* Navigation Menu for POS Functions */}
           <Navbar.Collapse className="bg-gray-50/80 rounded-lg border border-gray-200 px-4 py-2 shadow-sm">
             <Navbar.Link 
-              href="#" 
+              href="/dashboard" 
               className="flex items-center gap-2 font-medium text-green-600 hover:text-green-700"
               active
             >
@@ -42,25 +43,18 @@ export const HeaderLogin = ({ title }) => {
               Panel Principal
             </Navbar.Link>
             <Navbar.Link 
-              href="#" 
+              href="/dashboard/open-register" 
               className="flex items-center gap-2 font-medium text-gray-600 hover:text-green-600"
             >
               <FontAwesomeIcon icon={faCashRegister} className="size-3" />
               Abrir Caja
             </Navbar.Link>
             <Navbar.Link 
-              href="#" 
+              href="/dashboard/sales" 
               className="flex items-center gap-2 font-medium text-gray-600 hover:text-green-600"
             >
-              <FontAwesomeIcon icon={faCalendarAlt} className="size-3" />
-              Turnos
-            </Navbar.Link>
-            <Navbar.Link 
-              href="#" 
-              className="flex items-center gap-2 font-medium text-gray-600 hover:text-green-600"
-            >
-              <FontAwesomeIcon icon={faUserMd} className="size-3" />
-              Personal
+              <FontAwesomeIcon icon={faFileInvoice} className="size-3" />
+              Ventas
             </Navbar.Link>
           </Navbar.Collapse>
           
@@ -70,8 +64,8 @@ export const HeaderLogin = ({ title }) => {
             color="light"
             className="flex items-center gap-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-300"
             onClick={() => {
-              // TODO: Implementar lógica de cerrar sesión
-              console.log('Cerrando sesión...');
+              sessionStorage.clear();
+              window.location.href = '/login';
             }}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="size-3" />

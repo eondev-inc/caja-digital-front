@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Card, Label, Modal, TextInput } from 'flowbite-react';
+import { useEffect, useState } from 'react';
+import { Breadcrumb, Button, Card, Label, TextInput } from 'flowbite-react';
 import { HiArrowLeft } from 'react-icons/hi';
 import { useStore } from "../../app/store";
 import { useNavigate } from 'react-router-dom';
 import { getOpenRegister, createOpenRegister } from '../../api';
-import { ErrorModal } from '../../components/Commons/ErrorModal';
+import { GeneralModal } from '../../components/Commons/GeneralModal';
 
 const OpenRegister = () => {
   const [openingAmount, setOpeningAmount] = useState('');
-  const [showError, setShowError] = useState(false);
-  const [showModalLoading, setShowModalLoading] = useState(false);
+  const [showAlreadyOpenModal, setShowAlreadyOpenModal] = useState(false);
+  // const [showModalLoading, setShowModalLoading] = useState(false);
   const { userInfo, setOpenRegister, openRegister } = useStore()
   const navigateTo = useNavigate()
 
@@ -21,16 +21,16 @@ const OpenRegister = () => {
     const response = await createOpenRegister(data);
     console.log(response);
     if (response.status === 200 || response.status === 201) {
-
       setOpenRegister(response.data);
       navigateTo('/dashboard');
     } else {
-      setShowError(true);
+      // Si ya existe una caja abierta, mostrar modal informativo
+      setShowAlreadyOpenModal(true);
     }
   }
 
-  const handleCloseModal = () => {
-    setShowError(false);
+  const handleCloseAlreadyOpenModal = () => {
+    setShowAlreadyOpenModal(false);
     navigateTo('/dashboard');
   }
 
@@ -48,15 +48,17 @@ const OpenRegister = () => {
 
         if (registerResponse.status === 200) {
           setOpenRegister(registerResponse.data);
-          navigateTo('/dashboard');
+          // Mostrar modal informativo en lugar de redirigir inmediatamente
+          setShowAlreadyOpenModal(true);
         }
       };
 
       fetchOpenRegister(userEntityInfo.entities.id);
     } else {
-      navigateTo('/dashboard');
+      // Si ya hay info de caja abierta en el store, mostrar modal informativo
+      setShowAlreadyOpenModal(true);
     }
-  }, [openRegister]);
+  }, [openRegister, setOpenRegister, navigateTo, userInfo.entity_users]);
 
   return (
     <div className="mx-auto max-w-[1080px] p-4">
@@ -73,7 +75,7 @@ const OpenRegister = () => {
 
         {/* Main Title */}
         <div className="mb-6">
-          <h1 className="text-navy-700 text-2xl font-bold">Apertura de caja</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Apertura de caja</h1>
           <p className="text-gray-600">
             Abre tu caja para registrar, ingresar comprobantes, anular y ver tu historial de movimientos.
           </p>
@@ -126,7 +128,19 @@ const OpenRegister = () => {
           </div>
         </div>
       </Card>
-      {showError && <ErrorModal message="Ya existe una caja abierta" show={showError} onClose={handleCloseModal} />}
+      {showAlreadyOpenModal && (
+        <GeneralModal
+          title="Caja ya abierta"
+          show={showAlreadyOpenModal}
+          typeModal="info"
+          buttonMessage="Ir al dashboard"
+          onClose={handleCloseAlreadyOpenModal}
+        >
+          <p className="text-center text-gray-700">
+            Ya existe una caja abierta asociada a tu usuario. Serás redirigido al dashboard para continuar.
+          </p>
+        </GeneralModal>
+      )}
     </div>
   );
 };
