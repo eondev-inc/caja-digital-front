@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema, BONO_PAYMENT_METHOD_ID } from '../../utils/transactionSchema';
-import { Button, Card, Alert } from 'flowbite-react';
+import { Button, Card, Alert, Modal } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileInvoice, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { HiExclamationCircle } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import { getPaymentMethods, getPrevisions, getProfessionals, createTransaction } from '../../api';
 import { useStore } from '../../app/store';
 import SalesHeader from '../../components/Sales/SalesHeader';
@@ -17,11 +19,13 @@ import ConfirmModal from '../../components/Sales/ConfirmModal';
 import ReceiptModal from '../../components/Sales/ReceiptModal';
 
 const Sales = () => {
+  const navigate = useNavigate();
   const [showFolioInput, setShowFolioInput] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [previsions, setPrevisions] = useState([]);
   const [professionals, setProfessionals] = useState([]); // TODO: cargar desde API cuando esté disponible
   const { openRegister } = useStore();
+  const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
   const [invoiceItems, setInvoiceItems] = useState([
     {
       description: '',
@@ -55,6 +59,13 @@ const Sales = () => {
   const [toast, setToast] = useState({ type: null, message: '' });
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
+
+  // Verificar si hay una caja abierta
+  useEffect(() => {
+    if (!openRegister?.id) {
+      setShowNoRegisterModal(true);
+    }
+  }, [openRegister]);
 
   // Show or hide folio input based on payment method
   useEffect(() => {
@@ -235,7 +246,8 @@ const Sales = () => {
               <Button 
                 type="submit"
                 size='md'
-                className="flex items-center bg-primary-500 px-8 py-3 text-white hover:bg-primary-600"
+                color="success"
+                className="flex items-center px-8 py-3"
                 disabled={!isValid || isSubmitting}
               >
                 <FontAwesomeIcon icon={faFileInvoice} className="mr-2 size-4" />
@@ -265,6 +277,60 @@ const Sales = () => {
 
           <ReceiptModal open={showReceipt} onClose={() => setShowReceipt(false)} data={receiptData} />
         </Card>
+
+        {/* Modal de Caja No Abierta */}
+        <Modal show={showNoRegisterModal} onClose={() => {}} dismissible={false} size="md">
+          <Modal.Header>
+            <div className="flex items-center gap-2">
+              <HiExclamationCircle className="size-6 text-yellow-500" />
+              <span>Caja No Abierta</span>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="space-y-4">
+              <Alert color="warning" icon={HiExclamationCircle}>
+                <span className="font-medium">Atención:</span> No hay una caja abierta actualmente.
+              </Alert>
+              
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <p className="text-sm text-gray-700">
+                  Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. 
+                  La apertura de caja le permite:
+                </p>
+                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600">
+                  <li>Registrar el monto inicial del día</li>
+                  <li>Asociar todas las ventas a la caja</li>
+                  <li>Mantener control de ingresos y egresos</li>
+                  <li>Realizar el cierre diario correctamente</li>
+                </ul>
+              </div>
+
+              <div className="rounded-lg bg-blue-50 p-4">
+                <p className="text-sm text-blue-800">
+                  <span className="font-medium">¿Desea abrir una caja ahora?</span>
+                  <br />
+                  Será redirigido a la página de apertura de caja para comenzar.
+                </p>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="flex w-full justify-end gap-3">
+              <Button
+                color="gray"
+                onClick={() => navigate('/dashboard')}
+              >
+                Cancelar
+              </Button>
+              <Button
+                color="success"
+                onClick={() => navigate('/dashboard/open-register')}
+              >
+                Abrir Caja
+              </Button>
+            </div>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
