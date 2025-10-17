@@ -1,10 +1,15 @@
 import { z } from 'zod';
 
 /**
- * Schema de validación para el cierre de caja (reconciliation)
- * Utiliza Zod para validar los datos antes de enviarlos al backend
- * 
- * 
+ * Esquema de validación para el cierre de caja (reconciliation).
+ * Valida los datos antes de enviarlos al backend utilizando Zod.
+ *
+ * Campos validados:
+ * - open_register_id: UUID del registro de caja abierto (string, requerido)
+ * - closing_balance: Balance de cierre (number, requerido, no negativo)
+ * - total_sales: Total de ventas (integer, requerido, no negativo)
+ * - sales_summary: Resumen de ventas por método de pago (efectivo, débito, crédito; cada uno number, no negativo, por defecto 0)
+ * - notes: Notas adicionales (string, opcional, máximo 500 caracteres)
  */
 
 export const reconciliationSchema = z.object({
