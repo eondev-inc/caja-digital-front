@@ -191,7 +191,7 @@ const CloseRegister = () => {
     }).format(amount || 0);
   };
 
-  // Si está mostrando el modal de caja no abierta, no mostrar spinner
+  // If the modal for unopened register is being shown, do not show the spinner
   if (loading && !showNoRegisterModal) {
     return (
       <section className="min-h-screen bg-gray-50">
