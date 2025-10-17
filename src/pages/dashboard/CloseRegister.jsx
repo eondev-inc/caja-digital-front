@@ -44,7 +44,7 @@ const CloseRegister = () => {
    */
   useEffect(() => {
     const fetchCalculation = async () => {
-      const entityId = userInfo.entity_users[0].entities.id || '';
+      const entityId = (userInfo.entity_users && userInfo.entity_users.length > 0 && userInfo.entity_users[0]?.entities?.id) || '';
       if (!openRegister?.id) {
         setLoading(false);
         setShowNoRegisterModal(true);
