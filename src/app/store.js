@@ -4,14 +4,14 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 export const useStore = create(
   persist(
     (set) => ({
+      // Datos del formulario de registro — no incluye password ni confirmPassword
+      // para evitar persistir credenciales en sessionStorage
       formData: {
-        surnames: '',
         forenames: '',
-        nidType: 'rut',
+        surnames: '',
         nid: '',
         email: '',
-        password: '',
-        confirmPassword: '',
+        entity_id: '',
         checkBox: false,
       },
       setFormData: (formData) => set({ formData }),
