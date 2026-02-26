@@ -28,6 +28,10 @@ export const useStore = create(
       openRegister: {},
       setOpenRegister: (openRegister) => set({ openRegister }),
 
+      // Preferencia de modo oscuro — persiste en sessionStorage
+      darkMode: false,
+      setDarkMode: (darkMode) => set({ darkMode }),
+
     }),
     {
       name: 'allData',

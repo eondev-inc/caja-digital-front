@@ -8,7 +8,7 @@ export default function CustomerSection({ register, control, errors }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div>
-        <Label htmlFor="custumer_nid" className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label htmlFor="custumer_nid" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faIdCard} className="mr-2 text-primary-600" />
           RUT
         </Label>
@@ -23,7 +23,7 @@ export default function CustomerSection({ register, control, errors }) {
         )}
       </div>
       <div className="md:col-span-2">
-        <Label htmlFor="custumer_name" className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label htmlFor="custumer_name" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faUser} className="mr-2 text-primary-600" />
           Nombre del Cliente
         </Label>
@@ -39,7 +39,7 @@ export default function CustomerSection({ register, control, errors }) {
       </div>
 
       <div>
-        <Label className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-primary-600" />
           Fecha
         </Label>

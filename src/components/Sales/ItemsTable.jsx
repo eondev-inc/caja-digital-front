@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 
 export default function ItemsTable({ items, onAdd, onRemove, onUpdate }) {
   return (
-    <div className="mt-6 overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="mt-6 overflow-hidden rounded-lg bg-white shadow-md dark:bg-slate-800">
       <div className="bg-primary-500 p-4 text-white">
         <h3 className="flex items-center gap-2 text-lg font-semibold">
           <FontAwesomeIcon icon={faUserMd} />
           Detalle de Servicios Médicos
         </h3>
       </div>
-      <div className="grid grid-cols-12 gap-4 border-b bg-neutral-50 p-4 font-medium text-secondary-700">
+      <div className="grid grid-cols-12 gap-4 border-b bg-neutral-50 p-4 font-medium text-secondary-700 dark:border-slate-700 dark:bg-slate-700 dark:text-gray-300">
         <div className="col-span-5">Servicio/Tratamiento</div>
         <div className="col-span-2 text-center">Cantidad</div>
         <div className="col-span-2 text-center">Precio</div>
@@ -21,7 +21,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate }) {
       </div>
 
       {items.map((item, index) => (
-        <div key={index} className="grid grid-cols-12 items-center gap-4 border-b border-neutral-200 p-4 transition-colors hover:bg-neutral-50">
+        <div key={index} className="dark:hover:bg-slate-700/50 grid grid-cols-12 items-center gap-4 border-b border-neutral-200 p-4 transition-colors hover:bg-neutral-50 dark:border-slate-700">
           <div className="col-span-5">
             <TextInput
               placeholder="Ej: Consulta, Examen..."
@@ -53,7 +53,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate }) {
           <div className="col-span-2">
             <TextInput
               type="text"
-              className="border-neutral-200 bg-neutral-50 text-center font-semibold text-primary-700"
+              className="border-neutral-200 bg-neutral-50 text-center font-semibold text-primary-700 dark:border-slate-600 dark:bg-slate-700 dark:text-primary-400"
               value={`$${(item.subtotal || 0).toLocaleString('es-CL')}`}
               disabled
             />
@@ -66,8 +66,8 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate }) {
         </div>
       ))}
 
-      <div className="border-t bg-neutral-50 p-4">
-        <Button type="button" color="light" size="sm" className="flex items-center border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100" onClick={onAdd}>
+      <div className="border-t bg-neutral-50 p-4 dark:border-slate-700 dark:bg-slate-700">
+        <Button type="button" color="light" size="sm" className="dark:bg-primary-900/30 dark:hover:bg-primary-900/50 flex items-center border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 dark:border-primary-800 dark:text-primary-400" onClick={onAdd}>
           <FontAwesomeIcon icon={faPlus} className="mr-2 size-4" />
           <span>Agregar Servicio Médico</span>
         </Button>
