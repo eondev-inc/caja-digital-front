@@ -44,8 +44,6 @@ const OpenRegister = () => {
       const fetchOpenRegister = async (entityId) => {
         const registerResponse = await getOpenRegister(entityId);
 
-        console.log(registerResponse.status, JSON.stringify(registerResponse.data));
-
         if (registerResponse.status === 200) {
           setOpenRegister(registerResponse.data);
           // Mostrar modal informativo en lugar de redirigir inmediatamente

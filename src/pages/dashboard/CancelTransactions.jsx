@@ -57,8 +57,6 @@ const CancelTransactions = () => {
         search: search.trim(),
       });
 
-      console.log(response);
-
       // La respuesta es un array directo, no tiene estructura data/meta
       const transactionsList = Array.isArray(response) ? response : (response?.data || []);
       
@@ -208,7 +206,7 @@ const CancelTransactions = () => {
       {/* Alert */}
       {alert.show && (
         <div className="mb-4">
-          <Alert color={alert.type === 'error' ? 'failure' : 'success'} onDismiss={() => setAlert({ show: false })}>
+          <Alert color={alert.type === 'error' ? 'failure' : 'success'} onDismiss={() => setAlert({ show: false })} role={alert.type === 'error' ? 'alert' : 'status'}>
             <span className="font-medium">
               {alert.type === 'error' ? '¡Error!' : '¡Éxito!'}
             </span>{' '}
@@ -229,7 +227,7 @@ const CancelTransactions = () => {
               placeholder="Buscar por folio, descripción, monto..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
           </div>
           <Button color="blue" onClick={handleSearch} disabled={loading}>
@@ -297,9 +295,10 @@ const CancelTransactions = () => {
                             color="failure"
                             disabled={!canCancelTransaction(transaction)}
                             onClick={() => openCancelModal(transaction)}
+                            aria-label="Cancelar transacción"
                             title="Cancelar transacción"
                           >
-                            <FontAwesomeIcon icon={faBan} className="mr-1" />
+                            <FontAwesomeIcon icon={faBan} className="mr-1" aria-hidden="true" />
                             Cancelar
                           </Button>
                           <Button
@@ -307,9 +306,10 @@ const CancelTransactions = () => {
                             color="warning"
                             disabled={!canCancelTransaction(transaction)}
                             onClick={() => openDevolutionModal(transaction)}
+                            aria-label="Realizar devolución"
                             title="Realizar devolución"
                           >
-                            <FontAwesomeIcon icon={faUndo} className="mr-1" />
+                            <FontAwesomeIcon icon={faUndo} className="mr-1" aria-hidden="true" />
                             Devolver
                           </Button>
                         </div>
