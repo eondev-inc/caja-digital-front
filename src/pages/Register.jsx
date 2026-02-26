@@ -53,23 +53,23 @@ export const Register = () => {
               <div className="mb-4 inline-flex size-16 items-center justify-center rounded-full bg-gradient-to-r from-primary-500 to-secondary-600 shadow-lg">
                 <FontAwesomeIcon icon={faHospital} className="size-8 text-white" />
               </div>
-              <h1 className="mb-2 text-2xl font-bold text-gray-900">
+              <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
                 Registro de Personal
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Caja Digital — Centros de Salud
               </p>
             </div>
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
               {/* Nombres y Apellidos en Grid */}
               <div className="space-y-3">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   <FontAwesomeIcon icon={faUser} className="text-primary-600 dark:text-primary-400" />
                   Información Personal
                 </Label>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <Label htmlFor="surnames" className="text-xs font-medium text-gray-600">Nombres</Label>
+                    <Label htmlFor="surnames" className="text-xs font-medium text-gray-600 dark:text-gray-400">Nombres</Label>
                     <TextInput 
                       type="text" 
                       name="surnames"
@@ -81,7 +81,7 @@ export const Register = () => {
                     {errors.surnames && <p className="text-xs text-red-600">{errors.surnames.message}</p>}
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="forenames" className="text-xs font-medium text-gray-600">Apellidos</Label>
+                    <Label htmlFor="forenames" className="text-xs font-medium text-gray-600 dark:text-gray-400">Apellidos</Label>
                     <TextInput 
                       type="text" 
                       name="forenames"
@@ -96,7 +96,7 @@ export const Register = () => {
               </div>
               {/* Identificación */}
               <div className="space-y-3">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   <FontAwesomeIcon icon={faIdCard} className="text-primary-600 dark:text-primary-400" />
                   Identificación
                 </Label>
@@ -128,7 +128,7 @@ export const Register = () => {
               </div>
               {/* Email */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   <FontAwesomeIcon icon={faEnvelope} className="text-primary-600 dark:text-primary-400" />
                   Correo Electrónico
                 </Label>
@@ -145,7 +145,7 @@ export const Register = () => {
 
               {/* Contraseñas */}
               <div className="space-y-3">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   <FontAwesomeIcon icon={faLock} className="text-primary-600 dark:text-primary-400" />
                   Contraseña
                 </Label>
@@ -180,7 +180,7 @@ export const Register = () => {
                   {...register('checkBox')}
                   className="mt-1 shrink-0 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-slate-600 dark:text-primary-400"
                 />
-                <div className="text-xs text-gray-600">
+                <div className="text-xs text-gray-600 dark:text-gray-400">
                   <Label htmlFor="terms">
                     Acepto los{' '}
                     <a className="font-medium text-primary-600 underline hover:text-primary-800 dark:text-primary-400" href="#">
@@ -203,9 +203,9 @@ export const Register = () => {
                   </div>
                 </Button>
               </div>
-              <div className="text-center">
-                <p className="text-sm text-gray-600">
-                  ¿Ya tienes una cuenta?{' '}
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    ¿Ya tienes una cuenta?{' '}
                   <a href="/login" className="font-medium text-primary-600 underline hover:text-primary-800 dark:text-primary-400">
                     Inicia sesión aquí
                   </a>

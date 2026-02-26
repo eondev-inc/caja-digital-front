@@ -187,21 +187,21 @@ const CancelTransactions = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6 dark:bg-slate-900">
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="mb-6 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <div className="flex items-center gap-4">
           <div className="flex size-16 items-center justify-center rounded-lg bg-red-500 shadow-sm">
             <FontAwesomeIcon icon={faTimesCircle} className="size-8 text-white" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-slate-800">Anulación de Movimientos</h2>
-            <p className="text-sm text-slate-500">Gestión de cancelaciones y devoluciones</p>
+            <h2 className="text-3xl font-bold text-slate-800 dark:text-white">Anulación de Movimientos</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Gestión de cancelaciones y devoluciones</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-sm text-slate-500">Total de movimientos</p>
-          <p className="text-2xl font-bold text-slate-800">{totalItems}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Total de movimientos</p>
+          <p className="text-2xl font-bold text-slate-800 dark:text-white">{totalItems}</p>
         </div>
       </div>
 
@@ -244,13 +244,13 @@ const CancelTransactions = () => {
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <Spinner size="xl" />
-            <span className="ml-3 text-lg text-slate-600">Cargando transacciones...</span>
+            <span className="ml-3 text-lg text-slate-600 dark:text-slate-400">Cargando transacciones...</span>
           </div>
         ) : transactions.length === 0 ? (
           <div className="py-12 text-center">
-            <FontAwesomeIcon icon={faExclamationTriangle} className="mb-4 size-12 text-gray-400" />
-            <p className="text-lg text-slate-600">No se encontraron transacciones</p>
-            <p className="text-sm text-slate-400">Intenta con otros términos de búsqueda</p>
+            <FontAwesomeIcon icon={faExclamationTriangle} className="mb-4 size-12 text-gray-400 dark:text-gray-500" />
+            <p className="text-lg text-slate-600 dark:text-slate-400">No se encontraron transacciones</p>
+            <p className="text-sm text-slate-400 dark:text-slate-500">Intenta con otros términos de búsqueda</p>
           </div>
         ) : (
           <>
@@ -268,23 +268,23 @@ const CancelTransactions = () => {
                 </Table.Head>
                 <Table.Body className="divide-y">
                   {transactions.map((transaction) => (
-                    <Table.Row key={transaction.id} className="bg-white">
-                      <Table.Cell className="font-medium text-slate-900">
+                    <Table.Row key={transaction.id} className="bg-white dark:border-slate-700 dark:bg-slate-800">
+                      <Table.Cell className="font-medium text-slate-900 dark:text-white">
                         {transaction.invoice?.id?.slice(0, 8) || 'N/A'}
                       </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap text-sm text-slate-600">
+                      <Table.Cell className="whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
                         {transaction.created_at ? formatDate(transaction.created_at) : 'N/A'}
                       </Table.Cell>
-                      <Table.Cell className="max-w-xs truncate text-slate-600">
+                      <Table.Cell className="max-w-xs truncate text-slate-600 dark:text-slate-400">
                         {transaction.description || 'Sin descripción'}
                       </Table.Cell>
-                      <Table.Cell className="text-slate-600">
+                      <Table.Cell className="text-slate-600 dark:text-slate-400">
                         {transaction.transaction_type?.description || 'N/A'}
                       </Table.Cell>
-                      <Table.Cell className="text-slate-600">
+                      <Table.Cell className="text-slate-600 dark:text-slate-400">
                         {transaction.payment_method?.description || 'N/A'}
                       </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap font-semibold text-slate-900">
+                      <Table.Cell className="whitespace-nowrap font-semibold text-slate-900 dark:text-white">
                         {formatCurrency(transaction.amount)}
                       </Table.Cell>
                       <Table.Cell>

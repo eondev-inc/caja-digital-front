@@ -201,9 +201,9 @@ const Sales = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 dark:bg-slate-900">
       <div className="container mx-auto px-4 py-6">
-        <Card className="mx-auto max-w-5xl border border-neutral-200 bg-white shadow-lg">
+        <Card className="mx-auto max-w-5xl border border-neutral-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
           <SalesHeader />
 
           <form className="space-y-5 p-6" onSubmit={handleSubmit(onSubmit)}>
@@ -240,7 +240,7 @@ const Sales = () => {
                 onClick={() => { reset(); setInvoiceItems([{ description: '', quantity: 1, total_price: 0 }]); }}
               >
                 <FontAwesomeIcon icon={faTimes} className="mr-2 size-4" />
-                <span className='text-base text-gray-700'>Cancelar</span>
+                <span className='text-base text-gray-700 dark:text-gray-300'>Cancelar</span>
               </Button>
               
               <Button 
@@ -292,12 +292,12 @@ const Sales = () => {
                 <span className="font-medium">Atención:</span> No hay una caja abierta actualmente.
               </Alert>
               
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <p className="text-sm text-gray-700">
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-slate-600 dark:bg-slate-700">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. 
                   La apertura de caja le permite:
                 </p>
-                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600">
+                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                   <li>Registrar el monto inicial del día</li>
                   <li>Asociar todas las ventas a la caja</li>
                   <li>Mantener control de ingresos y egresos</li>

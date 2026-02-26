@@ -7,7 +7,7 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       <div>
-        <Label htmlFor="payment_method_id" className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label htmlFor="payment_method_id" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-primary-600" aria-hidden="true" />
           Método de Pago
         </Label>
@@ -24,7 +24,7 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
         )}
       </div>
       <div>
-        <Label htmlFor="professional_uuid" className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label htmlFor="professional_uuid" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faUserMd} className="mr-2 text-secondary-600" aria-hidden="true" />
           Profesional
         </Label>
@@ -39,7 +39,7 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
         )}
       </div>
       <div>
-        <Label htmlFor="prevision_uuid" className="mb-1 block text-sm font-medium text-secondary-700">
+        <Label htmlFor="prevision_uuid" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
           <FontAwesomeIcon icon={faIdCard} className="mr-2 text-secondary-600" aria-hidden="true" />
           Previsión
         </Label>
@@ -55,7 +55,7 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
       </div>
       {showFolioInput && (
         <div>
-          <Label htmlFor="folio" className="mb-1 block text-sm font-medium text-secondary-700">
+          <Label htmlFor="folio" className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300">
             Número de Folio
           </Label>
           <TextInput id="folio" placeholder="Folio" className="w-full" {...register('folio')} />

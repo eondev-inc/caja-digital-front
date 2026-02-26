@@ -194,11 +194,11 @@ const CloseRegister = () => {
   // If the modal for unopened register is being shown, do not show the spinner
   if (loading && !showNoRegisterModal) {
     return (
-      <section className="min-h-screen bg-gray-50">
+      <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
         <div className="container mx-auto max-w-7xl px-4 py-6">
           <Card className="mt-8 flex items-center justify-center p-12">
             <Spinner size="xl" />
-            <p className="mt-4 text-gray-600">Cargando información de cuadratura...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Cargando información de cuadratura...</p>
           </Card>
         </div>
       </section>
@@ -206,9 +206,9 @@ const CloseRegister = () => {
   }
 
   return (
-    <section className="min-h-screen bg-gray-50">
+    <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <div className="container mx-auto max-w-7xl px-4 py-6">
-        <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg">
+        <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-800">
           {/* Breadcrumb */}
           <Breadcrumb className="mb-4">
             <Breadcrumb.Item href="/dashboard" icon={HiHome} className="text-primary-600 dark:text-primary-400">
@@ -223,11 +223,11 @@ const CloseRegister = () => {
           <div className="mb-6">
             <div className="flex items-center gap-3">
               <FontAwesomeIcon icon={faCalculator} className="text-3xl text-primary-600 dark:text-primary-400" />
-              <h1 className="text-3xl font-bold text-gray-800">
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
                 Cuadratura y Cierre de Caja
               </h1>
             </div>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
               Verifica los montos y realiza el cierre diario de tu caja registradora.
             </p>
           </div>
@@ -254,8 +254,8 @@ const CloseRegister = () => {
           {calculationData && (
             <div className="space-y-6">
               {/* Resumen General */}
-              <Card className="border border-gray-200">
-                <h2 className="mb-4 text-xl font-semibold text-gray-800">
+              <Card className="border border-gray-200 dark:border-slate-700">
+                <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                   Resumen General
                 </h2>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -271,9 +271,9 @@ const CloseRegister = () => {
                        {formatCurrency(calculationData.totalAmount)}
                      </p>
                    </div>
-                  <div className="rounded-lg bg-purple-50 p-4">
-                    <p className="text-sm text-gray-600">Balance Esperado</p>
-                    <p className="text-2xl font-bold text-purple-700">
+                   <div className="dark:bg-purple-900/20 rounded-lg bg-purple-50 p-4">
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Balance Esperado</p>
+                     <p className="text-2xl font-bold text-purple-700 dark:text-purple-400">
                       {formatCurrency(calculationData.expectedBalance)}
                     </p>
                   </div>
@@ -281,16 +281,16 @@ const CloseRegister = () => {
               </Card>
 
               {/* Resumen por Tipo de Transacción */}
-              <Card className="border border-gray-200">
-                <h2 className="mb-4 text-xl font-semibold text-gray-800">
+              <Card className="border border-gray-200 dark:border-slate-700">
+                <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                   Resumen por Tipo de Transacción
                 </h2>
                 <div className="space-y-3">
                   {Object.entries(calculationData.transactionDetailsByType || {}).map(
                     ([type, details]) => (
-                      <div key={type} className="rounded-lg border border-gray-200 p-4">
-                        <h3 className="mb-2 font-semibold text-gray-700">{type}</h3>
-                        <p className="text-sm text-gray-600">
+                      <div key={type} className="rounded-lg border border-gray-200 p-4 dark:border-slate-600">
+                        <h3 className="mb-2 font-semibold text-gray-700 dark:text-gray-300">{type}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           Total: <span className="font-medium">{details.count}</span> transacciones
                         </p>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -299,10 +299,10 @@ const CloseRegister = () => {
                               key={status}
                               className={`rounded-full px-3 py-1 text-xs font-medium ${
                                 status === 'COMPLETADO'
-                                  ? 'bg-green-100 text-green-800'
+                                  ? 'dark:bg-green-900/30 bg-green-100 text-green-800 dark:text-green-400'
                                   : status === 'CANCELADO'
-                                  ? 'bg-red-100 text-red-800'
-                                  : 'bg-yellow-100 text-yellow-800'
+                                  ? 'dark:bg-red-900/30 bg-red-100 text-red-800 dark:text-red-400'
+                                  : 'dark:bg-yellow-900/30 bg-yellow-100 text-yellow-800 dark:text-yellow-400'
                               }`}
                             >
                               {status}: {count}
@@ -316,18 +316,18 @@ const CloseRegister = () => {
               </Card>
 
               {/* Resumen por Método de Pago */}
-              <Card className="border border-gray-200">
-                <h2 className="mb-4 text-xl font-semibold text-gray-800">
+              <Card className="border border-gray-200 dark:border-slate-700">
+                <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                   Resumen por Método de Pago
                 </h2>
                 <div className="space-y-3">
                   {Object.entries(calculationData.transactionDetailsByPaymentMethod || {}).map(
                     ([method, details]) => (
-                      <div key={method} className="rounded-lg border border-gray-200 p-4">
+                      <div key={method} className="rounded-lg border border-gray-200 p-4 dark:border-slate-600">
                         <div className="flex items-center justify-between">
                           <div>
-                            <h3 className="font-semibold text-gray-700">{method}</h3>
-                            <p className="text-sm text-gray-600">
+                            <h3 className="font-semibold text-gray-700 dark:text-gray-300">{method}</h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                               {details.count} transacciones
                             </p>
                           </div>
@@ -340,7 +340,7 @@ const CloseRegister = () => {
                         <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
                           {Object.entries(details.details || {}).map(([status, amount]) => (
                             <div key={status} className="text-center">
-                              <p className="text-gray-600">{status}</p>
+                              <p className="text-gray-600 dark:text-gray-400">{status}</p>
                               <p className={`font-medium ${
                                amount > 0 ? 'text-primary-600 dark:text-primary-400' : amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'
                               }`}>
@@ -356,18 +356,18 @@ const CloseRegister = () => {
               </Card>
 
               {/* Ingreso de Montos Reales */}
-              <Card className="border border-gray-200 bg-yellow-50">
-                <h2 className="mb-4 text-xl font-semibold text-gray-800">
+              <Card className="border border-gray-200 bg-yellow-50 dark:border-slate-600 dark:bg-slate-700">
+                <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                   Ingrese los Montos Contados
                 </h2>
-                <p className="mb-4 text-sm text-gray-600">
+                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                   Ingrese los montos reales que tiene en caja. El sistema calculará automáticamente las diferencias.
                 </p>
                 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {/* Efectivo */}
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2 text-primary-600 dark:text-primary-400" />
                       Efectivo
                     </label>
@@ -398,7 +398,7 @@ const CloseRegister = () => {
 
                   {/* Débito */}
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-secondary-600 dark:text-secondary-400" />
                       Tarjeta de Débito
                     </label>
@@ -429,8 +429,8 @@ const CloseRegister = () => {
 
                   {/* Crédito */}
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                      <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-purple-600" />
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-purple-600 dark:text-purple-400" />
                       Tarjeta de Crédito
                     </label>
                     <TextInput
@@ -462,16 +462,16 @@ const CloseRegister = () => {
                 {/* Total y Diferencia */}
                 <div className="mt-6 border-t pt-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="rounded-lg bg-white p-4">
-                      <p className="text-sm text-gray-600">Total Ingresado</p>
-                      <p className="text-2xl font-bold text-gray-800">
+                    <div className="rounded-lg bg-white p-4 dark:bg-slate-800">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Total Ingresado</p>
+                      <p className="text-2xl font-bold text-gray-800 dark:text-white">
                         {formatCurrency(totalEntered)}
                       </p>
                     </div>
                     <div className={`rounded-lg p-4 ${
                       hasDiscrepancies ? 'dark:bg-red-900/20 bg-red-100' : 'dark:bg-primary-900/20 bg-primary-100'
                     }`}>
-                      <p className="text-sm text-gray-600">Diferencia</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Diferencia</p>
                       <p className={`text-2xl font-bold ${
                         hasDiscrepancies ? 'text-red-700 dark:text-red-400' : 'text-primary-700 dark:text-primary-400'
                       }`}>
@@ -488,7 +488,7 @@ const CloseRegister = () => {
 
                 {/* Notas */}
                 <div className="mt-4">
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Notas (opcional)
                   </label>
                   <Textarea
@@ -551,51 +551,51 @@ const CloseRegister = () => {
                 <span className="font-medium">¡Cierre enviado a revisión!</span> El cierre de caja se ha registrado correctamente.
               </Alert>
               
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <h3 className="mb-3 font-semibold text-gray-800">Resumen del Cierre</h3>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-slate-600 dark:bg-slate-700">
+                <h3 className="mb-3 font-semibold text-gray-800 dark:text-white">Resumen del Cierre</h3>
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Monto Inicial:</span>
-                    <span className="font-medium text-gray-800">
+                    <span className="text-gray-600 dark:text-gray-400">Monto Inicial:</span>
+                    <span className="font-medium text-gray-800 dark:text-white">
                       {formatCurrency(calculationData?.initialAmount || 0)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Total Transacciones:</span>
-                    <span className="font-medium text-gray-800">
+                    <span className="text-gray-600 dark:text-gray-400">Total Transacciones:</span>
+                    <span className="font-medium text-gray-800 dark:text-white">
                       {formatCurrency(calculationData?.totalAmount || 0)}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t pt-2">
-                    <span className="text-gray-600">Balance Final:</span>
+                  <div className="flex justify-between border-t pt-2 dark:border-slate-600">
+                    <span className="text-gray-600 dark:text-gray-400">Balance Final:</span>
                     <span className="font-semibold text-primary-700 dark:text-primary-400">
                       {formatCurrency((calculationData?.initialAmount || 0) + totalEntered)}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-4 border-t pt-3">
-                  <p className="mb-2 text-xs font-medium text-gray-700">Montos Ingresados:</p>
+                <div className="mt-4 border-t pt-3 dark:border-slate-600">
+                  <p className="mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">Montos Ingresados:</p>
                   <div className="grid grid-cols-3 gap-2 text-sm">
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Efectivo</p>
-                      <p className="font-medium text-gray-800">{formatCurrency(cashAmount)}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Efectivo</p>
+                      <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(cashAmount)}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Débito</p>
-                      <p className="font-medium text-gray-800">{formatCurrency(debitAmount)}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Débito</p>
+                      <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(debitAmount)}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Crédito</p>
-                      <p className="font-medium text-gray-800">{formatCurrency(creditAmount)}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Crédito</p>
+                      <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(creditAmount)}</p>
                     </div>
                   </div>
                 </div>
 
                 {hasDiscrepancies && (
-                  <div className="mt-3 rounded bg-yellow-50 p-2">
-                    <p className="text-xs text-yellow-800">
+                  <div className="dark:bg-yellow-900/20 mt-3 rounded bg-yellow-50 p-2">
+                    <p className="text-xs text-yellow-800 dark:text-yellow-400">
                       ⚠ Nota: Se detectaron diferencias de {formatCurrency(differences?.total || 0)}
                     </p>
                   </div>
@@ -655,12 +655,12 @@ const CloseRegister = () => {
                 <span className="font-medium">Atención:</span> No hay una caja abierta actualmente.
               </Alert>
               
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <p className="text-sm text-gray-700">
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-slate-600 dark:bg-slate-700">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   Para realizar el cierre de caja, primero debe abrir una caja registradora. 
                   La apertura de caja le permite:
                 </p>
-                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600">
+                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                   <li>Registrar el monto inicial</li>
                   <li>Asociar transacciones a la caja</li>
                   <li>Realizar seguimiento de movimientos</li>

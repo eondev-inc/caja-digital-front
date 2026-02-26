@@ -20,7 +20,7 @@ export default function ReceiptModal({ open, onClose, data }) {
       <Modal.Body>
         {/* Controles visibles solo en pantalla */}
         <div className="mb-4 flex items-center justify-between print:hidden">
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-secondary-800">
+          <h3 className="flex items-center gap-2 text-lg font-semibold text-secondary-800 dark:text-white">
             <FontAwesomeIcon icon={faFileInvoice} />
             Comprobante de Venta
           </h3>
@@ -33,18 +33,18 @@ export default function ReceiptModal({ open, onClose, data }) {
         </div>
 
         {/* Contenido del comprobante - imprimible */}
-        <div className="rounded-lg border border-neutral-200 bg-white p-6 text-sm text-secondary-700 print:border-0 print:p-0">
+        <div className="rounded-lg border border-neutral-200 bg-white p-6 text-sm text-secondary-700 dark:border-slate-600 dark:bg-slate-700 dark:text-gray-300 print:border-0 print:p-0">
           <div className="mb-6 grid grid-cols-2 gap-4">
             <div>
-              <p className="text-xs text-secondary-500">Paciente</p>
-              <p className="text-base font-semibold text-secondary-800">{invoice?.custumer_name || '-'}</p>
+              <p className="text-xs text-secondary-500 dark:text-gray-400">Paciente</p>
+              <p className="text-base font-semibold text-secondary-800 dark:text-white">{invoice?.custumer_name || '-'}</p>
               <p>RUT: {invoice?.custumer_nid || '-'}</p>
               <p>Previsión: {prevision_label || '-'}</p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-secondary-500">Fecha</p>
+              <p className="text-xs text-secondary-500 dark:text-gray-400">Fecha</p>
               <p className="font-medium">{invoice?.date ? new Date(invoice.date).toLocaleDateString('es-CL') : '-'}</p>
-              <p className="text-xs text-secondary-500">Método de Pago</p>
+              <p className="text-xs text-secondary-500 dark:text-gray-400">Método de Pago</p>
               <p className="font-medium">{payment_method_label || '-'}</p>
               {folio && (
                 <p>Folio: <span className="font-medium">{folio}</span></p>
@@ -52,14 +52,14 @@ export default function ReceiptModal({ open, onClose, data }) {
             </div>
           </div>
 
-          <div className="mb-4 overflow-hidden rounded-md border border-neutral-200">
-            <div className="grid grid-cols-12 bg-neutral-50 p-3 font-medium text-secondary-700">
+          <div className="mb-4 overflow-hidden rounded-md border border-neutral-200 dark:border-slate-600">
+            <div className="grid grid-cols-12 bg-neutral-50 p-3 font-medium text-secondary-700 dark:bg-slate-600 dark:text-gray-300">
               <div className="col-span-7">Descripción</div>
               <div className="col-span-2 text-center">Cantidad</div>
               <div className="col-span-3 text-right">Precio</div>
             </div>
             {items.map((it, idx) => (
-              <div key={idx} className="grid grid-cols-12 border-t p-3">
+              <div key={idx} className="grid grid-cols-12 border-t p-3 dark:border-slate-600">
                 <div className="col-span-7">{it.description}</div>
                 <div className="col-span-2 text-center">{it.quantity}</div>
                 <div className="col-span-3 text-right">${formatCLP(it.total_price)}</div>
@@ -76,8 +76,8 @@ export default function ReceiptModal({ open, onClose, data }) {
               <span>IVA (19%)</span>
               <span className="font-medium">${formatCLP(tax)}</span>
             </div>
-            <div className="border-t border-neutral-200 pt-2">
-              <div className="flex items-center justify-between text-lg font-bold text-secondary-800">
+            <div className="border-t border-neutral-200 pt-2 dark:border-slate-600">
+              <div className="flex items-center justify-between text-lg font-bold text-secondary-800 dark:text-white">
                 <span>Total</span>
                 <span>${formatCLP(total)}</span>
               </div>
@@ -86,7 +86,7 @@ export default function ReceiptModal({ open, onClose, data }) {
 
           {invoice?.notes && (
             <div className="mt-6">
-              <p className="mb-1 text-xs text-secondary-500">Observaciones</p>
+              <p className="mb-1 text-xs text-secondary-500 dark:text-gray-400">Observaciones</p>
               <p className="whitespace-pre-wrap">{invoice.notes}</p>
             </div>
           )}
