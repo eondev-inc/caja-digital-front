@@ -5,6 +5,7 @@ import Main from "../pages/dashboard/Main";
 import OpenRegister from "../pages/dashboard/OpenRegister";
 import Sales from "../pages/dashboard/Sales";
 import CloseRegister from "../pages/dashboard/CloseRegister";
+import CancelTransactions from "../pages/dashboard/CancelTransactions";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
@@ -35,7 +36,7 @@ const routes = [
     isProtected: false
   },
   {
-    path: 'dashboard',
+    path: '/dashboard',
     layout: LoginLayout,
     isProtected: true,
     element: Main,
@@ -57,8 +58,13 @@ const routes = [
     layout: LoginLayout,
     isProtected: true,
     element: CloseRegister,
-  }
-
+  },
+  {
+    path: '/dashboard/anullments',
+    layout: LoginLayout,
+    isProtected: true,
+    element: CancelTransactions,
+  },
 ]
 
 export default routes;

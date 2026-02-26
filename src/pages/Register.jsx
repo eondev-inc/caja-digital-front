@@ -26,7 +26,7 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     setFormData(data);
-    const response = await registerUser(formData);
+    const response = await registerUser(data);
     if (response.status !== 201) {
       setShowError(true);
     } else {
@@ -137,7 +137,7 @@ export const Register = () => {
                   name="email"
                   {...register('email')}
                   id="email"
-                  className="h-10 rounded-lg border-gray-300 text-sm focus:border-green-500 focus:ring-green-500"
+                  className="h-10 rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500"
                   placeholder="correo@clinica.com"
                 />
                 {errors.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
@@ -156,7 +156,7 @@ export const Register = () => {
                     {...register('password')}
                     id="password" 
                     placeholder="Contraseña (mín. 8 caracteres)"
-                    className="h-10 rounded-lg border-gray-300 text-sm focus:border-green-500 focus:ring-green-500"
+                    className="h-10 rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500"
                   />
                   {errors.password && <p className="text-xs text-red-600">{errors.password.message}</p>}
                   
@@ -166,7 +166,7 @@ export const Register = () => {
                     {...register('confirmPassword')}
                     id="confirm-password" 
                     placeholder="Confirmar contraseña"
-                    className="h-10 rounded-lg border-gray-300 text-sm focus:border-green-500 focus:ring-green-500"
+                    className="h-10 rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500"
                   />
                   {errors.confirmPassword && <p className="text-xs text-red-600">{errors.confirmPassword.message}</p>}
                 </div>

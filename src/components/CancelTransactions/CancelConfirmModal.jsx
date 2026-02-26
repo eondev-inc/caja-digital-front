@@ -2,6 +2,7 @@ import { Modal, Button } from 'flowbite-react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { formatCurrency, formatDate } from '../../utils/formatters';
 
 /**
  * Modal de confirmación para cancelar una transacción
@@ -9,33 +10,9 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
  * @param {function} onClose - Función para cerrar el modal
  * @param {function} onConfirm - Función para confirmar la cancelación
  * @param {object} transaction - Datos de la transacción a cancelar
- * @author Copilot
  */
 export default function CancelConfirmModal({ show, onClose, onConfirm, transaction }) {
   if (!transaction) return null;
-
-  /**
-   * Formatea el monto en pesos chilenos
-   */
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-    }).format(amount);
-  };
-
-  /**
-   * Formatea la fecha
-   */
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-CL', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
 
   return (
     <Modal show={show} size="lg" onClose={onClose} popup>

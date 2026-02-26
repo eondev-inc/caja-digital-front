@@ -16,6 +16,7 @@ import {
 import { useStore } from '../../app/store';
 import CancelConfirmModal from '../../components/CancelTransactions/CancelConfirmModal';
 import DevolutionConfirmModal from '../../components/CancelTransactions/DevolutionConfirmModal';
+import { formatCurrency, formatDate } from '../../utils/formatters';
 
 /**
  * Página de anulación de movimientos
@@ -150,29 +151,6 @@ const CancelTransactions = () => {
   };
 
   /**
-   * Formatea el monto en pesos chilenos
-   */
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-    }).format(amount);
-  };
-
-  /**
-   * Formatea la fecha
-   */
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-CL', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  /**
    * Obtiene el color del badge según el estado
    */
   const getStatusBadge = (status) => {
@@ -254,7 +232,7 @@ const CancelTransactions = () => {
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             />
           </div>
-          <Button color="primary" onClick={handleSearch} disabled={loading}>
+          <Button color="blue" onClick={handleSearch} disabled={loading}>
             <FontAwesomeIcon icon={faSearch} className="mr-2" />
             Buscar
           </Button>
