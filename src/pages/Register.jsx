@@ -42,8 +42,8 @@ export const Register = () => {
     const fetchEntities = async () => {
       try {
         const response = await getEntities();
-        if (response?.data) {
-          setEntities(response.data);
+        if (Array.isArray(response)) {
+          setEntities(response);
         }
       } catch {
         setEntities([]);
@@ -207,7 +207,7 @@ export const Register = () => {
                     <option value="">Seleccione un centro de salud</option>
                     {entities.map((entity) => (
                       <option key={entity.id} value={entity.id}>
-                        {entity.entity_name}
+                        {entity.name}
                       </option>
                     ))}
                   </Select>
