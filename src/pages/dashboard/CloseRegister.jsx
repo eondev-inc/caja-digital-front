@@ -211,7 +211,7 @@ const CloseRegister = () => {
         <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg">
           {/* Breadcrumb */}
           <Breadcrumb className="mb-4">
-            <Breadcrumb.Item href="/dashboard" icon={HiHome} className="text-green-600">
+            <Breadcrumb.Item href="/dashboard" icon={HiHome} className="text-primary-600 dark:text-primary-400">
               Inicio
             </Breadcrumb.Item>
             <Breadcrumb.Item className="text-gray-600">
@@ -222,7 +222,7 @@ const CloseRegister = () => {
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center gap-3">
-              <FontAwesomeIcon icon={faCalculator} className="text-3xl text-green-600" />
+              <FontAwesomeIcon icon={faCalculator} className="text-3xl text-primary-600 dark:text-primary-400" />
               <h1 className="text-3xl font-bold text-gray-800">
                 Cuadratura y Cierre de Caja
               </h1>
@@ -259,18 +259,18 @@ const CloseRegister = () => {
                   Resumen General
                 </h2>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="rounded-lg bg-blue-50 p-4">
-                    <p className="text-sm text-gray-600">Monto Inicial</p>
-                    <p className="text-2xl font-bold text-blue-700">
-                      {formatCurrency(calculationData.initialAmount)}
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-green-50 p-4">
-                    <p className="text-sm text-gray-600">Total Transacciones</p>
-                    <p className="text-2xl font-bold text-green-700">
-                      {formatCurrency(calculationData.totalAmount)}
-                    </p>
-                  </div>
+                   <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Monto Inicial</p>
+                     <p className="text-2xl font-bold text-secondary-700 dark:text-secondary-400">
+                       {formatCurrency(calculationData.initialAmount)}
+                     </p>
+                   </div>
+                   <div className="dark:bg-primary-900/20 rounded-lg bg-primary-50 p-4">
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Total Transacciones</p>
+                     <p className="text-2xl font-bold text-primary-700 dark:text-primary-400">
+                       {formatCurrency(calculationData.totalAmount)}
+                     </p>
+                   </div>
                   <div className="rounded-lg bg-purple-50 p-4">
                     <p className="text-sm text-gray-600">Balance Esperado</p>
                     <p className="text-2xl font-bold text-purple-700">
@@ -332,9 +332,9 @@ const CloseRegister = () => {
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-2xl font-bold text-green-700">
-                              {formatCurrency(details.totalAmount)}
-                            </p>
+                             <p className="text-2xl font-bold text-primary-700 dark:text-primary-400">
+                               {formatCurrency(details.totalAmount)}
+                             </p>
                           </div>
                         </div>
                         <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
@@ -342,7 +342,7 @@ const CloseRegister = () => {
                             <div key={status} className="text-center">
                               <p className="text-gray-600">{status}</p>
                               <p className={`font-medium ${
-                                amount > 0 ? 'text-green-600' : amount < 0 ? 'text-red-600' : 'text-gray-600'
+                               amount > 0 ? 'text-primary-600 dark:text-primary-400' : amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'
                               }`}>
                                 {formatCurrency(amount)}
                               </p>
@@ -368,7 +368,7 @@ const CloseRegister = () => {
                   {/* Efectivo */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2 text-green-600" />
+                      <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2 text-primary-600 dark:text-primary-400" />
                       Efectivo
                     </label>
                     <TextInput
@@ -383,8 +383,8 @@ const CloseRegister = () => {
                     {differences && (
                       <p className={`mt-1 text-sm ${
                         differences.cash === 0 
-                          ? 'text-green-600' 
-                          : 'font-medium text-red-600'
+                          ? 'text-primary-600 dark:text-primary-400' 
+                          : 'font-medium text-red-600 dark:text-red-400'
                       }`}>
                         Esperado: {formatCurrency(differences.cashExpected)}
                         {differences.cash !== 0 && (
@@ -399,7 +399,7 @@ const CloseRegister = () => {
                   {/* Débito */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-blue-600" />
+                      <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-secondary-600 dark:text-secondary-400" />
                       Tarjeta de Débito
                     </label>
                     <TextInput
@@ -414,8 +414,8 @@ const CloseRegister = () => {
                     {differences && (
                       <p className={`mt-1 text-sm ${
                         differences.debit === 0 
-                          ? 'text-green-600' 
-                          : 'font-medium text-red-600'
+                          ? 'text-primary-600 dark:text-primary-400' 
+                          : 'font-medium text-red-600 dark:text-red-400'
                       }`}>
                         Esperado: {formatCurrency(differences.debitExpected)}
                         {differences.debit !== 0 && (
@@ -445,8 +445,8 @@ const CloseRegister = () => {
                     {differences && (
                       <p className={`mt-1 text-sm ${
                         differences.credit === 0 
-                          ? 'text-green-600' 
-                          : 'font-medium text-red-600'
+                          ? 'text-primary-600 dark:text-primary-400' 
+                          : 'font-medium text-red-600 dark:text-red-400'
                       }`}>
                         Esperado: {formatCurrency(differences.creditExpected)}
                         {differences.credit !== 0 && (
@@ -469,11 +469,11 @@ const CloseRegister = () => {
                       </p>
                     </div>
                     <div className={`rounded-lg p-4 ${
-                      hasDiscrepancies ? 'bg-red-100' : 'bg-green-100'
+                      hasDiscrepancies ? 'dark:bg-red-900/20 bg-red-100' : 'dark:bg-primary-900/20 bg-primary-100'
                     }`}>
                       <p className="text-sm text-gray-600">Diferencia</p>
                       <p className={`text-2xl font-bold ${
-                        hasDiscrepancies ? 'text-red-700' : 'text-green-700'
+                        hasDiscrepancies ? 'text-red-700 dark:text-red-400' : 'text-primary-700 dark:text-primary-400'
                       }`}>
                         {differences?.total > 0 ? '+' : ''}{formatCurrency(differences?.total || 0)}
                       </p>
@@ -569,7 +569,7 @@ const CloseRegister = () => {
                   </div>
                   <div className="flex justify-between border-t pt-2">
                     <span className="text-gray-600">Balance Final:</span>
-                    <span className="font-semibold text-green-700">
+                    <span className="font-semibold text-primary-700 dark:text-primary-400">
                       {formatCurrency((calculationData?.initialAmount || 0) + totalEntered)}
                     </span>
                   </div>
@@ -602,8 +602,8 @@ const CloseRegister = () => {
                 )}
               </div>
 
-              <div className="rounded-lg bg-blue-50 p-4">
-                <p className="text-sm text-blue-800">
+              <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+                <p className="text-sm text-secondary-800 dark:text-secondary-200">
                   <span className="font-medium">¿Desea aprobar este cierre?</span>
                   <br />
                   Al aprobar, la caja se cerrará definitivamente y no podrá realizar más transacciones en esta sesión.
@@ -668,8 +668,8 @@ const CloseRegister = () => {
                 </ul>
               </div>
 
-              <div className="rounded-lg bg-blue-50 p-4">
-                <p className="text-sm text-blue-800">
+              <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+                <p className="text-sm text-secondary-800 dark:text-secondary-200">
                   <span className="font-medium">¿Desea abrir una caja ahora?</span>
                   <br />
                   Será redirigido a la página de apertura de caja.

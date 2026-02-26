@@ -305,8 +305,8 @@ const Sales = () => {
                 </ul>
               </div>
 
-              <div className="rounded-lg bg-blue-50 p-4">
-                <p className="text-sm text-blue-800">
+              <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+                <p className="text-sm text-secondary-800 dark:text-secondary-200">
                   <span className="font-medium">¿Desea abrir una caja ahora?</span>
                   <br />
                   Será redirigido a la página de apertura de caja para comenzar.

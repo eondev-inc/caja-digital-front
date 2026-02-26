@@ -48,7 +48,7 @@ const Main = () => {
       <div className="container mx-auto max-w-7xl px-4 py-6">
         <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg">
           <Breadcrumb>
-            <Breadcrumb.Item href="#" icon={HiHome} className="text-green-600">Inicio</Breadcrumb.Item>
+            <Breadcrumb.Item href="#" icon={HiHome} className="text-primary-600 dark:text-primary-400">Inicio</Breadcrumb.Item>
             <Breadcrumb.Item href="#" className="text-gray-600">Sistema POS</Breadcrumb.Item>
           </Breadcrumb>
           <div className="mb-6 mt-4">

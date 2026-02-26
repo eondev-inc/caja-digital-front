@@ -69,7 +69,7 @@ const OpenRegister = () => {
           <Breadcrumb className="rounded px-2 py-1">
             <Breadcrumb.Item icon={HiArrowLeft} href='/dashboard'>Volver</Breadcrumb.Item>
             <Breadcrumb.Item>Caja digital</Breadcrumb.Item>
-            <Breadcrumb.Item className="text-blue-600">Apertura de caja</Breadcrumb.Item>
+            <Breadcrumb.Item className="text-secondary-600 dark:text-secondary-400">Apertura de caja</Breadcrumb.Item>
           </Breadcrumb>
         </div>
 
@@ -82,12 +82,12 @@ const OpenRegister = () => {
         </div>
         <div className="space-y-6">
           <div className="flex items-center gap-2 pb-4">
-            <div className="rounded bg-green-100 p-2">
-              <svg className="size-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="dark:bg-primary-900/30 rounded bg-primary-100 p-2">
+              <svg className="size-6 text-primary-500 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold text-green-500">Datos de caja</h2>
+            <h2 className="text-lg font-semibold text-primary-600 dark:text-primary-400">Datos de caja</h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm md:grid-cols-2">
