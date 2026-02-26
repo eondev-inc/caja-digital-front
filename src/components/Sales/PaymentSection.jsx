@@ -7,11 +7,11 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       <div>
-        <Label className="mb-1 block text-sm font-medium text-secondary-700">
-          <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-primary-600" />
+        <Label htmlFor="payment_method_id" className="mb-1 block text-sm font-medium text-secondary-700">
+          <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-primary-600" aria-hidden="true" />
           Método de Pago
         </Label>
-        <Select {...register('payment_method_id')} className="w-full">
+        <Select id="payment_method_id" {...register('payment_method_id')} className="w-full">
           <option value="">Seleccionar método</option>
           {paymentMethods.map((method) => (
             <option key={method.id} value={method.id}>
@@ -24,11 +24,11 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
         )}
       </div>
       <div>
-        <Label className="mb-1 block text-sm font-medium text-secondary-700">
-          <FontAwesomeIcon icon={faUserMd} className="mr-2 text-secondary-600" />
+        <Label htmlFor="professional_uuid" className="mb-1 block text-sm font-medium text-secondary-700">
+          <FontAwesomeIcon icon={faUserMd} className="mr-2 text-secondary-600" aria-hidden="true" />
           Profesional
         </Label>
-        <Select className="w-full" {...register('invoice.professional_uuid')}>
+        <Select id="professional_uuid" className="w-full" {...register('invoice.professional_uuid')}>
           <option value="">Seleccionar profesional</option>
           {professionals?.map((prof) => (
             <option key={prof.id} value={prof.id}>{prof.professional_name}</option>
@@ -39,11 +39,11 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
         )}
       </div>
       <div>
-        <Label className="mb-1 block text-sm font-medium text-secondary-700">
-          <FontAwesomeIcon icon={faIdCard} className="mr-2 text-secondary-600" />
+        <Label htmlFor="prevision_uuid" className="mb-1 block text-sm font-medium text-secondary-700">
+          <FontAwesomeIcon icon={faIdCard} className="mr-2 text-secondary-600" aria-hidden="true" />
           Previsión
         </Label>
-        <Select className="w-full" {...register('invoice.prevision_uuid')}>
+        <Select id="prevision_uuid" className="w-full" {...register('invoice.prevision_uuid')}>
           <option value="">Seleccionar previsión</option>
           {previsions?.map((prev) => (
             <option key={prev.id} value={prev.id}>{prev.description}</option>

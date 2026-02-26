@@ -1,9 +1,23 @@
 import { Navbar, Button } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faHospital, faChartLine, faSignOutAlt, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../app/store';
 
- 
 export const HeaderLogin = () => {
+  const navigate = useNavigate();
+  const setAccessToken = useStore((s) => s.setAccessToken);
+  const setIsAuthenticated = useStore((s) => s.setIsAuthenticated);
+  const setUserInfo = useStore((s) => s.setUserInfo);
+  const setOpenRegister = useStore((s) => s.setOpenRegister);
+
+  const handleLogout = () => {
+    setAccessToken('');
+    setIsAuthenticated(false);
+    setUserInfo({});
+    setOpenRegister({});
+    navigate('/login');
+  };
 
   return (
     <>
@@ -61,13 +75,11 @@ export const HeaderLogin = () => {
           <Button
             size="sm"
             color="light"
+            aria-label="Cerrar sesión"
             className="dark:bg-red-900/20 flex items-center gap-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-300 dark:border-red-800 dark:text-red-400"
-            onClick={() => {
-              sessionStorage.clear();
-              window.location.href = '/login';
-            }}
+            onClick={handleLogout}
           >
-            <FontAwesomeIcon icon={faSignOutAlt} className="size-3" />
+            <FontAwesomeIcon icon={faSignOutAlt} className="size-3" aria-hidden="true" />
             <span className="hidden sm:inline">Cerrar Sesión</span>
           </Button>
         </div>

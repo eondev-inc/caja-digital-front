@@ -75,8 +75,8 @@ const OpenRegister = () => {
 
         {/* Main Title */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Apertura de caja</h1>
-          <p className="text-gray-600">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">Apertura de caja</h1>
+          <p className="text-gray-600 dark:text-slate-400">
             Abre tu caja para registrar, ingresar comprobantes, anular y ver tu historial de movimientos.
           </p>
         </div>
@@ -90,23 +90,23 @@ const OpenRegister = () => {
             <h2 className="text-lg font-semibold text-primary-600 dark:text-primary-400">Datos de caja</h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm dark:border-slate-600 md:grid-cols-2">
             <div>
-              <p className="text-sm font-medium text-gray-500">Nombre cajero</p>
-              <p className="mt-1 text-gray-900">{userInfo.surnames} { userInfo.forenames}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Nombre cajero</p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.surnames} { userInfo.forenames}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Rut cajero</p>
-              <p className="mt-1 text-gray-900">{userInfo.nid}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Rut cajero</p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.nid}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">Fecha Apertura</p>
-              <p className="mt-1 text-gray-900">{ new Date().toISOString() }</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Fecha Apertura</p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">{ new Date().toISOString() }</p>
             </div>
           </div>
 
           <div className="mt-8">
-            <Label htmlFor="initial-amount" className="text-lg font-medium text-gray-700">
+            <Label htmlFor="initial-amount" className="text-lg font-medium text-gray-700 dark:text-slate-300">
               ¿Con qué monto abrirás tu caja hoy?
             </Label>
             <div className="mt-2">
@@ -136,7 +136,7 @@ const OpenRegister = () => {
           buttonMessage="Ir al dashboard"
           onClose={handleCloseAlreadyOpenModal}
         >
-          <p className="text-center text-gray-700">
+          <p className="text-center text-gray-700 dark:text-slate-300">
             Ya existe una caja abierta asociada a tu usuario. Serás redirigido al dashboard para continuar.
           </p>
         </GeneralModal>

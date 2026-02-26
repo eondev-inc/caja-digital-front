@@ -10,7 +10,7 @@ export const HeaderNoLogin = ({ title }) => {
   return (
     <Navbar 
       fluid 
-      className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur-sm sm:px-6"
+      className="dark:bg-slate-900/95 sticky top-0 z-50 border-b border-gray-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-slate-700 sm:px-6"
     >
       {/* Brand Section */}
       <Navbar.Brand as={Link} to="/" className="flex items-center space-x-3">
@@ -30,10 +30,10 @@ export const HeaderNoLogin = ({ title }) => {
           </svg>
         </div>
         <div className="flex flex-col">
-          <span className="text-xl font-bold text-secondary-800">
+          <span className="text-xl font-bold text-secondary-800 dark:text-white">
             {appliedTitle}
           </span>
-          <span className="hidden text-xs text-secondary-500 sm:block">
+          <span className="hidden text-xs text-secondary-500 dark:text-slate-400 sm:block">
             Centros de Salud
           </span>
         </div>
@@ -83,7 +83,7 @@ export const HeaderNoLogin = ({ title }) => {
         <Navbar.Link 
           as={Link} 
           to="/" 
-          className="font-medium text-secondary-700 hover:text-primary-600"
+          className="font-medium text-secondary-700 hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400"
           active
         >
           Inicio
@@ -94,7 +94,7 @@ export const HeaderNoLogin = ({ title }) => {
             e.preventDefault();
             scrollToSection('features');
           }}
-          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600"
+          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400"
         >
           Características
         </Navbar.Link>
@@ -104,7 +104,7 @@ export const HeaderNoLogin = ({ title }) => {
             e.preventDefault();
             scrollToSection('pricing');
           }}
-          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600"
+          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400"
         >
           Precios
         </Navbar.Link>
@@ -114,17 +114,17 @@ export const HeaderNoLogin = ({ title }) => {
             e.preventDefault();
             scrollToSection('contact');
           }}
-          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600"
+          className="cursor-pointer font-medium text-secondary-700 hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400"
         >
           Contacto
         </Navbar.Link>
         
         {/* Mobile-only login link - register is already in header */}
-        <div className="mt-6 border-t border-gray-200 pt-4 sm:hidden">
+        <div className="mt-6 border-t border-gray-200 pt-4 dark:border-slate-700 sm:hidden">
           <Navbar.Link 
             as={Link} 
             to="/login"
-            className="block w-full py-2 text-center font-medium text-secondary-700 hover:text-primary-600"
+            className="block w-full py-2 text-center font-medium text-secondary-700 hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400"
           >
             ¿Ya tienes cuenta? Iniciar Sesión
           </Navbar.Link>

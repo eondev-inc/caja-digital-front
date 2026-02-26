@@ -4,7 +4,7 @@ export const FooterNoLogin = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <Footer className="border-t border-gray-200 bg-secondary-50">
+    <Footer className="border-t border-gray-200 bg-secondary-50 dark:border-slate-700 dark:bg-slate-900">
       <div className="mx-auto w-full max-w-7xl px-4 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           
@@ -26,42 +26,42 @@ export const FooterNoLogin = () => {
                   />
                 </svg>
               </div>
-              <span className="text-lg font-bold text-secondary-800">
+              <span className="text-lg font-bold text-secondary-800 dark:text-white">
                 Caja Registradora Digital
               </span>
             </div>
-            <p className="max-w-xs text-sm text-secondary-600">
+            <p className="max-w-xs text-sm text-secondary-600 dark:text-slate-400">
               Solución integral de punto de venta diseñada específicamente para centros de salud y clínicas médicas.
             </p>
           </div>
 
           {/* Producto */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800 dark:text-slate-200">
               Producto
             </h3>
             <Footer.LinkGroup col className="space-y-2">
               <Footer.Link 
                 href="#features" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Características
               </Footer.Link>
               <Footer.Link 
                 href="#pricing" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Precios
               </Footer.Link>
               <Footer.Link 
                 href="#demo" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Demo
               </Footer.Link>
               <Footer.Link 
                 href="#integrations" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Integraciones
               </Footer.Link>
@@ -70,31 +70,31 @@ export const FooterNoLogin = () => {
 
           {/* Soporte */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800 dark:text-slate-200">
               Soporte
             </h3>
             <Footer.LinkGroup col className="space-y-2">
               <Footer.Link 
                 href="#help" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Centro de Ayuda
               </Footer.Link>
               <Footer.Link 
                 href="#docs" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Documentación
               </Footer.Link>
               <Footer.Link 
                 href="#contact" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Contacto
               </Footer.Link>
               <Footer.Link 
                 href="#training" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Capacitación
               </Footer.Link>
@@ -103,31 +103,31 @@ export const FooterNoLogin = () => {
 
           {/* Legal */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-secondary-800 dark:text-slate-200">
               Legal
             </h3>
             <Footer.LinkGroup col className="space-y-2">
               <Footer.Link 
                 href="#privacy" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Privacidad
               </Footer.Link>
               <Footer.Link 
                 href="#terms" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Términos
               </Footer.Link>
               <Footer.Link 
                 href="#security" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Seguridad
               </Footer.Link>
               <Footer.Link 
                 href="#compliance" 
-                className="text-secondary-600 hover:text-primary-600"
+                className="text-secondary-600 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
               >
                 Cumplimiento
               </Footer.Link>
@@ -136,20 +136,20 @@ export const FooterNoLogin = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-8 border-t border-gray-200 pt-6">
+        <div className="mt-8 border-t border-gray-200 pt-6 dark:border-slate-700">
           <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
             <Footer.Copyright 
               href="#" 
               by="EONDev Inc." 
               year={currentYear}
-              className="text-secondary-500"
+              className="text-secondary-500 dark:text-slate-500"
             />
             
             {/* Social Links */}
             <div className="flex space-x-4">
               <a 
                 href="#" 
-                className="text-secondary-400 transition-colors hover:text-primary-500"
+                className="text-secondary-400 transition-colors hover:text-primary-500 dark:text-slate-500 dark:hover:text-primary-400"
                 aria-label="LinkedIn"
               >
                 <svg className="size-5" fill="currentColor" viewBox="0 0 20 20">
@@ -162,7 +162,7 @@ export const FooterNoLogin = () => {
               </a>
               <a 
                 href="#" 
-                className="text-secondary-400 transition-colors hover:text-primary-500"
+                className="text-secondary-400 transition-colors hover:text-primary-500 dark:text-slate-500 dark:hover:text-primary-400"
                 aria-label="Twitter"
               >
                 <svg className="size-5" fill="currentColor" viewBox="0 0 20 20">
@@ -171,7 +171,7 @@ export const FooterNoLogin = () => {
               </a>
               <a 
                 href="#" 
-                className="text-secondary-400 transition-colors hover:text-primary-500"
+                className="text-secondary-400 transition-colors hover:text-primary-500 dark:text-slate-500 dark:hover:text-primary-400"
                 aria-label="GitHub"
               >
                 <svg className="size-5" fill="currentColor" viewBox="0 0 20 20">

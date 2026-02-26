@@ -7,7 +7,7 @@ export const NoLoginLayout = ({ children, title }) => {
   const pageTitle = title || "Caja Registradora Digital";
   
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-slate-950">
       {/* Header */}
       <HeaderNoLogin title={pageTitle} />
       

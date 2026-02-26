@@ -12,16 +12,14 @@ import {
 
 export const Home = () => {
   return (
-    <main 
+    <div 
       className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-900 dark:to-gray-800"
-      role="main"
       aria-labelledby="main-heading"
     >
       <div className="container mx-auto px-4 py-12">
         <Card className="dark:bg-gray-900/90 mx-auto max-w-6xl overflow-hidden border-0 bg-white/80 shadow-2xl backdrop-blur-sm">
           <header 
             className="grid gap-8 p-8 lg:grid-cols-2 lg:items-center lg:gap-12"
-            role="banner"
             aria-labelledby="main-heading"
           >
             <div className="order-2 flex justify-center lg:order-1">
@@ -42,8 +40,6 @@ export const Home = () => {
                 <h1 
                   id="main-heading"
                   className="text-4xl font-bold tracking-tight text-primary-600 dark:text-primary-400 sm:text-5xl lg:text-6xl"
-                  role="heading" 
-                  aria-level="1"
                 >
                   <span className="sr-only">Solución integral de caja registradora digital especializada para</span>
                   Solución de Caja
@@ -65,8 +61,6 @@ export const Home = () => {
                   size="xl" 
                   className="shadow-lg transition-all hover:shadow-xl focus:ring-4 focus:ring-primary-300"
                   aria-label="Implementar solución de caja en mi centro médico"
-                  role="button"
-                  tabIndex={0}
                 >
                   <FontAwesomeIcon icon={faHospital} className="mr-2" aria-hidden="true" />
                   Implementar en mi centro
@@ -76,8 +70,6 @@ export const Home = () => {
                   size="xl" 
                   className="shadow-lg transition-all hover:shadow-xl focus:ring-4 focus:ring-secondary-300"
                   aria-label="Ver demostración interactiva para centros médicos"
-                  role="button"
-                  tabIndex={0}
                 >
                   <FontAwesomeIcon icon={faPlay} className="mr-2" aria-hidden="true" />
                   Demo médico
@@ -88,15 +80,12 @@ export const Home = () => {
           <section 
             className="bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100 px-8 py-16 dark:border-gray-700"
             aria-labelledby="features-heading"
-            role="region"
           >
             <div className="mx-auto max-w-4xl">
               <div className="mb-16 text-center">
                 <h2 
                   id="features-heading"
                   className="mb-4 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl"
-                  role="heading"
-                  aria-level="2"
                 >
                   Diseñado especialmente para centros de salud
                 </h2>
@@ -173,15 +162,12 @@ export const Home = () => {
           <section 
             className="bg-gradient-to-r from-primary-500 to-secondary-500 px-8 py-12 text-white"
             aria-labelledby="medical-features-heading"
-            role="region"
           >
             <div className="mx-auto max-w-4xl">
               <div className="mb-8 text-center">
                 <h2 
                   id="medical-features-heading"
                   className="mb-4 text-2xl font-bold sm:text-3xl"
-                  role="heading"
-                  aria-level="2"
                 >
                   Características especializadas para centros de salud
                 </h2>
@@ -194,52 +180,51 @@ export const Home = () => {
               </div>
               <ul 
                 className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
-                role="list"
                 aria-label="Lista de características médicas especializadas"
               >
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Facturación médica automatizada</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Códigos CIE-10 integrados</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Reportes epidemiológicos</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Integración con seguros médicos</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Control de inventario médico</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Trazabilidad de medicamentos</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
                   <span className="text-sm font-medium">Auditorías automáticas</span>
                 </li>
-                <li className="flex items-center space-x-3" role="listitem">
+                <li className="flex items-center space-x-3">
                   <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
                     <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
                   </div>
@@ -250,6 +235,6 @@ export const Home = () => {
           </section>
         </Card>
       </div>
-    </main>
+    </div>
   );
 }
