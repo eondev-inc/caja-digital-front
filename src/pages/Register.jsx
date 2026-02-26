@@ -1,6 +1,6 @@
 import { Button, Checkbox, Label, Select, TextInput } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHospital, faEnvelope, faLock, faUserPlus, faIdCard, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHospital, faEnvelope, faLock, faUserPlus, faIdCard, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useStore } from "../app/store";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -6,10 +6,14 @@ import { PrivateRoute } from './components/Wrappers/PrivateRoute';
 import { RouterWrapper } from './components/Wrappers/RouterWrapper';
 import { ScrollToTop } from './components/Commons/ScrollToTop';
 import { useStore } from './app/store';
+import { useDarkMode } from './hooks/useDarkMode';
 
 
 function App() {
   const { isAuthenticated } = useStore();
+
+  // Activa/sincroniza la clase `dark` en <html> de forma global
+  useDarkMode();
 
   return (
     <Router>

@@ -1,10 +1,10 @@
 import { Navbar, Button } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faHospital, faUserMd, faChartLine, faCalendarAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCashRegister, faHospital, faChartLine, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
-// eslint-disable-next-line react/prop-types
-export const HeaderLogin = ({ title }) => {
+ 
+export const HeaderLogin = () => {
 
   return (
     <>

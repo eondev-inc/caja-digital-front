@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { getEntities,login } from "../api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faUser, 
   faEnvelope, 
   faLock, 
   faHospital,
-  faSignInAlt,
   faCashRegister
 } from '@fortawesome/free-solid-svg-icons';
 
