@@ -77,7 +77,7 @@ export const Login = () => {
               aria-label="Sistema de caja médica"
             />
             <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-              Sistema de Caja Médica
+              Caja Digital
             </h1>
           </div>
           <div className="dark:bg-gray-800/90 w-full rounded-2xl border-0 bg-white/90 shadow-2xl backdrop-blur-sm sm:max-w-md md:mt-0 xl:p-0">
@@ -87,7 +87,7 @@ export const Login = () => {
                   Acceso de Recepción Médica
                 </h2>
                 <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Portal para gestión de pagos y admisión de pacientes
+                  Portal de acceso para personal de recepción
                 </p>
               </div>
               <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit(onSubmit)}>

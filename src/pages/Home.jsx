@@ -1,240 +1,494 @@
-import { Button, Card } from "flowbite-react";
+import { Button } from "flowbite-react";
 import cajaImg from '/img/cash-register.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faClock, 
-  faShieldHeart, 
-  faStethoscope, 
+import {
+  faClock,
+  faShieldHeart,
+  faStethoscope,
   faCheck,
   faHospital,
-  faPlay
+  faArrowRight,
+  faChartLine,
+  faHeadset,
+  faServer,
+  faBolt,
+  faFileInvoice,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
+
+/* ─── Static color class maps (avoids dynamic Tailwind strings) ─────────── */
+
+const COLOR_CLASSES = {
+  primary: {
+    bg: "bg-primary-100",
+    bgHover: "group-hover:bg-primary-200",
+    bgDark: "dark:bg-primary-900/40",
+    text: "text-primary-600",
+    textDark: "dark:text-primary-400",
+  },
+  secondary: {
+    bg: "bg-secondary-100",
+    bgHover: "group-hover:bg-secondary-200",
+    bgDark: "dark:bg-secondary-900/40",
+    text: "text-secondary-600",
+    textDark: "dark:text-secondary-400",
+  },
+};
+
+/* ─── Data ─────────────────────────────────────────────── */
+
+const FEATURES = [
+  {
+    icon: faClock,
+    color: "secondary",
+    title: "Disponible 24/7",
+    description:
+      "Acceso permanente para emergencias y turnos nocturnos. Gestión de pagos urgentes desde cualquier dispositivo.",
+  },
+  {
+    icon: faShieldHeart,
+    color: "primary",
+    title: "Normativa médica",
+    description:
+      "Cumple regulaciones de protección de datos médicos vigentes en Chile. Auditorías automáticas y trazabilidad completa.",
+  },
+  {
+    icon: faStethoscope,
+    color: "secondary",
+    title: "Fácil para el equipo",
+    description:
+      "Interfaz diseñada para recepción y enfermería. Personal operativo sin capacitación extensa.",
+  },
+  {
+    icon: faFileInvoice,
+    color: "primary",
+    title: "Facturación médica",
+    description:
+      "Emisión de boletas y facturas adaptadas al sector salud. Integración con seguros y FONASA.",
+  },
+  {
+    icon: faBolt,
+    color: "secondary",
+    title: "Alta velocidad",
+    description:
+      "Cobros completados en segundos. Sin tiempos de espera que afecten la atención al paciente.",
+  },
+  {
+    icon: faServer,
+    color: "primary",
+    title: "Datos seguros",
+    description:
+      "Backups automáticos y encriptación de extremo a extremo. Tu información siempre protegida.",
+  },
+];
+
+const STATS = [
+  { value: "500+", label: "Centros de salud", icon: faHospital },
+  { value: "99.9%", label: "Disponibilidad", icon: faServer },
+  { value: "24/7", label: "Soporte técnico", icon: faHeadset },
+  { value: "50k+", label: "Transacciones diarias", icon: faChartLine },
+];
+
+const MEDICAL_CHECKS = [
+  "Facturación médica automatizada",
+  "Códigos CIE-10 integrados",
+  "Reportes para auditorías SII",
+  "Integración con seguros médicos",
+  "Control de inventario médico",
+  "Trazabilidad de medicamentos",
+  "Auditorías automáticas",
+  "Backup automático de datos",
+];
+
+const PRICING = [
+  {
+    name: "Básico",
+    price: "$49.990",
+    period: "/mes",
+    description: "Para consultorios y policlínicos pequeños",
+    features: [
+      "1 caja registradora",
+      "Hasta 500 transacciones/mes",
+      "Reportes básicos",
+      "Soporte por email",
+    ],
+    cta: "Empezar gratis",
+    highlight: false,
+  },
+  {
+    name: "Clínica",
+    price: "$129.990",
+    period: "/mes",
+    description: "Para clínicas y centros de salud medianos",
+    features: [
+      "Hasta 5 cajas registradoras",
+      "Transacciones ilimitadas",
+      "Facturación médica completa",
+      "Integración FONASA / Isapres",
+      "Reportes avanzados",
+      "Soporte 24/7",
+    ],
+    cta: "Solicitar demo",
+    highlight: true,
+  },
+  {
+    name: "Hospital",
+    price: "Personalizado",
+    period: "",
+    description: "Para hospitales y redes de salud",
+    features: [
+      "Cajas ilimitadas",
+      "Multi-sucursal",
+      "API de integración",
+      "SLA garantizado",
+      "Capacitación in-site",
+      "Gerente de cuenta dedicado",
+    ],
+    cta: "Contactar ventas",
+    highlight: false,
+  },
+];
+
+/* ─── Component ─────────────────────────────────────────── */
 
 export const Home = () => {
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-900 dark:to-gray-800"
+    <div
+      className="min-h-screen bg-white dark:bg-slate-950"
       aria-labelledby="main-heading"
     >
-      <div className="container mx-auto px-4 py-12">
-        <Card className="dark:bg-gray-900/90 mx-auto max-w-6xl overflow-hidden border-0 bg-white/80 shadow-2xl backdrop-blur-sm">
-          <header 
-            className="grid gap-8 p-8 lg:grid-cols-2 lg:items-center lg:gap-12"
-            aria-labelledby="main-heading"
-          >
-            <div className="order-2 flex justify-center lg:order-1">
-              <div className="relative">
-                <img
-                  src={cajaImg}
-                  alt="Sistema de caja para centros médicos y hospitales"
-                  className="size-64 rounded-2xl border border-gray-200 object-cover shadow-2xl transition-transform hover:scale-105 dark:border-gray-700 sm:size-80"
-                  loading="lazy"
-                  width="320"
-                  height="320"
-                />
-                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-primary-100 to-secondary-100 opacity-40 dark:opacity-20"></div>
+
+      {/* ── HERO ─────────────────────────────────────────── */}
+      <section
+        className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800"
+        aria-labelledby="main-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Text */}
+            <div className="space-y-8 text-center lg:text-left">
+              <div className="dark:bg-primary-900/30 inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 dark:border-primary-800">
+                <span className="size-2 rounded-full bg-primary-500"></span>
+                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
+                  Para centros de salud en Chile
+                </span>
               </div>
-            </div>
-            <div className="order-1 space-y-6 text-center lg:order-2 lg:text-left">
+
               <div className="space-y-4">
-                <h1 
+                <h1
                   id="main-heading"
-                  className="text-4xl font-bold tracking-tight text-primary-600 dark:text-primary-400 sm:text-5xl lg:text-6xl"
+                  className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl"
                 >
-                  <span className="sr-only">Solución integral de caja registradora digital especializada para</span>
-                  Solución de Caja
-                  <span className="block text-secondary-600 dark:text-secondary-400">para Centros de Salud</span>
+                  La caja que
+                  <span className="block text-primary-600 dark:text-primary-400">
+                    cuida tu centro
+                  </span>
+                  <span className="block text-secondary-600 dark:text-secondary-400">
+                    de salud
+                  </span>
                 </h1>
-                <p 
-                  className="mx-auto max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 lg:mx-0"
-                  aria-describedby="main-heading"
-                >
-                  Optimiza la gestión financiera de tu centro médico con nuestra plataforma especializada. 
-                  Control de <span className="font-semibold text-primary-600 dark:text-primary-400">pagos de pacientes</span>, 
-                  <span className="font-semibold text-secondary-600 dark:text-secondary-400"> facturación médica</span> 
-                  y reportes especializados para el sector salud.
+                <p className="mx-auto max-w-xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 lg:mx-0">
+                  Gestión de pagos, facturación médica y reportes especializados — todo en una plataforma diseñada para el sector salud chileno.
                 </p>
               </div>
-              <nav className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start" aria-label="Acciones principales">
-                <Button 
-                  color="blue" 
-                  size="xl" 
+
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+                <Button
+                  as={Link}
+                  to="/register"
+                  color="blue"
+                  size="xl"
                   className="shadow-lg transition-all hover:shadow-xl focus:ring-4 focus:ring-primary-300"
-                  aria-label="Implementar solución de caja en mi centro médico"
+                  aria-label="Solicitar demostración de Caja Digital"
                 >
                   <FontAwesomeIcon icon={faHospital} className="mr-2" aria-hidden="true" />
-                  Implementar en mi centro
+                  Solicitar demo gratuita
                 </Button>
-                <Button 
-                  color="light" 
-                  size="xl" 
-                  className="shadow-lg transition-all hover:shadow-xl focus:ring-4 focus:ring-secondary-300"
-                  aria-label="Ver demostración interactiva para centros médicos"
+                <Button
+                  href="#features"
+                  color="light"
+                  size="xl"
+                  className="shadow-sm transition-all hover:shadow-md focus:ring-4 focus:ring-secondary-300"
+                  aria-label="Ver características del sistema"
                 >
-                  <FontAwesomeIcon icon={faPlay} className="mr-2" aria-hidden="true" />
-                  Demo médico
+                  Ver características
+                  <FontAwesomeIcon icon={faArrowRight} className="ml-2" aria-hidden="true" />
                 </Button>
-              </nav>
-            </div>
-          </header>
-          <section 
-            className="bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100 px-8 py-16 dark:border-gray-700"
-            aria-labelledby="features-heading"
-          >
-            <div className="mx-auto max-w-4xl">
-              <div className="mb-16 text-center">
-                <h2 
-                  id="features-heading"
-                  className="mb-4 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl"
-                >
-                  Diseñado especialmente para centros de salud
-                </h2>
-                <p 
-                  className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400"
-                  aria-describedby="features-heading"
-                >
-                  Una solución integral que cumple con las regulaciones del sector médico y optimiza la gestión administrativa de tu centro de salud.
-                </p>
               </div>
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                <Card className="group cursor-default border-0 bg-white p-8 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800">
-                  <div className="mb-6 flex justify-center">
-                    <div className="flex size-16 items-center justify-center rounded-full bg-secondary-100 group-hover:bg-secondary-200 dark:bg-secondary-900">
-                      <FontAwesomeIcon 
-                        icon={faClock} 
-                        className="text-2xl text-secondary-600 dark:text-secondary-400"
-                        aria-label="Acceso médico 24/7"
-                      />
-                    </div>
+
+              {/* Trust badges */}
+              <div className="flex flex-wrap items-center justify-center gap-6 lg:justify-start">
+                {[
+                  "Sin tarjeta de crédito",
+                  "Implementación en 24h",
+                  "Soporte en español",
+                ].map((badge) => (
+                  <div key={badge} className="flex items-center gap-2">
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="text-primary-500"
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">{badge}</span>
                   </div>
-                  <div className="space-y-4 text-center">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Acceso 24/7 para emergencias
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Sistema disponible las 24 horas para atención de emergencias y gestión de pagos urgentes desde cualquier dispositivo.
-                    </p>
-                  </div>
-                </Card>
-                <Card className="group cursor-default border-0 bg-white p-8 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800">
-                  <div className="mb-6 flex justify-center">
-                    <div className="flex size-16 items-center justify-center rounded-full bg-primary-100 group-hover:bg-primary-200 dark:bg-primary-900">
-                      <FontAwesomeIcon 
-                        icon={faShieldHeart} 
-                        className="text-2xl text-primary-600 dark:text-primary-400"
-                        aria-label="Seguridad médica HIPAA"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4 text-center">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Cumplimiento normativo médico
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Cumple con HIPAA y regulaciones locales de protección de datos médicos. Auditorías automáticas y trazabilidad completa.
-                    </p>
-                  </div>
-                </Card>
-                <Card className="group cursor-default border-0 bg-white p-8 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800 sm:col-span-2 lg:col-span-1">
-                  <div className="mb-6 flex justify-center">
-                    <div className="flex size-16 items-center justify-center rounded-full bg-secondary-100 group-hover:bg-secondary-200 dark:bg-secondary-900">
-                      <FontAwesomeIcon 
-                        icon={faStethoscope} 
-                        className="text-2xl text-secondary-600 dark:text-secondary-400"
-                        aria-label="Diseñado para personal médico"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4 text-center">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Diseñado para personal médico
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Interfaz optimizada para el flujo de trabajo médico. Personal de recepción y enfermería puede operar sin capacitación extensa.
-                    </p>
-                  </div>
-                </Card>
+                ))}
               </div>
             </div>
-          </section>
-          
-          {/* Sección de beneficios médicos específicos */}
-          <section 
-            className="bg-gradient-to-r from-primary-500 to-secondary-500 px-8 py-12 text-white"
-            aria-labelledby="medical-features-heading"
-          >
-            <div className="mx-auto max-w-4xl">
-              <div className="mb-8 text-center">
-                <h2 
-                  id="medical-features-heading"
-                  className="mb-4 text-2xl font-bold sm:text-3xl"
+
+            {/* Image */}
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary-100 to-secondary-100 opacity-60 dark:opacity-20" aria-hidden="true"></div>
+                <img
+                  src={cajaImg}
+                  alt="Pantalla del sistema de caja registradora para centros médicos"
+                  className="relative size-72 rounded-2xl border border-gray-200 object-cover shadow-2xl dark:border-gray-700 sm:size-96"
+                  loading="eager"
+                  width="384"
+                  height="384"
+                />
+                {/* Floating badge */}
+                <div
+                  className="absolute -bottom-4 -right-4 rounded-xl border border-primary-100 bg-white px-4 py-3 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+                  aria-hidden="true"
                 >
-                  Características especializadas para centros de salud
-                </h2>
-                <p 
-                  className="text-primary-100"
-                  aria-describedby="medical-features-heading"
-                >
-                  Funcionalidades diseñadas específicamente para optimizar la gestión administrativa médica
-                </p>
+                  <div className="flex items-center gap-2">
+                    <div className="size-2 animate-pulse rounded-full bg-primary-500"></div>
+                    <span className="text-sm font-semibold text-gray-800 dark:text-white">Sistema activo</span>
+                  </div>
+                  <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">99.9% uptime garantizado</p>
+                </div>
               </div>
-              <ul 
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
-                aria-label="Lista de características médicas especializadas"
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS ────────────────────────────────────────── */}
+      <section
+        className="border-y border-gray-100 bg-primary-600 dark:border-slate-700 dark:bg-primary-800"
+        aria-label="Estadísticas de Caja Digital"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+            {STATS.map(({ value, label, icon }) => (
+              <div key={label} className="text-center">
+                <FontAwesomeIcon
+                  icon={icon}
+                  className="mb-3 text-2xl text-primary-200"
+                  aria-hidden="true"
+                />
+                <dt className="text-4xl font-bold text-white">{value}</dt>
+                <dd className="mt-1 text-sm font-medium text-primary-100">{label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ── FEATURES ─────────────────────────────────────── */}
+      <section
+        id="features"
+        className="bg-gray-50 dark:bg-slate-900"
+        aria-labelledby="features-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2
+              id="features-heading"
+              className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+            >
+              Diseñado para centros de salud
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
+              Cada función pensada para el flujo de trabajo médico y las regulaciones del sector salud chileno.
+            </p>
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map(({ icon, color, title, description }) => (
+              <article
+                key={title}
+                className="group rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
               >
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
+                <div className="mb-5">
+                  <div
+                    className={`inline-flex size-14 items-center justify-center rounded-xl ${COLOR_CLASSES[color].bg} ${COLOR_CLASSES[color].bgHover} ${COLOR_CLASSES[color].bgDark}`}
+                  >
+                    <FontAwesomeIcon
+                      icon={icon}
+                      className={`text-xl ${COLOR_CLASSES[color].text} ${COLOR_CLASSES[color].textDark}`}
+                      aria-hidden="true"
+                    />
                   </div>
-                  <span className="text-sm font-medium">Facturación médica automatizada</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
+                </div>
+                <h3 className="mb-3 text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
+                <p className="leading-relaxed text-gray-600 dark:text-gray-400">{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MEDICAL CHECKS ───────────────────────────────── */}
+      <section
+        className="bg-gradient-to-r from-primary-500 to-secondary-500 dark:from-primary-700 dark:to-secondary-700"
+        aria-labelledby="checks-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center">
+            <h2
+              id="checks-heading"
+              className="mb-3 text-3xl font-bold text-white sm:text-4xl"
+            >
+              Funcionalidades especializadas
+            </h2>
+            <p className="text-primary-100">
+              Todo lo que necesita un centro de salud moderno en un solo sistema.
+            </p>
+          </div>
+          <ul
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            aria-label="Lista de funcionalidades médicas especializadas"
+          >
+            {MEDICAL_CHECKS.map((item) => (
+              <li key={item} className="flex items-center gap-3">
+                <div
+                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/20"
+                  aria-hidden="true"
+                >
+                  <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
+                </div>
+                <span className="text-sm font-medium text-white">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── PRICING ──────────────────────────────────────── */}
+      <section
+        id="pricing"
+        className="bg-white dark:bg-slate-950"
+        aria-labelledby="pricing-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2
+              id="pricing-heading"
+              className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+            >
+              Planes para cada centro de salud
+            </h2>
+            <p className="mx-auto max-w-xl text-lg text-gray-600 dark:text-gray-400">
+              Precios en pesos chilenos. Sin costos ocultos. Cancela cuando quieras.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {PRICING.map(({ name, price, period, description, features, cta, highlight }) => (
+              <article
+                key={name}
+                className={[
+                  "relative flex flex-col rounded-2xl p-8",
+                  highlight
+                    ? "border-2 border-primary-500 bg-primary-50 shadow-xl dark:border-primary-400 dark:bg-primary-900/20"
+                    : "border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800",
+                ].join(" ")}
+              >
+                {highlight && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <span className="rounded-full bg-primary-600 px-4 py-1 text-xs font-bold text-white">
+                      MÁS POPULAR
+                    </span>
                   </div>
-                  <span className="text-sm font-medium">Códigos CIE-10 integrados</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Reportes epidemiológicos</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Integración con seguros médicos</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Control de inventario médico</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Trazabilidad de medicamentos</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Auditorías automáticas</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <div className="flex size-10 items-center justify-center rounded-full bg-white/20" aria-hidden="true">
-                    <FontAwesomeIcon icon={faCheck} className="text-sm text-white" />
-                  </div>
-                  <span className="text-sm font-medium">Backup automático de datos</span>
-                </li>
-              </ul>
-            </div>
-          </section>
-        </Card>
-      </div>
+                )}
+                <div className="mb-6">
+                  <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white">{name}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-extrabold text-gray-900 dark:text-white">{price}</span>
+                  {period && (
+                    <span className="ml-1 text-base text-gray-500 dark:text-gray-400">{period}</span>
+                  )}
+                </div>
+                <ul className="mb-8 flex-1 space-y-3" aria-label={`Características del plan ${name}`}>
+                  {features.map((f) => (
+                    <li key={f} className="flex items-start gap-3">
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="mt-0.5 shrink-0 text-primary-500 dark:text-primary-400"
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  as={Link}
+                  to="/register"
+                  color={highlight ? "blue" : "light"}
+                  size="lg"
+                  className={[
+                    "w-full transition-all focus:ring-4",
+                    highlight
+                      ? "shadow-md hover:shadow-lg focus:ring-primary-300"
+                      : "focus:ring-gray-200",
+                  ].join(" ")}
+                >
+                  {cta}
+                </Button>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ────────────────────────────────────── */}
+      <section
+        id="contact"
+        className="bg-gray-50 dark:bg-slate-900"
+        aria-labelledby="cta-heading"
+      >
+        <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
+          <h2
+            id="cta-heading"
+            className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+          >
+            Listo para modernizar tu centro de salud
+          </h2>
+          <p className="mx-auto mb-10 max-w-xl text-lg text-gray-600 dark:text-gray-400">
+            Únete a más de 500 centros de salud que ya gestionan sus cobros con Caja Digital. Implementación en 24 horas.
+          </p>
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Button
+              as={Link}
+              to="/register"
+              color="blue"
+              size="xl"
+              className="shadow-lg transition-all hover:shadow-xl focus:ring-4 focus:ring-primary-300"
+              aria-label="Crear cuenta gratuita en Caja Digital"
+            >
+              <FontAwesomeIcon icon={faHospital} className="mr-2" aria-hidden="true" />
+              Crear cuenta gratuita
+            </Button>
+            <Button
+              as={Link}
+              to="/login"
+              color="light"
+              size="xl"
+              className="transition-all focus:ring-4 focus:ring-gray-200"
+            >
+              Iniciar sesión
+            </Button>
+          </div>
+          <p className="mt-6 text-sm text-gray-500 dark:text-gray-500">
+            Sin tarjeta de crédito · Cancela cuando quieras · Soporte en español
+          </p>
+        </div>
+      </section>
+
     </div>
   );
-}
+};

@@ -27,11 +27,11 @@ export const FooterNoLogin = () => {
                 </svg>
               </div>
               <span className="text-lg font-bold text-secondary-800 dark:text-white">
-                Caja Registradora Digital
+                Caja Digital
               </span>
             </div>
             <p className="max-w-xs text-sm text-secondary-600 dark:text-slate-400">
-              Solución integral de punto de venta diseñada específicamente para centros de salud y clínicas médicas.
+              Plataforma de caja para centros de salud y clínicas médicas en Chile.
             </p>
           </div>
 

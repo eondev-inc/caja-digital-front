@@ -4,7 +4,7 @@ import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 
 // eslint-disable-next-line react/prop-types
 export const HeaderNoLogin = ({ title }) => { 
-  const appliedTitle = title || "Caja Registradora Digital";
+  const appliedTitle = title || "Caja Digital";
   const { scrollToSection } = useSmoothScroll();
 
   return (

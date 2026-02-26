@@ -10,6 +10,10 @@ export const HeaderLogin = () => {
   const setIsAuthenticated = useStore((s) => s.setIsAuthenticated);
   const setUserInfo = useStore((s) => s.setUserInfo);
   const setOpenRegister = useStore((s) => s.setOpenRegister);
+  const userInfo = useStore((s) => s.userInfo);
+
+  const entityName =
+    userInfo?.entity_users?.[0]?.entities?.name ?? "Centro de Salud";
 
   const handleLogout = () => {
     setAccessToken('');
@@ -27,7 +31,7 @@ export const HeaderLogin = () => {
             <FontAwesomeIcon icon={faCashRegister} className="size-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-gray-800 dark:text-white">POS Médico</span>
+            <span className="text-lg font-bold text-gray-800 dark:text-white">Caja Digital</span>
             <span className="hidden text-xs text-gray-600 dark:text-gray-400 sm:block">Sistema de Recepción</span>
           </div>
         </Navbar.Brand>
@@ -41,7 +45,7 @@ export const HeaderLogin = () => {
             </div>
             <div className="flex items-center gap-2">
               <FontAwesomeIcon icon={faHospital} className="size-3 text-primary-600 dark:text-primary-400" />
-              <span className="font-medium">Clínica San Rafael</span>
+              <span className="font-medium">{entityName}</span>
             </div>
           </div>
           

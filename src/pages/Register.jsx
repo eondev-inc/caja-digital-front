@@ -57,7 +57,7 @@ export const Register = () => {
                 Registro de Personal
               </h1>
               <p className="text-sm text-gray-600">
-                Sistema de Recepción Médica
+                Caja Digital — Centros de Salud
               </p>
             </div>
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -186,7 +186,7 @@ export const Register = () => {
                     <a className="font-medium text-primary-600 underline hover:text-primary-800 dark:text-primary-400" href="#">
                       términos y condiciones
                     </a>
-                    {' '}del sistema de recepción médica
+                    {' '}del sistema Caja Digital
                   </Label>
                 </div>
               </div>
