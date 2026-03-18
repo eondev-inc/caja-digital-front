@@ -6,9 +6,10 @@ import PropTypes from 'prop-types';
 export default function NotesSection({ register }) {
   return (
     <div className="space-y-3">
-      <Label className="flex items-center gap-2 text-sm font-medium text-secondary-700">
+      <Label className="flex items-center gap-2 text-sm font-medium text-secondary-700 dark:text-gray-300">
         <FontAwesomeIcon icon={faFileInvoice} className="text-primary-600" />
         Observaciones
+        <span className="font-normal text-neutral-400">(Opcional)</span>
       </Label>
       <Textarea
         placeholder="Observaciones del tratamiento, instrucciones, próximas citas..."

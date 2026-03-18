@@ -35,16 +35,19 @@ export const createReconciliation = async (data) => {
       notes,
     } = data;
 
+    // Construir sales_summary dinámico: limpiar cada valor numérico
+    const rawSummary = sales_summary && typeof sales_summary === 'object' ? sales_summary : {};
+    const cleanedSummary = {};
+    Object.entries(rawSummary).forEach(([key, value]) => {
+      cleanedSummary[key] = cleanNumber(value);
+    });
+
     // Construir el payload limpio
     const payload = {
       open_register_id: open_register_id?.trim() ?? '',
       closing_balance: cleanNumber(closing_balance),
       total_sales: cleanNumber(total_sales),
-      sales_summary: {
-        efectivo: cleanNumber(sales_summary.efectivo ?? 0),
-        debito: cleanNumber(sales_summary.debito ?? 0),
-        credito: cleanNumber(sales_summary.credito ?? 0),
-      },
+      sales_summary: cleanedSummary,
     };
 
     // Agregar notas solo si están definidas

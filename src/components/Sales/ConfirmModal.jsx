@@ -9,9 +9,9 @@ export default function ConfirmModal({ open, onClose, onConfirm, dataPreview }) 
       <Modal.Header />
       <Modal.Body>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-secondary-800">Confirmar emisión de comprobante</h3>
-          <div className="rounded-lg border border-neutral-200 bg-white p-4">
-            <div className="grid grid-cols-2 gap-4 text-sm text-secondary-700">
+          <h3 className="text-lg font-semibold text-secondary-800 dark:text-white">Confirmar emisión de comprobante</h3>
+          <div className="rounded-lg border border-neutral-200 bg-white p-4 dark:border-slate-600 dark:bg-slate-700">
+            <div className="grid grid-cols-2 gap-4 text-sm text-secondary-700 dark:text-gray-300">
               <div>
                 <p className="font-medium">Cliente</p>
                 <p>{invoice?.custumer_name} ({invoice?.custumer_nid})</p>

@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { transactionSchema, BONO_PAYMENT_METHOD_ID } from '../../utils/transactionSchema';
-import { Button, Card, Alert, Modal } from 'flowbite-react';
+import { transactionSchema, isBono } from '../../utils/transactionSchema';
+import { Button, Card, Alert } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileInvoice, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { HiExclamationCircle } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
-import { getPaymentMethods, getPrevisions, getProfessionals, createTransaction } from '../../api';
+import { getPaymentMethods, getPrevisions, getProfessionals, getTransactionTypes, createTransaction } from '../../api';
 import { useStore } from '../../app/store';
 import SalesHeader from '../../components/Sales/SalesHeader';
 import CustomerSection from '../../components/Sales/CustomerSection';
@@ -17,41 +15,45 @@ import NotesSection from '../../components/Sales/NotesSection';
 import SummaryCard from '../../components/Sales/SummaryCard';
 import ConfirmModal from '../../components/Sales/ConfirmModal';
 import ReceiptModal from '../../components/Sales/ReceiptModal';
+import NoRegisterModal from '../../components/Commons/NoRegisterModal';
+
+const EMPTY_ITEM = () => ({ description: '', quantity: 1, total_price: 0 });
 
 const Sales = () => {
-  const navigate = useNavigate();
   const [showFolioInput, setShowFolioInput] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [previsions, setPrevisions] = useState([]);
-  const [professionals, setProfessionals] = useState([]); // TODO: cargar desde API cuando esté disponible
+  const [professionals, setProfessionals] = useState([]);
+  const [ventaTransactionTypeId, setVentaTransactionTypeId] = useState(null);
   const { openRegister } = useStore();
   const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
-  const [invoiceItems, setInvoiceItems] = useState([
-    {
-      description: '',
-      quantity: 1,
-      total_price: 0,
-    }
-  ]);
+  const [invoiceItems, setInvoiceItems] = useState([EMPTY_ITEM()]);
 
-  const { register, handleSubmit, setValue, watch, control, reset, formState: { errors, isValid, isSubmitting } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    reset,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({
     resolver: zodResolver(transactionSchema),
-    mode: "onChange", // Cambio a onChange para validación más reactiva
+    mode: 'onChange',
     defaultValues: {
       invoice: {
         custumer_nid: '',
         custumer_name: '',
-        professional_uuid: '',
-        prevision_uuid: '',
         date: undefined,
         total_amount: 0,
+        tax_amount: 0,
         notes: '',
-        invoice_items: []
+        invoice_items: [],
       },
-      description: 'Venta realizada', // Valor por defecto para description
+      description: 'Venta realizada',
       amount: 0,
-      folio: ''
-    }
+      folio: '',
+    },
   });
 
   const paymentMethod = watch('payment_method_id');
@@ -60,6 +62,14 @@ const Sales = () => {
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
 
+  // Helper para restaurar campos hidden después de reset
+  const restoreHiddenFields = useCallback(() => {
+    setValue('open_register_id', openRegister.id);
+    if (ventaTransactionTypeId) {
+      setValue('transaction_type_id', ventaTransactionTypeId);
+    }
+  }, [openRegister.id, ventaTransactionTypeId, setValue]);
+
   // Verificar si hay una caja abierta
   useEffect(() => {
     if (!openRegister?.id) {
@@ -67,73 +77,79 @@ const Sales = () => {
     }
   }, [openRegister]);
 
-  // Show or hide folio input based on payment method
+  // Mostrar/ocultar input folio según método de pago
   useEffect(() => {
-    const isBono = paymentMethod === BONO_PAYMENT_METHOD_ID;
+    const selected = paymentMethods.find((m) => m.id === paymentMethod);
+    const isBonoMethod = isBono(selected?.method_name);
+    setShowFolioInput(isBonoMethod);
+    // Sincronizar payment_method_name para que el refine del schema funcione
+    setValue('payment_method_name', selected?.method_name ?? '');
+  }, [paymentMethod, paymentMethods, setValue]);
 
-    setShowFolioInput(isBono);
-  }, [paymentMethod]);
-
+  // Cargar catálogos y setear campos hidden iniciales
   useEffect(() => {
     const fetchData = async () => {
-      const [methods, prevs, professionals] = await Promise.all([
-        getPaymentMethods(),
-        getPrevisions(),
-        getProfessionals()
-      ]);
-      setPaymentMethods(methods);
-      setPrevisions(prevs);
-      setProfessionals(professionals);
+      try {
+        const [methods, prevs, profs, txTypes] = await Promise.all([
+          getPaymentMethods(),
+          getPrevisions(),
+          getProfessionals(),
+          getTransactionTypes(),
+        ]);
+        setPaymentMethods(Array.isArray(methods) ? methods : []);
+        setPrevisions(Array.isArray(prevs) ? prevs : []);
+        setProfessionals(Array.isArray(profs) ? profs : []);
+
+        const ventaType = Array.isArray(txTypes)
+          ? txTypes.find((t) => t.transaction_name === 'VENTA')
+          : null;
+        if (ventaType) {
+          setVentaTransactionTypeId(ventaType.id);
+          setValue('transaction_type_id', ventaType.id);
+        }
+      } catch (error) {
+        console.error('Error cargando catálogos:', error);
+      }
     };
+
     fetchData();
+    restoreHiddenFields();
+  }, [openRegister.id, restoreHiddenFields, setValue]);
 
-    // Set default values for the form
-    setValue('open_register_id', openRegister.id);
-    setValue('transaction_type_id', '5059e4f4-f111-4747-92b1-bdc1f069c1fb');
-
-  }, [openRegister.id, setValue]);
-
-  // Sync invoice items with react-hook-form
+  // Sincronizar invoice items con react-hook-form
   useEffect(() => {
     setValue('invoice.invoice_items', invoiceItems);
   }, [invoiceItems, setValue]);
 
-  // Function to calculate the total dynamically
+  // Recalcular totales cuando cambian los items
   useEffect(() => {
-    const total = invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-    setValue('invoice.total_amount', total); // Update the total_amount field in the form
-    setValue('amount', total); // Keep transaction amount in sync
+    const subtotal = invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
+    const tax = Math.round(subtotal * 0.19);
+    const total = subtotal + tax;
+    setValue('invoice.total_amount', total);
+    setValue('invoice.tax_amount', tax);
+    setValue('amount', total);
   }, [invoiceItems, setValue]);
 
   const addInvoiceItem = () => {
-    setInvoiceItems([
-      ...invoiceItems,
-      {
-        description: '',
-        quantity: 1,
-        total_price: 0,
-      }
-    ]);
+    setInvoiceItems([...invoiceItems, EMPTY_ITEM()]);
   };
 
   const removeInvoiceItem = (index) => {
     setInvoiceItems(invoiceItems.filter((_, i) => i !== index));
   };
 
-  // Function to update an invoice item
   const updateInvoiceItem = (index, field, value) => {
     const updatedItems = [...invoiceItems];
-    
-    // Convertir valores numéricos apropiadamente
+
     if (field === 'quantity') {
-      value = parseInt(value, 10) || 1; // Asegurar que siempre sea al menos 1
+      value = parseInt(value, 10) || 1;
     } else if (field === 'total_price') {
-      value = parseFloat(value) || 0;
+      value = parseInt(value, 10) || 0;
     }
-    
+
     updatedItems[index] = { ...updatedItems[index], [field]: value };
 
-    // Recalculate subtotal when quantity or total_price changes
     if (field === 'quantity' || field === 'total_price') {
       const quantity = updatedItems[index].quantity || 1;
       const totalPrice = updatedItems[index].total_price || 0;
@@ -143,41 +159,44 @@ const Sales = () => {
     setInvoiceItems(updatedItems);
   };
 
-  const onSubmit = async () => {
-    // Abrir confirmación con datos clave
+  const onSubmit = () => {
     setShowConfirm(true);
   };
 
   const computeTotals = () => {
     const subtotal = invoiceItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-    const tax = subtotal * 0.19;
-    const total = Math.round(subtotal + tax);
+    const tax = Math.round(subtotal * 0.19);
+    const total = subtotal + tax;
     return { subtotal, tax, total };
   };
 
   const confirmAndCreate = async () => {
     setShowConfirm(false);
+    const { subtotal, tax, total } = computeTotals();
+
     const formData = {
       ...watch(),
-      amount: computeTotals().total,
+      amount: total,
       invoice: {
         ...watch('invoice'),
-        total_amount: computeTotals().total,
+        total_amount: total,
+        tax_amount: tax,
         invoice_items: invoiceItems.map((item) => ({
           description: item.description,
           quantity: Number(item.quantity) || 1,
           total_price: Number(item.total_price) || 0,
+          professional_uuid: item.professional_uuid || undefined,
+          prevision_id: item.prevision_id || undefined,
         })),
       },
     };
+
     try {
       const response = await createTransaction(formData);
       if (response?.status === 201) {
         setToast({ type: 'success', message: 'Transacción creada exitosamente' });
-        // Preparar datos para comprobante
-        const { subtotal, tax, total } = computeTotals();
         const previsionId = watch('invoice.prevision_uuid');
-        const previsionLabel = previsions.find((p) => p.id === previsionId)?.description;
+        const previsionLabel = previsions.find((p) => p.id === previsionId)?.name;
         setReceiptData({
           invoice: watch('invoice'),
           items: invoiceItems,
@@ -190,38 +209,45 @@ const Sales = () => {
         });
         setShowReceipt(true);
         reset();
-        setInvoiceItems([{ description: '', quantity: 1, total_price: 0 }]);
+        setInvoiceItems([EMPTY_ITEM()]);
+        restoreHiddenFields();
       } else {
         setToast({ type: 'error', message: 'Error al crear la transacción' });
       }
     } catch (error) {
       console.error('Error creating transaction:', error);
-      setToast({ type: 'error', message: `Error al crear la transacción: ${error.message || 'Error desconocido'}` });
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Error desconocido';
+      setToast({ type: 'error', message: `Error al crear la transacción: ${msg}` });
     }
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 dark:bg-slate-900">
       <div className="container mx-auto px-4 py-6">
-        <Card className="mx-auto max-w-5xl border border-neutral-200 bg-white shadow-lg">
+        <Card className="mx-auto max-w-5xl border border-neutral-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
           <SalesHeader />
 
           <form className="space-y-5 p-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* Información básica del cliente */}
-            <CustomerSection register={register} control={control} errors={errors} />
+            <CustomerSection control={control} errors={errors} />
 
             <PaymentSection
               register={register}
               errors={errors}
               paymentMethods={paymentMethods}
               showFolioInput={showFolioInput}
+            />
+
+            <ItemsTable
+              items={invoiceItems}
+              onAdd={addInvoiceItem}
+              onRemove={removeInvoiceItem}
+              onUpdate={updateInvoiceItem}
               professionals={professionals}
               previsions={previsions}
             />
-            
-            {/* Folio se gestiona dentro de PaymentSection */}
-
-            <ItemsTable items={invoiceItems} onAdd={addInvoiceItem} onRemove={removeInvoiceItem} onUpdate={updateInvoiceItem} />
 
             <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
               <NotesSection register={register} />
@@ -229,29 +255,33 @@ const Sales = () => {
             </div>
 
             <div className="mt-8 flex flex-col justify-end gap-4 sm:flex-row">
-              {/* Campo oculto para description requerido por el schema */}
+              {/* Campos ocultos requeridos por el schema */}
               <input type="hidden" {...register('description')} />
-              
-              <Button 
+
+              <Button
                 type="button"
-                size='md'
+                size="md"
                 color="gray"
                 className="flex items-center px-4 py-3"
-                onClick={() => { reset(); setInvoiceItems([{ description: '', quantity: 1, total_price: 0 }]); }}
+                onClick={() => {
+                  reset();
+                  setInvoiceItems([EMPTY_ITEM()]);
+                  restoreHiddenFields();
+                }}
               >
                 <FontAwesomeIcon icon={faTimes} className="mr-2 size-4" />
-                <span className='text-base text-gray-700'>Cancelar</span>
+                <span className="text-base text-gray-700 dark:text-gray-300">Cancelar</span>
               </Button>
-              
-              <Button 
+
+              <Button
                 type="submit"
-                size='md'
+                size="md"
                 color="success"
                 className="flex items-center px-8 py-3"
                 disabled={!isValid || isSubmitting}
               >
                 <FontAwesomeIcon icon={faFileInvoice} className="mr-2 size-4" />
-                <span className='text-base'>Generar Comprobante Médico</span>
+                <span className="text-base">Generar Comprobante Médico</span>
               </Button>
             </div>
           </form>
@@ -269,7 +299,10 @@ const Sales = () => {
 
           {toast.type && (
             <div className="fixed bottom-6 right-6">
-              <Alert color={toast.type === 'success' ? 'success' : 'failure'} onDismiss={() => setToast({ type: null, message: '' })}>
+              <Alert
+                color={toast.type === 'success' ? 'success' : 'failure'}
+                onDismiss={() => setToast({ type: null, message: '' })}
+              >
                 {toast.message}
               </Alert>
             </div>
@@ -278,59 +311,7 @@ const Sales = () => {
           <ReceiptModal open={showReceipt} onClose={() => setShowReceipt(false)} data={receiptData} />
         </Card>
 
-        {/* Modal de Caja No Abierta */}
-        <Modal show={showNoRegisterModal} onClose={() => {}} dismissible={false} size="md">
-          <Modal.Header>
-            <div className="flex items-center gap-2">
-              <HiExclamationCircle className="size-6 text-yellow-500" />
-              <span>Caja No Abierta</span>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="space-y-4">
-              <Alert color="warning" icon={HiExclamationCircle}>
-                <span className="font-medium">Atención:</span> No hay una caja abierta actualmente.
-              </Alert>
-              
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <p className="text-sm text-gray-700">
-                  Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. 
-                  La apertura de caja le permite:
-                </p>
-                <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600">
-                  <li>Registrar el monto inicial del día</li>
-                  <li>Asociar todas las ventas a la caja</li>
-                  <li>Mantener control de ingresos y egresos</li>
-                  <li>Realizar el cierre diario correctamente</li>
-                </ul>
-              </div>
-
-              <div className="rounded-lg bg-blue-50 p-4">
-                <p className="text-sm text-blue-800">
-                  <span className="font-medium">¿Desea abrir una caja ahora?</span>
-                  <br />
-                  Será redirigido a la página de apertura de caja para comenzar.
-                </p>
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <div className="flex w-full justify-end gap-3">
-              <Button
-                color="gray"
-                onClick={() => navigate('/dashboard')}
-              >
-                Cancelar
-              </Button>
-              <Button
-                color="success"
-                onClick={() => navigate('/dashboard/open-register')}
-              >
-                Abrir Caja
-              </Button>
-            </div>
-          </Modal.Footer>
-        </Modal>
+        <NoRegisterModal show={showNoRegisterModal} context="sales" />
       </div>
     </div>
   );

@@ -1,41 +1,36 @@
 import { z } from 'zod';
 
-const minLengthErrorMessage = 'Password must be at least 8 characters';
-const maxLengthErrorMessage = 'Password must be max 16 characters';
-const uppercaseErrorMessage = 'Password must contain at least one uppercase letter';
-const lowercaseErrorMessage = 'Password must contain at least one lowercase letter';
-const specialCharacterErrorMessage = 'Password must contain at least one special character';
-const numberErrorMessage = 'Password must contain at least one number';
-const passwordMismatchErrorMessage = 'Passwords do not match';
-
-
 const passwordSchema = z
   .string()
-  .min(8, { message: minLengthErrorMessage })
-  .max(16, { message: maxLengthErrorMessage })
+  .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
+  .max(16, { message: 'La contraseña debe tener máximo 16 caracteres' })
   .refine((password) => /[A-Z]/.test(password), {
-    message: uppercaseErrorMessage,
+    message: 'La contraseña debe contener al menos una letra mayúscula',
   })
   .refine((password) => /[a-z]/.test(password), {
-    message: lowercaseErrorMessage,
+    message: 'La contraseña debe contener al menos una letra minúscula',
   })
-  .refine((password) => /[0-9]/.test(password), { message: numberErrorMessage })
+  .refine((password) => /[0-9]/.test(password), {
+    message: 'La contraseña debe contener al menos un número',
+  })
   .refine((password) => /[!@#$%^&*]/.test(password), {
-    message: specialCharacterErrorMessage,
+    message: 'La contraseña debe contener al menos un carácter especial (!@#$%^&*)',
   });
 
-
-export const schema = z.object({
-  surnames: z.string().min(1, 'Name is required').max(30),
-  forenames: z.string().min(1, 'Forename is required').max(30),
-  nidType: z.enum(['rut', 'pasaporte']),
-  nid: z.string().min(1, 'NID is required').max(12),
-  email: z.string().email('Invalid email address'),
-  password: passwordSchema,
-  confirmPassword: z.string(),
-  checkBox: z.boolean('You must accept the terms and conditions'),
-})
-.refine((data) => data.password === data.confirmPassword, {
-  message: passwordMismatchErrorMessage,
-  path: ['confirmPassword'],
-});
+export const schema = z
+  .object({
+    forenames: z.string().min(1, 'Los nombres son requeridos').max(30),
+    surnames: z.string().min(1, 'Los apellidos son requeridos').max(30),
+    nid: z.string().min(1, 'El RUT es requerido').max(12),
+    email: z.string().email('Correo electrónico inválido'),
+    entity_id: z.string().min(1, 'Debe seleccionar un centro de salud'),
+    password: passwordSchema,
+    confirmPassword: z.string(),
+    checkBox: z.boolean().refine((val) => val === true, {
+      message: 'Debe aceptar los términos y condiciones',
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirmPassword'],
+  });

@@ -8,7 +8,9 @@ import { z } from 'zod';
  * - open_register_id: UUID del registro de caja abierto (string, requerido)
  * - closing_balance: Balance de cierre (number, requerido, no negativo)
  * - total_sales: Total de ventas (integer, requerido, no negativo)
- * - sales_summary: Resumen de ventas por método de pago (efectivo, débito, crédito; cada uno number, no negativo, por defecto 0)
+ * - sales_summary: Resumen de ventas por método de pago, indexado por description
+ *                  del método. Acepta cualquier clave string con valor numérico no negativo.
+ *                  Ej: { 'Efectivo': 5000, 'Tarjeta de débito': 3000, 'Bono Papel': 1000 }
  * - notes: Notas adicionales (string, opcional, máximo 500 caracteres)
  */
 
@@ -33,28 +35,12 @@ export const reconciliationSchema = z.object({
     .int('El total de ventas debe ser un número entero')
     .nonnegative('El total de ventas no puede ser negativo'),
   
-  sales_summary: z.object({
-    efectivo: z
-      .number({
-        invalid_type_error: 'El monto de efectivo debe ser un número',
-      })
-      .nonnegative('El monto de efectivo no puede ser negativo')
+  sales_summary: z.record(
+    z.string(),
+    z.number({ invalid_type_error: 'El monto debe ser un número' })
+      .nonnegative('El monto no puede ser negativo')
       .default(0),
-    
-    debito: z
-      .number({
-        invalid_type_error: 'El monto de débito debe ser un número',
-      })
-      .nonnegative('El monto de débito no puede ser negativo')
-      .default(0),
-    
-    credito: z
-      .number({
-        invalid_type_error: 'El monto de crédito debe ser un número',
-      })
-      .nonnegative('El monto de crédito no puede ser negativo')
-      .default(0),
-  }),
+  ),
   
   notes: z
     .string()

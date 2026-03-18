@@ -9,8 +9,8 @@ export default function SummaryCard({ items, iva = 0.19 }) {
   const total = Math.round(subtotal + tax);
 
   return (
-    <div className="space-y-4 rounded-lg border border-blue-200 bg-blue-50 p-6">
-      <h3 className="flex items-center gap-2 text-lg font-semibold text-blue-800">
+    <div className="dark:bg-secondary-900/20 space-y-4 rounded-lg border border-secondary-200 bg-secondary-50 p-6 dark:border-secondary-800">
+      <h3 className="flex items-center gap-2 text-lg font-semibold text-secondary-800 dark:text-secondary-200">
         <FontAwesomeIcon icon={faCalculator} />
         Resumen de Costos
       </h3>
@@ -27,8 +27,8 @@ export default function SummaryCard({ items, iva = 0.19 }) {
           </div>
           <span className="font-medium">${tax.toLocaleString('es-CL')}</span>
         </div>
-        <div className="border-t border-blue-200 pt-3">
-          <div className="flex items-center justify-between text-xl font-bold text-blue-800">
+        <div className="border-t border-secondary-200 pt-3 dark:border-secondary-700">
+          <div className="flex items-center justify-between text-xl font-bold text-secondary-800 dark:text-secondary-200">
             <span>Total a Pagar:</span>
             <span>${total.toLocaleString('es-CL')}</span>
           </div>
