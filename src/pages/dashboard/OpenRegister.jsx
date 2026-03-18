@@ -37,7 +37,7 @@ const OpenRegister = () => {
   useEffect(() => {
     if (Object.keys(openRegister).length <= 0) {
       //Hay que solicitar el estado de la caja
-      const [ userEntityInfo ] = userInfo.entity_users.map((entities) => {
+      const [userEntityInfo] = userInfo.entity_users.map((entities) => {
         return entities
       })
 
@@ -91,7 +91,7 @@ const OpenRegister = () => {
           <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm dark:border-slate-600 md:grid-cols-2">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Nombre cajero</p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.surnames} { userInfo.forenames}</p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.surnames} {userInfo.forenames}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Rut cajero</p>
@@ -99,7 +99,7 @@ const OpenRegister = () => {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Fecha Apertura</p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">{ new Date().toISOString() }</p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">{new Date().toLocaleDateString()}</p>
             </div>
           </div>
 

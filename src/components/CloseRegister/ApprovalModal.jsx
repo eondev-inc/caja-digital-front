@@ -6,35 +6,39 @@ import PropTypes from 'prop-types';
 
 /**
  * Modal de aprobación final del cierre de caja.
- * Muestra el resumen del cierre y permite confirmarlo definitivamente.
+ * Muestra el resumen del cierre con todos los métodos de pago activos de forma dinámica.
  *
- * @param {boolean} show - Controla visibilidad del modal
- * @param {boolean} approving - Estado de carga durante aprobación
+ * @param {boolean} show             - Controla visibilidad del modal
+ * @param {boolean} approving        - Estado de carga durante aprobación
  * @param {object|null} calculationData - Datos de cuadratura
- * @param {number} totalEntered - Suma de montos ingresados
- * @param {number} cashAmount - Monto efectivo
- * @param {number} debitAmount - Monto débito
- * @param {number} creditAmount - Monto crédito
+ * @param {Array}  paymentMethods    - Lista de métodos de pago activos [{id, description, ...}]
+ * @param {number} totalEntered      - Suma de montos ingresados
+ * @param {object} enteredAmounts    - Montos ingresados por description: { 'Efectivo': 0, ... }
  * @param {boolean} hasDiscrepancies - Si hay diferencias
- * @param {object|null} differences - Objeto de diferencias
- * @param {function} onClose - Cerrar modal
- * @param {function} onApprove - Confirmar aprobación
- * @param {function} formatCurrency - Formateador CLP
+ * @param {object|null} differences  - Objeto de diferencias
+ * @param {function} onClose         - Cerrar modal
+ * @param {function} onApprove       - Confirmar aprobación
+ * @param {function} formatCurrency  - Formateador CLP
  */
 export default function ApprovalModal({
   show,
   approving,
   calculationData,
+  paymentMethods,
   totalEntered,
-  cashAmount,
-  debitAmount,
-  creditAmount,
+  enteredAmounts,
   hasDiscrepancies,
   differences,
   onClose,
   onApprove,
   formatCurrency,
 }) {
+  // Distribuir los métodos en columnas (máximo 3 por fila)
+  const colClass =
+    paymentMethods.length <= 2
+      ? `grid-cols-${paymentMethods.length}`
+      : 'grid-cols-3';
+
   return (
     <Modal show={show} onClose={() => !approving && onClose()} size="lg">
       <Modal.Header>Aprobar Cierre de Caja</Modal.Header>
@@ -68,23 +72,24 @@ export default function ApprovalModal({
               </div>
             </div>
 
-            <div className="mt-4 border-t pt-3 dark:border-slate-600">
-              <p className="mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">Montos Ingresados:</p>
-              <div className="grid grid-cols-3 gap-2 text-sm">
-                <div className="text-center">
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Efectivo</p>
-                  <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(cashAmount)}</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Débito</p>
-                  <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(debitAmount)}</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Crédito</p>
-                  <p className="font-medium text-gray-800 dark:text-white">{formatCurrency(creditAmount)}</p>
+            {/* Montos ingresados por método — dinámico */}
+            {paymentMethods.length > 0 && (
+              <div className="mt-4 border-t pt-3 dark:border-slate-600">
+                <p className="mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+                  Montos Ingresados:
+                </p>
+                <div className={`grid gap-2 text-sm ${colClass}`}>
+                  {paymentMethods.map((method) => (
+                    <div key={method.id} className="text-center">
+                      <p className="text-xs text-gray-600 dark:text-gray-400">{method.description}</p>
+                      <p className="font-medium text-gray-800 dark:text-white">
+                        {formatCurrency(enteredAmounts[method.description] ?? 0)}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
             {hasDiscrepancies && (
               <div className="dark:bg-yellow-900/20 mt-3 rounded bg-yellow-50 p-2">
@@ -133,10 +138,14 @@ ApprovalModal.propTypes = {
   show: PropTypes.bool.isRequired,
   approving: PropTypes.bool.isRequired,
   calculationData: PropTypes.object,
+  paymentMethods: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  })).isRequired,
   totalEntered: PropTypes.number.isRequired,
-  cashAmount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  debitAmount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  creditAmount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  enteredAmounts: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  ).isRequired,
   hasDiscrepancies: PropTypes.bool.isRequired,
   differences: PropTypes.object,
   onClose: PropTypes.func.isRequired,

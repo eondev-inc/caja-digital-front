@@ -37,7 +37,7 @@ export const HeaderLogin = () => {
             <span className="hidden text-xs text-gray-600 dark:text-gray-400 sm:block">Sistema de Recepción</span>
           </div>
         </Navbar.Brand>
-        
+
         <div className="flex items-center gap-6">
           {/* Status Indicators for POS */}
           <div className="hidden items-center gap-4 text-sm text-gray-600 dark:text-gray-400 lg:flex">
@@ -50,33 +50,33 @@ export const HeaderLogin = () => {
               <span className="font-medium">{entityName}</span>
             </div>
           </div>
-          
+
           {/* Navigation Menu for POS Functions */}
           <Navbar.Collapse className="bg-gray-50/80 dark:bg-slate-800/80 rounded-lg border border-gray-200 px-4 py-2 shadow-sm dark:border-slate-700">
-            <Navbar.Link 
-              href="/dashboard" 
+            <Navbar.Link
+              href="/dashboard"
               className="flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
               active
             >
               <FontAwesomeIcon icon={faChartLine} className="size-3" />
               Panel Principal
             </Navbar.Link>
-            <Navbar.Link 
-              href="/dashboard/open-register" 
+            <Navbar.Link
+              href="/dashboard/open-register"
               className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
             >
               <FontAwesomeIcon icon={faCashRegister} className="size-3" />
               Abrir Caja
             </Navbar.Link>
-            <Navbar.Link 
-              href="/dashboard/sales" 
+            <Navbar.Link
+              href="/dashboard/sales"
               className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
             >
               <FontAwesomeIcon icon={faFileInvoice} className="size-3" />
               Ventas
             </Navbar.Link>
           </Navbar.Collapse>
-          
+
           {/* Logout Button */}
           <button
             type="button"
@@ -102,8 +102,8 @@ export const HeaderLogin = () => {
             className="dark:bg-red-900/20 flex items-center gap-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-300 dark:border-red-800 dark:text-red-400"
             onClick={handleLogout}
           >
-            <FontAwesomeIcon icon={faSignOutAlt} className="size-3" aria-hidden="true" />
-            <span className="hidden sm:inline">Cerrar Sesión</span>
+            <FontAwesomeIcon icon={faSignOutAlt} className="size-4" aria-hidden="true" />
+            <span className="ml-2 hidden sm:inline">Cerrar Sesión</span>
           </Button>
         </div>
       </Navbar>

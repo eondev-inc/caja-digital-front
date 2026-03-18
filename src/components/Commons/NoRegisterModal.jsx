@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 /**
  * Modal informativo que aparece cuando no hay caja abierta.
  * Ofrece redirigir a la página de apertura de caja.
- * Compartido por Sales y CloseRegister.
+ * Compartido por Sales, CloseRegister y CancelTransactions.
  *
  * @param {boolean} show - Controla visibilidad
- * @param {string} context - 'sales' | 'close' — ajusta el texto descriptivo
+ * @param {string} context - 'sales' | 'close' | 'cancel' — ajusta el texto descriptivo
  */
 export default function NoRegisterModal({ show, context = 'sales' }) {
   const navigate = useNavigate();
@@ -17,7 +17,9 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
   const descriptionText =
     context === 'close'
       ? 'Para realizar el cierre de caja, primero debe abrir una caja registradora. La apertura de caja le permite:'
-      : 'Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. La apertura de caja le permite:';
+      : context === 'cancel'
+        ? 'Para gestionar anulaciones y devoluciones, primero debe abrir una caja registradora. La apertura de caja le permite:'
+        : 'Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. La apertura de caja le permite:';
 
   const items =
     context === 'close'
@@ -27,12 +29,19 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
           'Realizar seguimiento de movimientos',
           'Generar reportes y cierres',
         ]
-      : [
-          'Registrar el monto inicial del día',
-          'Asociar todas las ventas a la caja',
-          'Mantener control de ingresos y egresos',
-          'Realizar el cierre diario correctamente',
-        ];
+      : context === 'cancel'
+        ? [
+            'Asociar transacciones a la caja',
+            'Realizar anulaciones y devoluciones',
+            'Mantener trazabilidad de movimientos',
+            'Generar reportes de cierre',
+          ]
+        : [
+            'Registrar el monto inicial del día',
+            'Asociar todas las ventas a la caja',
+            'Mantener control de ingresos y egresos',
+            'Realizar el cierre diario correctamente',
+          ];
 
   return (
     <Modal show={show} onClose={() => {}} dismissible={false} size="md">
@@ -82,5 +91,5 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
 
 NoRegisterModal.propTypes = {
   show: PropTypes.bool.isRequired,
-  context: PropTypes.oneOf(['sales', 'close']),
+  context: PropTypes.oneOf(['sales', 'close', 'cancel']),
 };

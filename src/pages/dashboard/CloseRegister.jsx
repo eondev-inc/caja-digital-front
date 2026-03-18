@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { Card, Button, Alert, Breadcrumb, Spinner } from 'flowbite-react';
 import { HiHome, HiCheckCircle, HiExclamationCircle } from 'react-icons/hi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalculator, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { calculateReconciliation, createReconciliation, approveReconciliation } from '../../api';
+import { calculateReconciliation, createReconciliation, approveReconciliation, getPaymentMethods } from '../../api';
 import { useStore } from '../../app/store';
 import ReconciliationSummaryCard from '../../components/CloseRegister/ReconciliationSummaryCard';
 import AmountInputCard from '../../components/CloseRegister/AmountInputCard';
@@ -14,7 +14,7 @@ import NoRegisterModal from '../../components/Commons/NoRegisterModal';
 /**
  * Página de Cuadratura y Cierre de Caja.
  * Permite visualizar el resumen de transacciones y realizar el cierre
- * con validación reactiva de montos.
+ * con validación reactiva de montos por método de pago dinámico.
  */
 const CloseRegister = () => {
   const navigate = useNavigate();
@@ -24,9 +24,14 @@ const CloseRegister = () => {
   const [calculationData, setCalculationData] = useState(null);
   const [error, setError] = useState(null);
 
-  const [cashAmount, setCashAmount] = useState(0);
-  const [debitAmount, setDebitAmount] = useState(0);
-  const [creditAmount, setCreditAmount] = useState(0);
+  /** Lista de métodos de pago activos cargados desde el backend */
+  const [paymentMethods, setPaymentMethods] = useState([]);
+
+  /**
+   * Montos ingresados por el usuario, indexados por description del método de pago.
+   * Ej: { 'Efectivo': 0, 'Tarjeta de débito': 0, 'Bono Papel': 0 }
+   */
+  const [enteredAmounts, setEnteredAmounts] = useState({});
   const [notes, setNotes] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
@@ -38,60 +43,87 @@ const CloseRegister = () => {
 
   const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
 
-  /** Carga los datos de cuadratura al montar el componente */
+  /** Carga métodos de pago y datos de cuadratura al montar el componente */
   useEffect(() => {
-    const fetchCalculation = async () => {
-      const entityId =
-        (userInfo.entity_users?.length > 0 && userInfo.entity_users[0]?.entities?.id) || '';
-
+    const fetchAll = async () => {
       if (!openRegister?.id) {
         setLoading(false);
         setShowNoRegisterModal(true);
         return;
       }
 
+      const entityId =
+        (userInfo.entity_users?.length > 0 && userInfo.entity_users[0]?.entities?.id) || '';
+
       setLoading(true);
       setError(null);
 
-      const result = await calculateReconciliation({ entity_id: entityId });
+      const [methodsResult, calcResult] = await Promise.allSettled([
+        getPaymentMethods(),
+        calculateReconciliation({ entity_id: entityId }),
+      ]);
 
-      if (result.success) {
-        setCalculationData(result.data);
+      // Procesar métodos de pago
+      if (methodsResult.status === 'fulfilled') {
+        const methods = Array.isArray(methodsResult.value) ? methodsResult.value : [];
+        setPaymentMethods(methods);
+        // Inicializar enteredAmounts con 0 para cada método
+        const initial = {};
+        methods.forEach((m) => { initial[m.description] = 0; });
+        setEnteredAmounts(initial);
+      }
+
+      // Procesar datos de cuadratura
+      if (calcResult.status === 'fulfilled') {
+        const result = calcResult.value;
+        if (result.success) {
+          setCalculationData(result.data);
+        } else {
+          setError(result.error || 'No se pudo cargar la información de cuadratura.');
+        }
       } else {
-        setError(result.error || 'No se pudo cargar la información de cuadratura.');
+        setError('No se pudo cargar la información de cuadratura.');
       }
 
       setLoading(false);
     };
 
-    fetchCalculation();
+    fetchAll();
   }, [openRegister, userInfo]);
 
-  /** Suma de montos ingresados */
+  /** Suma total de todos los montos ingresados */
   const totalEntered = useMemo(
-    () => Number(cashAmount) + Number(debitAmount) + Number(creditAmount),
-    [cashAmount, debitAmount, creditAmount],
+    () => Object.values(enteredAmounts).reduce((sum, v) => sum + Number(v), 0),
+    [enteredAmounts],
   );
 
-  /** Diferencias entre lo esperado y lo ingresado */
+  /**
+   * Diferencias entre lo esperado (del backend) y lo ingresado (por el usuario).
+   * Retorna un objeto indexado por description del método de pago, más totales.
+   */
   const differences = useMemo(() => {
     if (!calculationData) return null;
     const expected = calculationData.transactionDetailsByPaymentMethod || {};
-    const cashExpected = expected['Efectivo']?.totalAmount || 0;
-    const debitExpected = expected['Tarjeta de débito']?.totalAmount || 0;
-    const creditExpected = expected['Tarjeta de crédito']?.totalAmount || 0;
     const totalExpected = calculationData.totalAmount || 0;
+
+    const byMethod = {};
+    paymentMethods.forEach((m) => {
+      const desc = m.description;
+      const exp = expected[desc]?.totalAmount || 0;
+      const entered = Number(enteredAmounts[desc] ?? 0);
+      byMethod[desc] = {
+        expected: exp,
+        entered,
+        diff: entered - exp,
+      };
+    });
+
     return {
-      cash: Number(cashAmount) - cashExpected,
-      debit: Number(debitAmount) - debitExpected,
-      credit: Number(creditAmount) - creditExpected,
-      total: totalEntered - totalExpected,
-      cashExpected,
-      debitExpected,
-      creditExpected,
+      byMethod,
       totalExpected,
+      total: totalEntered - totalExpected,
     };
-  }, [calculationData, cashAmount, debitAmount, creditAmount, totalEntered]);
+  }, [calculationData, enteredAmounts, paymentMethods, totalEntered]);
 
   const hasDiscrepancies = useMemo(
     () => (differences ? differences.total !== 0 : false),
@@ -114,15 +146,17 @@ const CloseRegister = () => {
       0,
     );
 
+    // Construir sales_summary dinámico: { [description]: monto }
+    const sales_summary = {};
+    Object.entries(enteredAmounts).forEach(([desc, amount]) => {
+      sales_summary[desc] = Number(amount);
+    });
+
     const result = await createReconciliation({
       open_register_id: calculationData.openRegisterId,
       closing_balance: calculationData.initialAmount + totalEntered,
       total_sales: totalSales,
-      sales_summary: {
-        efectivo: Number(cashAmount),
-        debito: Number(debitAmount),
-        credito: Number(creditAmount),
-      },
+      sales_summary,
       notes: notes.trim() || undefined,
     });
 
@@ -162,8 +196,8 @@ const CloseRegister = () => {
   if (loading && !showNoRegisterModal) {
     return (
       <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
-        <div className="container mx-auto max-w-7xl px-4 py-6">
-          <Card className="mt-8 flex items-center justify-center p-12">
+        <div className="container mx-auto max-w-4xl px-4 py-6">
+          <Card className="flex items-center justify-center p-12">
             <Spinner size="xl" />
             <p className="mt-4 text-gray-600 dark:text-gray-400">
               Cargando información de cuadratura...
@@ -176,8 +210,8 @@ const CloseRegister = () => {
 
   return (
     <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
-      <div className="container mx-auto max-w-7xl px-4 py-6">
-        <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+      <div className="container mx-auto max-w-4xl px-4 py-6">
+        <Card className="border border-gray-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-800">
           {/* Breadcrumb */}
           <Breadcrumb className="mb-4">
             <Breadcrumb.Item href="/dashboard" icon={HiHome} className="text-primary-600 dark:text-primary-400">
@@ -189,14 +223,14 @@ const CloseRegister = () => {
           </Breadcrumb>
 
           {/* Header */}
-          <div className="mb-6">
+          <div className="mb-4">
             <div className="flex items-center gap-3">
-              <FontAwesomeIcon icon={faCalculator} className="text-3xl text-primary-600 dark:text-primary-400" aria-hidden="true" />
-              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+              <FontAwesomeIcon icon={faCalculator} className="text-2xl text-primary-600 dark:text-primary-400" aria-hidden="true" />
+              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
                 Cuadratura y Cierre de Caja
               </h1>
             </div>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               Verifica los montos y realiza el cierre diario de tu caja registradora.
             </p>
           </div>
@@ -219,23 +253,23 @@ const CloseRegister = () => {
           )}
 
           {calculationData && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <ReconciliationSummaryCard
                 calculationData={calculationData}
+                paymentMethods={paymentMethods}
+                enteredAmounts={enteredAmounts}
+                totalEntered={totalEntered}
+                differences={differences}
+                hasDiscrepancies={hasDiscrepancies}
                 formatCurrency={formatCurrency}
               />
 
               <AmountInputCard
-                cashAmount={cashAmount}
-                debitAmount={debitAmount}
-                creditAmount={creditAmount}
+                paymentMethods={paymentMethods}
+                enteredAmounts={enteredAmounts}
+                setEnteredAmounts={setEnteredAmounts}
                 notes={notes}
                 differences={differences}
-                totalEntered={totalEntered}
-                hasDiscrepancies={hasDiscrepancies}
-                setCashAmount={setCashAmount}
-                setDebitAmount={setDebitAmount}
-                setCreditAmount={setCreditAmount}
                 setNotes={setNotes}
                 formatCurrency={formatCurrency}
               />
@@ -267,7 +301,6 @@ const CloseRegister = () => {
               {hasDiscrepancies && (
                 <Alert color="warning" icon={HiExclamationCircle} role="alert">
                   <span className="font-medium">Atención:</span>{' '}
-                  <FontAwesomeIcon icon={faExclamationTriangle} className="mr-1" aria-hidden="true" />
                   Se detectaron diferencias en los montos. Verifique los valores antes de confirmar el cierre.
                 </Alert>
               )}
@@ -279,10 +312,9 @@ const CloseRegister = () => {
           show={showApprovalModal}
           approving={approving}
           calculationData={calculationData}
+          paymentMethods={paymentMethods}
           totalEntered={totalEntered}
-          cashAmount={cashAmount}
-          debitAmount={debitAmount}
-          creditAmount={creditAmount}
+          enteredAmounts={enteredAmounts}
           hasDiscrepancies={hasDiscrepancies}
           differences={differences}
           onClose={() => setShowApprovalModal(false)}
