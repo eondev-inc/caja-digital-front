@@ -2,14 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema, isBono } from '../../utils/transactionSchema';
-import { Button, Card, Alert } from 'flowbite-react';
+import { Button, Card, Alert, Spinner } from 'flowbite-react';
+import { HiCheckCircle, HiExclamationCircle } from 'react-icons/hi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileInvoice, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { getPaymentMethods, getPrevisions, getProfessionals, getTransactionTypes, createTransaction } from '../../api';
 import { useStore } from '../../app/store';
 import SalesHeader from '../../components/Sales/SalesHeader';
-import CustomerSection from '../../components/Sales/CustomerSection';
-import PaymentSection from '../../components/Sales/PaymentSection';
+import SalesFormFields from '../../components/Sales/SalesFormFields';
 import ItemsTable from '../../components/Sales/ItemsTable';
 import NotesSection from '../../components/Sales/NotesSection';
 import SummaryCard from '../../components/Sales/SummaryCard';
@@ -58,7 +58,7 @@ const Sales = () => {
 
   const paymentMethod = watch('payment_method_id');
   const [showConfirm, setShowConfirm] = useState(false);
-  const [toast, setToast] = useState({ type: null, message: '' });
+  const [alert, setAlert] = useState({ type: null, message: '' });
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState(null);
 
@@ -194,7 +194,6 @@ const Sales = () => {
     try {
       const response = await createTransaction(formData);
       if (response?.status === 201) {
-        setToast({ type: 'success', message: 'Transacción creada exitosamente' });
         const previsionId = watch('invoice.prevision_uuid');
         const previsionLabel = previsions.find((p) => p.id === previsionId)?.name;
         setReceiptData({
@@ -208,11 +207,12 @@ const Sales = () => {
           prevision_label: previsionLabel,
         });
         setShowReceipt(true);
+        setAlert({ type: 'success', message: 'Transacción creada exitosamente' });
         reset();
         setInvoiceItems([EMPTY_ITEM()]);
         restoreHiddenFields();
       } else {
-        setToast({ type: 'error', message: 'Error al crear la transacción' });
+        setAlert({ type: 'error', message: 'Error al crear la transacción' });
       }
     } catch (error) {
       console.error('Error creating transaction:', error);
@@ -220,26 +220,43 @@ const Sales = () => {
         error?.response?.data?.message ||
         error?.message ||
         'Error desconocido';
-      setToast({ type: 'error', message: `Error al crear la transacción: ${msg}` });
+      setAlert({ type: 'error', message: `Error al crear la transacción: ${msg}` });
     }
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-slate-900">
-      <div className="container mx-auto px-4 py-6">
-        <Card className="mx-auto max-w-5xl border border-neutral-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+    <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      <div className="container mx-auto max-w-5xl px-4 py-6">
+        <Card className="border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
           <SalesHeader />
 
-          <form className="space-y-5 p-6" onSubmit={handleSubmit(onSubmit)}>
-            <CustomerSection control={control} errors={errors} />
+          {/* Alert inline (éxito / error) */}
+          {alert.type && (
+            <Alert
+              color={alert.type === 'success' ? 'success' : 'failure'}
+              icon={alert.type === 'success' ? HiCheckCircle : HiExclamationCircle}
+              onDismiss={() => setAlert({ type: null, message: '' })}
+              className="mb-2"
+              role={alert.type === 'error' ? 'alert' : 'status'}
+            >
+              <span className="font-medium">
+                {alert.type === 'success' ? '¡Éxito! ' : 'Error: '}
+              </span>
+              {alert.message}
+            </Alert>
+          )}
 
-            <PaymentSection
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            {/* Campos compactos: cliente + pago en 1 bloque */}
+            <SalesFormFields
+              control={control}
               register={register}
               errors={errors}
               paymentMethods={paymentMethods}
               showFolioInput={showFolioInput}
             />
 
+            {/* Tabla de ítems */}
             <ItemsTable
               items={invoiceItems}
               onAdd={addInvoiceItem}
@@ -249,39 +266,48 @@ const Sales = () => {
               previsions={previsions}
             />
 
-            <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {/* Notas + Resumen de costos */}
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <NotesSection register={register} />
               <SummaryCard items={invoiceItems} />
             </div>
 
-            <div className="mt-8 flex flex-col justify-end gap-4 sm:flex-row">
-              {/* Campos ocultos requeridos por el schema */}
+            {/* Botones de acción */}
+            <div className="flex justify-end gap-4">
+              {/* Campo oculto requerido por el schema */}
               <input type="hidden" {...register('description')} />
 
               <Button
                 type="button"
-                size="md"
                 color="gray"
-                className="flex items-center px-4 py-3"
+                className="cursor-pointer"
                 onClick={() => {
                   reset();
                   setInvoiceItems([EMPTY_ITEM()]);
                   restoreHiddenFields();
                 }}
               >
-                <FontAwesomeIcon icon={faTimes} className="mr-2 size-4" />
-                <span className="text-base text-gray-700 dark:text-gray-300">Cancelar</span>
+                <FontAwesomeIcon icon={faTimes} className="mr-2 size-4" aria-hidden="true" />
+                Cancelar
               </Button>
 
               <Button
                 type="submit"
-                size="md"
                 color="success"
-                className="flex items-center px-8 py-3"
+                className="cursor-pointer"
                 disabled={!isValid || isSubmitting}
               >
-                <FontAwesomeIcon icon={faFileInvoice} className="mr-2 size-4" />
-                <span className="text-base">Generar Comprobante Médico</span>
+                {isSubmitting ? (
+                  <>
+                    <Spinner size="sm" className="mr-2" />
+                    Procesando...
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faFileInvoice} className="mr-2 size-4" aria-hidden="true" />
+                    Generar Comprobante Médico
+                  </>
+                )}
               </Button>
             </div>
           </form>
@@ -297,23 +323,12 @@ const Sales = () => {
             }}
           />
 
-          {toast.type && (
-            <div className="fixed bottom-6 right-6">
-              <Alert
-                color={toast.type === 'success' ? 'success' : 'failure'}
-                onDismiss={() => setToast({ type: null, message: '' })}
-              >
-                {toast.message}
-              </Alert>
-            </div>
-          )}
-
           <ReceiptModal open={showReceipt} onClose={() => setShowReceipt(false)} data={receiptData} />
         </Card>
 
         <NoRegisterModal show={showNoRegisterModal} context="sales" />
       </div>
-    </div>
+    </section>
   );
 };
 

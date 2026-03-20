@@ -13,7 +13,7 @@ export default function NotesSection({ register }) {
       </Label>
       <Textarea
         placeholder="Observaciones del tratamiento, instrucciones, próximas citas..."
-        rows={5}
+        rows={3}
         className="rounded-lg border-neutral-300 focus:border-primary-500 focus:ring-primary-200"
         {...register('invoice.notes')}
       />

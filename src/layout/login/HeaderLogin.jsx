@@ -1,6 +1,6 @@
 import { Navbar, Button } from "flowbite-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faHospital, faChartLine, faSignOutAlt, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
+import { faCashRegister, faHospital, faChartLine, faSignOutAlt, faFileInvoice, faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../app/store';
 import { useDarkMode } from '../../hooks/useDarkMode';
@@ -74,6 +74,13 @@ export const HeaderLogin = () => {
             >
               <FontAwesomeIcon icon={faFileInvoice} className="size-3" />
               Ventas
+            </Navbar.Link>
+            <Navbar.Link
+              href="/dashboard/reports"
+              className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+            >
+              <FontAwesomeIcon icon={faChartBar} className="size-3" />
+              Reportes
             </Navbar.Link>
           </Navbar.Collapse>
 
