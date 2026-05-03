@@ -1,7 +1,14 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  entity: z.string().nonempty('Select your Entity')
+  email: z
+    .string()
+    .min(1, 'El correo es obligatorio')
+    .email('Ingresá un correo electrónico válido'),
+  password: z
+    .string()
+    .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  entity: z
+    .string()
+    .min(1, 'Seleccioná tu centro de trabajo'),
 });
