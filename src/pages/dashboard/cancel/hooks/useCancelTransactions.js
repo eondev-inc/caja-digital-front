@@ -3,8 +3,8 @@ import {
   listTransactionsByUser,
   cancelTransaction,
   devolutionTransaction,
-} from '../../../api';
-import { useStore } from '../../../app/store';
+} from '../../../../api';
+import { useStore } from '../../../../app/store';
 
 const ITEMS_PER_PAGE = 10;
 
