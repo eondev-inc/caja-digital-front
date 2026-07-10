@@ -4,6 +4,7 @@ import { faCashRegister, faHospital, faChartLine, faSignOutAlt, faFileInvoice, f
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../app/store';
 import { useDarkMode } from '../../hooks/useDarkMode';
+import { logout as logoutRequest } from '../../api/auth/logout.post';
 
 export const HeaderLogin = () => {
   const navigate = useNavigate();
@@ -17,12 +18,22 @@ export const HeaderLogin = () => {
   const entityName =
     userInfo?.entity_users?.[0]?.entities?.name ?? "Centro de Salud";
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Always clear local state first so the UI never gets stuck
+    // even if the backend call fails (offline, 5xx, etc.).
     setAccessToken('');
     setIsAuthenticated(false);
     setUserInfo({});
     setOpenRegister({});
     navigate('/login');
+
+    // Best-effort backend logout to invalidate the httpOnly refresh cookie.
+    // Failures are intentionally swallowed: the local session is already gone.
+    try {
+      await logoutRequest();
+    } catch (error) {
+      console.error('Backend logout failed; local session cleared.', error);
+    }
   };
 
   return (

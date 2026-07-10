@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     visualizer(),
-    viteCompression({ algotithm: 'brotliCompress' })
+    viteCompression({ algorithm: 'brotliCompress' })
   ],
   server: {
     port: 3000,
@@ -19,8 +19,12 @@ export default defineConfig({
     historyApiFallback: true,
   },
   build: {
-    mimify: 'terser',
-    sourcemap: true,
+    minify: 'terser',
+    // 'hidden' emits .map files but strips the //# sourceMappingURL comment
+    // from bundles, so DevTools does not auto-load them in production.
+    // Switch to false to drop them entirely once an error-reporting pipeline
+    // (Sentry, Datadog) is in place to consume them.
+    sourcemap: 'hidden',
     chunkSizeWarningLimit: 500,
   }
 })
