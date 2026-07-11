@@ -1,131 +1,140 @@
-import { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Card, Label, TextInput } from 'flowbite-react';
 import { HiArrowLeft } from 'react-icons/hi';
-import { useStore } from "../../app/store";
-import { useNavigate } from 'react-router-dom';
-import { getOpenRegister, createOpenRegister } from '../../api';
-import { GeneralModal } from '../../components/Commons/GeneralModal';
+import { GeneralModal } from '../../../components/Commons/GeneralModal';
+import { useOpenRegister } from './open/hooks/useOpenRegister';
 
 const OpenRegister = () => {
-  const [openingAmount, setOpeningAmount] = useState('');
-  const [showAlreadyOpenModal, setShowAlreadyOpenModal] = useState(false);
-  // const [showModalLoading, setShowModalLoading] = useState(false);
-  const { userInfo, setOpenRegister, openRegister } = useStore()
-  const navigateTo = useNavigate()
-
-  const handleOpenRegister = async () => {
-    const data = {
-      initial_amount: parseInt(openingAmount),
-      entity_id: userInfo.entity_users[0].entities.id,
-    }
-    const response = await createOpenRegister(data);
-    console.log(response);
-    if (response.status === 200 || response.status === 201) {
-      setOpenRegister(response.data);
-      navigateTo('/dashboard');
-    } else {
-      // Si ya existe una caja abierta, mostrar modal informativo
-      setShowAlreadyOpenModal(true);
-    }
-  }
-
-  const handleCloseAlreadyOpenModal = () => {
-    setShowAlreadyOpenModal(false);
-    navigateTo('/dashboard');
-  }
-
-  useEffect(() => {
-    if (Object.keys(openRegister).length <= 0) {
-      //Hay que solicitar el estado de la caja
-      const [userEntityInfo] = userInfo.entity_users.map((entities) => {
-        return entities
-      })
-
-      const fetchOpenRegister = async (entityId) => {
-        const registerResponse = await getOpenRegister(entityId);
-
-        if (registerResponse.status === 200) {
-          setOpenRegister(registerResponse.data);
-          // Mostrar modal informativo en lugar de redirigir inmediatamente
-          setShowAlreadyOpenModal(true);
-        }
-      };
-
-      fetchOpenRegister(userEntityInfo.entities.id);
-    } else {
-      // Si ya hay info de caja abierta en el store, mostrar modal informativo
-      setShowAlreadyOpenModal(true);
-    }
-  }, [openRegister, setOpenRegister, navigateTo, userInfo.entity_users]);
+  const {
+    register,
+    handleSubmit,
+    errors,
+    isSubmitting,
+    onSubmit,
+    showAlreadyOpenModal,
+    handleCloseAlreadyOpenModal,
+    userInfo,
+  } = useOpenRegister();
 
   return (
     <div className="mx-auto max-w-[1080px] p-4">
-      {/* Register Details Card */}
       <Card className="mb-6">
-        {/* Header Navigation */}
         <div className="mb-6">
           <Breadcrumb className="rounded px-2 py-1">
-            <Breadcrumb.Item icon={HiArrowLeft} href='/dashboard'>Volver</Breadcrumb.Item>
+            <Breadcrumb.Item icon={HiArrowLeft} href="/dashboard">
+              Volver
+            </Breadcrumb.Item>
             <Breadcrumb.Item>Caja digital</Breadcrumb.Item>
-            <Breadcrumb.Item className="text-secondary-600 dark:text-secondary-400">Apertura de caja</Breadcrumb.Item>
+            <Breadcrumb.Item className="text-secondary-600 dark:text-secondary-400">
+              Apertura de caja
+            </Breadcrumb.Item>
           </Breadcrumb>
         </div>
 
-        {/* Main Title */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">Apertura de caja</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+            Apertura de caja
+          </h1>
           <p className="text-gray-600 dark:text-slate-400">
-            Abre tu caja para registrar, ingresar comprobantes, anular y ver tu historial de movimientos.
+            Abre tu caja para registrar, ingresar comprobantes, anular y ver tu
+            historial de movimientos.
           </p>
         </div>
+
         <div className="space-y-6">
           <div className="flex items-center gap-2 pb-4">
             <div className="dark:bg-primary-900/30 rounded bg-primary-100 p-2">
-              <svg className="size-6 text-primary-500 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <svg
+                className="size-6 text-primary-500 dark:text-primary-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
               </svg>
             </div>
-            <h2 className="text-lg font-semibold text-primary-600 dark:text-primary-400">Datos de caja</h2>
+            <h2 className="text-lg font-semibold text-primary-600 dark:text-primary-400">
+              Datos de caja
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm dark:border-slate-600 md:grid-cols-2">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Nombre cajero</p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.surnames} {userInfo.forenames}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+                Nombre cajero
+              </p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">
+                {userInfo.surnames} {userInfo.forenames}
+              </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Rut cajero</p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">{userInfo.nid}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+                Rut cajero
+              </p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">
+                {userInfo.nid}
+              </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Fecha Apertura</p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">{new Date().toLocaleDateString()}</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+                Fecha Apertura
+              </p>
+              <p className="mt-1 text-gray-900 dark:text-slate-100">
+                {new Date().toLocaleDateString()}
+              </p>
             </div>
           </div>
 
-          <div className="mt-8">
-            <Label htmlFor="initial-amount" className="text-lg font-medium text-gray-700 dark:text-slate-300">
-              ¿Con qué monto abrirás tu caja hoy?
-            </Label>
-            <div className="mt-2">
-              <Label>Fondo inicial</Label>
-              <div className="flex items-center gap-4">
-                <TextInput
-                  id="initial-amount"
-                  type="number"
-                  placeholder="$"
-                  className="max-w-xs"
-                  value={openingAmount}
-                  onChange={(e) => setOpeningAmount(e.target.value)}
-                />
-                <Button color="blue" onClick={() => handleOpenRegister()}>
-                  Abrir Caja
-                </Button>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <div className="mt-8">
+              <Label
+                htmlFor="openingAmount"
+                className="text-lg font-medium text-gray-700 dark:text-slate-300"
+              >
+                ¿Con qué monto abrirás tu caja hoy?
+              </Label>
+              <div className="mt-2">
+                <Label>Fondo inicial</Label>
+                <div className="flex items-center gap-4">
+                  <TextInput
+                    id="openingAmount"
+                    type="number"
+                    placeholder="$"
+                    className="max-w-xs"
+                    color={errors.openingAmount ? 'failure' : 'gray'}
+                    aria-describedby={
+                      errors.openingAmount ? 'openingAmount-error' : undefined
+                    }
+                    aria-invalid={!!errors.openingAmount}
+                    {...register('openingAmount')}
+                  />
+                  <Button
+                    type="submit"
+                    color="blue"
+                    disabled={isSubmitting}
+                    isProcessing={isSubmitting}
+                  >
+                    Abrir Caja
+                  </Button>
+                </div>
+                {errors.openingAmount && (
+                  <p
+                    id="openingAmount-error"
+                    className="mx-1 mt-1 text-left text-sm text-red-500"
+                  >
+                    {errors.openingAmount.message}
+                  </p>
+                )}
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </Card>
+
       {showAlreadyOpenModal && (
         <GeneralModal
           title="Caja ya abierta"
@@ -135,7 +144,8 @@ const OpenRegister = () => {
           onClose={handleCloseAlreadyOpenModal}
         >
           <p className="text-center text-gray-700 dark:text-slate-300">
-            Ya existe una caja abierta asociada a tu usuario. Serás redirigido al dashboard para continuar.
+            Ya existe una caja abierta asociada a tu usuario. Serás redirigido
+            al dashboard para continuar.
           </p>
         </GeneralModal>
       )}
