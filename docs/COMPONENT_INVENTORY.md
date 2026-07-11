@@ -57,13 +57,20 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 
 | File | Lines | Status | Notes |
 |------|-------|--------|-------|
-| `src/pages/dashboard/Sales.jsx` | 73 | ✅ Done | Thin orchestrator |
-| `src/pages/dashboard/sales/SalesHeader.jsx` | ~30 | ✅ Done | Breadcrumb + title |
-| `src/pages/dashboard/sales/SalesList.jsx` | ~80 | ✅ Done | Items table |
-| `src/pages/dashboard/sales/SalesCart.jsx` | ~100 | ✅ Done | Cart summary |
-| `src/pages/dashboard/sales/SalesFormSection.jsx` | ~100 | ✅ Done | Form section wrapper |
+| `src/pages/dashboard/Sales.jsx` | 73 | ✅ Done → 🎨 Restyled | Semantic neutral tokens, dark mode parity |
+| `src/components/Sales/SalesHeader.jsx` | ~35 | ✅ Done → 🎨 Restyled | Neutral tokens, font-heading on title |
+| `src/pages/dashboard/sales/SalesList.jsx` | ~80 | ✅ Done | Items table (see ItemsTable) |
+| `src/pages/dashboard/sales/SalesCart.jsx` | ~100 | ✅ Done | Cart summary (see SummaryCard) |
+| `src/pages/dashboard/sales/SalesFormSection.jsx` | ~113 | ✅ Done → 🎨 Restyled | Focus rings on buttons, semantic tokens |
 | `src/pages/dashboard/sales/hooks/useSales.js` | 143 | ✅ Done | RHF + items + submission |
 | `src/pages/dashboard/sales/hooks/useSalesCatalogs.js` | ~60 | ✅ Done | Payment methods, previsions, professionals |
+| `src/components/Sales/ItemsTable.jsx` | ~184 | ✅ Done → 🎨 Restyled | Neutral tokens, solid shades (no opacity modifiers) |
+| `src/components/Sales/SummaryCard.jsx` | ~44 | ✅ Done → 🎨 Restyled | Secondary tokens, aria-live on totals |
+| `src/components/Sales/NotesSection.jsx` | ~26 | ✅ Done → 🎨 Restyled | Neutral tokens, focus rings, dark mode |
+| `src/components/Sales/ConfirmModal.jsx` | ~48 | ✅ Done → 🎨 Restyled | Neutral tokens, font-heading, focus rings |
+| `src/components/Sales/ReceiptModal.jsx` | ~103 | ✅ Done → 🎨 Restyled | Neutral tokens, dark mode parity |
+| `src/components/Sales/CustomerSection.jsx` | ~93 | ✅ Done → 🎨 Restyled | Neutral tokens, aria-describedby, focus rings |
+| `src/components/Sales/PaymentSection.jsx` | ~66 | ✅ Done → 🎨 Restyled | Neutral tokens, focus rings, dark mode |
 
 ---
 
@@ -110,8 +117,8 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 | File | Lines | Status | Notes |
 |------|-------|--------|-------|
 | `src/components/Sales/SalesFormFields.jsx` | 45 | ✅ Done | Thin orchestrator |
-| `src/components/Sales/fields/CustomerFields.jsx` | 163 | ✅ Done | RUT, name, date, payment method |
-| `src/components/Sales/fields/ProductFields.jsx` | 37 | ✅ Done | Folio (conditional) |
+| `src/components/Sales/fields/CustomerFields.jsx` | ~175 | ✅ Done → 🎨 Restyled | Neutral tokens, aria-describedby, focus rings |
+| `src/components/Sales/fields/ProductFields.jsx` | ~42 | ✅ Done → 🎨 Restyled | Neutral tokens, aria-describedby, focus rings |
 
 ---
 
@@ -189,21 +196,60 @@ All auth page components now use **semantic design tokens only**:
 
 ---
 
+## PR 5 — Sales Pages Visual Restyle
+
+### Token Discipline
+
+All sales page components now use **semantic design tokens only**:
+- `neutral-*` for text, borders, and backgrounds (replaces raw `gray-*`/`slate-*`)
+- `primary-*` for brand accents, icons, and focus rings
+- `secondary-*` for SummaryCard backgrounds and accents
+- `error-*` for validation errors (replaces raw `red-*`)
+- Zero raw `bg-(gray|slate|zinc|neutral|teal|emerald)-[0-9]` in page code
+- Solid shades used instead of opacity modifiers (Tailwind CSS var limitation)
+- Dark mode parity via `neutral-700`/`neutral-800`/`neutral-900`
+
+### Accessibility
+
+- All inputs have `aria-invalid` and `aria-describedby` linked to error messages
+- Error messages use `role="alert"` for screen reader announcements
+- SummaryCard uses `aria-live="polite"` for dynamic cart total updates
+- All interactive elements have visible focus rings (`focus:ring-2 focus:ring-primary-*`)
+
+### Files Restyled
+
+| File | Token Changes | A11y Enhancements |
+|------|--------------|-------------------|
+| `src/pages/dashboard/Sales.jsx` | neutral bg/border tokens | — |
+| `src/components/Sales/SalesHeader.jsx` | neutral text tokens, font-heading | — |
+| `src/pages/dashboard/sales/SalesFormSection.jsx` | Focus rings on buttons | — |
+| `src/components/Sales/ItemsTable.jsx` | neutral tokens, solid shades | — |
+| `src/components/Sales/SummaryCard.jsx` | secondary tokens, solid bg | aria-live on totals |
+| `src/components/Sales/NotesSection.jsx` | neutral tokens, focus rings | — |
+| `src/components/Sales/ConfirmModal.jsx` | neutral tokens, font-heading | focus rings on buttons |
+| `src/components/Sales/ReceiptModal.jsx` | neutral tokens, dark parity | — |
+| `src/components/Sales/CustomerSection.jsx` | neutral tokens, focus rings | aria-describedby, aria-invalid |
+| `src/components/Sales/PaymentSection.jsx` | neutral tokens, focus rings | — |
+| `src/components/Sales/fields/CustomerFields.jsx` | neutral/error tokens | aria-describedby, aria-invalid |
+| `src/components/Sales/fields/ProductFields.jsx` | neutral/error tokens | aria-describedby, aria-invalid |
+
+---
+
 ## Summary
 
 ### Decomposition Stats
 
-| Metric | PR 2A | PR 2B | PR 3 | PR 4 | Total |
-|--------|-------|-------|------|------|-------|
-| Pages decomposed | 4 | 4 | 2 (migrated) | — | 8 |
-| Pages restyled | — | — | — | 2 + layouts | 2 + 8 layouts |
-| New files created | 18 | 9 | 3 | 0 | 30 |
-| Total new lines | ~1,200 | ~800 | ~310 | ~265 (restyle) | ~2,575 |
-| Max page size (before) | 494 | 331 | 146 | 62 | 494 |
-| Max page size (after) | 97 | 131 | 148 | 62 | 148 |
-| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | — | 4 |
-| Token-compliant pages | — | — | — | ✅ All auth | ✅ Auth |
+| Metric | PR 2A | PR 2B | PR 3 | PR 4 | PR 5 | Total |
+|--------|-------|-------|------|------|------|-------|
+| Pages decomposed | 4 | 4 | 2 (migrated) | — | — | 8 |
+| Pages restyled | — | — | — | 2 + layouts | 12 sales components | 2 + 8 layouts + 12 sales |
+| New files created | 18 | 9 | 3 | 0 | 0 | 30 |
+| Total new lines | ~1,200 | ~800 | ~310 | ~265 (restyle) | ~107 (restyle) | ~2,682 |
+| Max page size (before) | 494 | 331 | 146 | 62 | 73 | 494 |
+| Max page size (after) | 97 | 131 | 148 | 62 | 73 | 73 |
+| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | — | — | 4 |
+| Token-compliant pages | — | — | — | ✅ All auth | ✅ All sales | ✅ Auth + Sales |
 
 ### Next Steps
 
@@ -229,5 +275,5 @@ pnpm build
 
 ---
 
-**Last updated**: PR 4 complete (2026-07-10)
+**Last updated**: PR 5 complete (2026-07-10)
 **Maintainer**: Update this document after each PR to track component status.

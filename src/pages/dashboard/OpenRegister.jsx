@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Card, Label, TextInput } from 'flowbite-react';
 import { HiArrowLeft } from 'react-icons/hi';
-import { GeneralModal } from '../../../components/Commons/GeneralModal';
+import { GeneralModal } from '../../components/Commons/GeneralModal';
 import { useOpenRegister } from './open/hooks/useOpenRegister';
 
 const OpenRegister = () => {
