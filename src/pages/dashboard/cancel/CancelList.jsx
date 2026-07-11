@@ -43,7 +43,7 @@ export const CancelList = ({
     return (
       <div className="flex items-center justify-center py-16">
         <Spinner size="xl" aria-label="Cargando transacciones" />
-        <span className="ml-3 text-lg text-slate-600 dark:text-slate-400">
+        <span className="ml-3 text-lg text-neutral-600 dark:text-neutral-400">
           Cargando transacciones...
         </span>
       </div>
@@ -55,13 +55,13 @@ export const CancelList = ({
       <div className="py-16 text-center">
         <FontAwesomeIcon
           icon={faExclamationTriangle}
-          className="mb-4 size-12 text-gray-400 dark:text-gray-500"
+          className="mb-4 size-12 text-neutral-400 dark:text-neutral-500"
           aria-hidden="true"
         />
-        <p className="text-lg text-slate-600 dark:text-slate-400">
+        <p className="text-lg text-neutral-600 dark:text-neutral-400">
           No se encontraron transacciones
         </p>
-        <p className="text-sm text-slate-400 dark:text-slate-500">
+        <p className="text-sm text-neutral-400 dark:text-neutral-500">
           Intenta con otros términos de búsqueda
         </p>
       </div>
@@ -88,26 +88,26 @@ export const CancelList = ({
             {transactions.map((transaction) => (
               <Table.Row
                 key={transaction.id}
-                className="bg-white dark:border-slate-700 dark:bg-slate-800"
+                className="bg-white dark:border-neutral-700 dark:bg-neutral-800"
               >
-                <Table.Cell className="font-medium text-slate-900 dark:text-white">
+                <Table.Cell className="font-medium text-neutral-900 dark:text-neutral-50">
                   {transaction.invoice?.id?.slice(0, 8) ?? 'N/A'}
                 </Table.Cell>
-                <Table.Cell className="whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                <Table.Cell className="whitespace-nowrap text-sm text-neutral-600 dark:text-neutral-400">
                   {transaction.created_at
                     ? formatDate(transaction.created_at)
                     : 'N/A'}
                 </Table.Cell>
-                <Table.Cell className="max-w-xs truncate text-slate-600 dark:text-slate-400">
+                <Table.Cell className="max-w-xs truncate text-neutral-600 dark:text-neutral-400">
                   {transaction.description ?? 'Sin descripción'}
                 </Table.Cell>
-                <Table.Cell className="text-slate-600 dark:text-slate-400">
+                <Table.Cell className="text-neutral-600 dark:text-neutral-400">
                   {transaction.transaction_type?.description ?? 'N/A'}
                 </Table.Cell>
-                <Table.Cell className="text-slate-600 dark:text-slate-400">
+                <Table.Cell className="text-neutral-600 dark:text-neutral-400">
                   {transaction.payment_method?.description ?? 'N/A'}
                 </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-semibold text-slate-900 dark:text-white">
+                <Table.Cell className="whitespace-nowrap font-semibold text-neutral-900 dark:text-neutral-50">
                   {formatCurrency(transaction.amount)}
                 </Table.Cell>
                 <Table.Cell>{getStatusBadge(transaction.status)}</Table.Cell>

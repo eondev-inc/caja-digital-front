@@ -15,9 +15,9 @@ const CancelTransactions = () => {
   const c = useCancelTransactions();
 
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
+    <section className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       <div className="container mx-auto max-w-6xl px-4 py-6">
-        <Card className="border border-gray-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+        <Card className="border border-neutral-200 bg-white p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
           <CancelHeader />
 
           {c.alert.show && (
