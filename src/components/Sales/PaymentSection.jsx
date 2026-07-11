@@ -9,15 +9,15 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
       <div>
         <Label
           htmlFor="payment_method_id"
-          className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300"
+          className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
         >
-          <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-primary-600" aria-hidden="true" />
+          <FontAwesomeIcon icon={faCreditCard} className="mr-2 text-primary-600 dark:text-primary-400" aria-hidden="true" />
           Método de Pago
         </Label>
         <Select
           id="payment_method_id"
           {...register('payment_method_id')}
-          className="w-full"
+          className="w-full transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:focus:border-primary-400 dark:focus:ring-primary-800"
         >
           <option value="">Seleccionar método</option>
           {paymentMethods.map((method) => (
@@ -27,7 +27,7 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
           ))}
         </Select>
         {errors.payment_method_id && (
-          <p className="mt-1 text-xs text-error-600" role="alert">
+          <p className="mt-1 text-xs text-error-500 dark:text-error-400" role="alert">
             {errors.payment_method_id.message}
           </p>
         )}
@@ -37,18 +37,18 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
         <div>
           <Label
             htmlFor="folio"
-            className="mb-1 block text-sm font-medium text-secondary-700 dark:text-gray-300"
+            className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
           >
             Número de Folio
           </Label>
           <TextInput
             id="folio"
             placeholder="Folio"
-            className="w-full"
+            className="w-full transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:focus:border-primary-400 dark:focus:ring-primary-800"
             {...register('folio')}
           />
           {errors.folio && (
-            <p className="mt-1 text-xs text-error-600" role="alert">
+            <p className="mt-1 text-xs text-error-500 dark:text-error-400" role="alert">
               {errors.folio.message}
             </p>
           )}
