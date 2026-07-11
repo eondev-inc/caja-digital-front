@@ -9,17 +9,17 @@ export default function SummaryCard({ items, iva = 0.19 }) {
   const total = Math.round(subtotal + tax);
 
   return (
-    <div className="dark:bg-secondary-900/20 space-y-4 rounded-lg border border-secondary-200 bg-secondary-50 p-6 dark:border-secondary-800">
+    <div className="space-y-4 rounded-lg border border-secondary-200 bg-secondary-50 p-6 dark:border-secondary-800 dark:bg-secondary-900">
       <h3 className="flex items-center gap-2 text-lg font-semibold text-secondary-800 dark:text-secondary-200">
         <FontAwesomeIcon icon={faCalculator} />
         Resumen de Costos
       </h3>
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-secondary-700">
+      <div className="space-y-3" aria-live="polite">
+        <div className="flex items-center justify-between text-secondary-700 dark:text-secondary-300">
           <span>Subtotal:</span>
           <span className="font-medium">${subtotal.toLocaleString('es-CL')}</span>
         </div>
-        <div className="flex items-center justify-between text-secondary-700">
+        <div className="flex items-center justify-between text-secondary-700 dark:text-secondary-300">
           <div className="flex items-center gap-2">
             <span>Impuesto</span>
             <TextInput type="number" className="w-16 text-center" placeholder="19" value={iva * 100} disabled />

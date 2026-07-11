@@ -10,7 +10,7 @@ export default function SalesHeader() {
         <Breadcrumb.Item href="/dashboard" icon={HiHome} className="text-primary-600 dark:text-primary-400">
           Inicio
         </Breadcrumb.Item>
-        <Breadcrumb.Item className="text-gray-600 dark:text-gray-400">
+        <Breadcrumb.Item className="text-neutral-600 dark:text-neutral-400">
           Nueva Venta
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -22,11 +22,11 @@ export default function SalesHeader() {
             className="text-2xl text-primary-600 dark:text-primary-400"
             aria-hidden="true"
           />
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+          <h1 className="font-heading text-2xl font-bold text-neutral-900 dark:text-white">
             Nueva Venta
           </h1>
         </div>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
           Sistema de Facturación Médica
         </p>
       </div>

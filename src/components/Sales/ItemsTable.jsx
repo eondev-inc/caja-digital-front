@@ -10,22 +10,22 @@ import PropTypes from 'prop-types';
  */
 export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professionals, previsions }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800">
       {/* Cabecera de la sección */}
-      <div className="flex items-center gap-2 border-b border-gray-200 bg-primary-500 px-4 py-3 dark:border-slate-700">
+      <div className="flex items-center gap-2 border-b border-neutral-200 bg-primary-500 px-4 py-3 dark:border-neutral-700">
         <FontAwesomeIcon icon={faUserMd} className="text-white" aria-hidden="true" />
         <h3 className="text-sm font-semibold text-white">Detalle de Servicios Médicos</h3>
       </div>
 
       {/* Cabecera de columnas — solo visible en lg+ */}
-      <div className="hidden border-b border-gray-100 bg-gray-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-700 lg:grid lg:grid-cols-12 lg:gap-2">
-        <div className="col-span-3 text-xs font-medium text-gray-600 dark:text-gray-300">Servicio / Tratamiento</div>
-        <div className="col-span-2 text-xs font-medium text-gray-600 dark:text-gray-300">Profesional</div>
-        <div className="col-span-2 text-xs font-medium text-gray-600 dark:text-gray-300">Previsión</div>
-        <div className="col-span-1 text-center text-xs font-medium text-gray-600 dark:text-gray-300">Cant.</div>
-        <div className="col-span-2 text-center text-xs font-medium text-gray-600 dark:text-gray-300">Precio</div>
-        <div className="col-span-1 text-center text-xs font-medium text-gray-600 dark:text-gray-300">Subtotal</div>
-        <div className="col-span-1 text-center text-xs font-medium text-gray-600 dark:text-gray-300">
+      <div className="hidden border-b border-neutral-100 bg-neutral-50 px-3 py-2 dark:border-neutral-700 dark:bg-neutral-700 lg:grid lg:grid-cols-12 lg:gap-2">
+        <div className="col-span-3 text-xs font-medium text-neutral-600 dark:text-neutral-300">Servicio / Tratamiento</div>
+        <div className="col-span-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">Profesional</div>
+        <div className="col-span-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">Previsión</div>
+        <div className="col-span-1 text-center text-xs font-medium text-neutral-600 dark:text-neutral-300">Cant.</div>
+        <div className="col-span-2 text-center text-xs font-medium text-neutral-600 dark:text-neutral-300">Precio</div>
+        <div className="col-span-1 text-center text-xs font-medium text-neutral-600 dark:text-neutral-300">Subtotal</div>
+        <div className="col-span-1 text-center text-xs font-medium text-neutral-600 dark:text-neutral-300">
           <span className="sr-only">Eliminar</span>
         </div>
       </div>
@@ -34,13 +34,13 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
       {items.map((item, index) => (
         <div
           key={index}
-          className="dark:hover:bg-slate-700/50 border-b border-gray-100 px-3 py-2 transition-colors last:border-0 hover:bg-gray-50 dark:border-slate-700"
+          className="border-b border-neutral-100 px-3 py-2 transition-colors last:border-0 hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-700"
         >
           {/* Layout desktop: fila única de 12 cols */}
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-12 lg:items-center">
             {/* Servicio */}
             <div className="lg:col-span-3">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Servicio / Tratamiento
               </label>
               <TextInput
@@ -53,7 +53,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Profesional */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Profesional (opcional)
               </label>
               <Select
@@ -74,7 +74,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Previsión */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Previsión (opcional)
               </label>
               <Select
@@ -94,7 +94,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Cantidad */}
             <div className="lg:col-span-1">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Cantidad
               </label>
               <TextInput
@@ -109,7 +109,7 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Precio */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Precio unit.
               </label>
               <TextInput
@@ -126,13 +126,13 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Subtotal (readonly) */}
             <div className="lg:col-span-1">
-              <label className="mb-0.5 block text-xs text-gray-500 dark:text-gray-400 lg:hidden">
+              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
                 Subtotal
               </label>
               <TextInput
                 sizing="sm"
                 type="text"
-                className="cursor-default bg-gray-50 text-center font-semibold text-primary-700 dark:bg-slate-700 dark:text-primary-400"
+                className="cursor-default bg-neutral-50 text-center font-semibold text-primary-700 dark:bg-neutral-700 dark:text-primary-400"
                 value={`$${(item.subtotal || 0).toLocaleString('es-CL')}`}
                 disabled
                 readOnly
@@ -158,12 +158,12 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
       ))}
 
       {/* Footer: agregar ítem */}
-      <div className="border-t border-gray-100 bg-gray-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-700">
+      <div className="border-t border-neutral-100 bg-neutral-50 px-3 py-2 dark:border-neutral-700 dark:bg-neutral-700">
         <Button
           type="button"
           color="light"
           size="xs"
-          className="dark:bg-primary-900/30 dark:hover:bg-primary-900/50 cursor-pointer border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 dark:border-primary-800 dark:text-primary-400"
+          className="cursor-pointer border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 dark:border-primary-800 dark:bg-primary-900 dark:text-primary-400 dark:hover:bg-primary-800"
           onClick={onAdd}
         >
           <FontAwesomeIcon icon={faPlus} className="mr-1.5 size-3" />

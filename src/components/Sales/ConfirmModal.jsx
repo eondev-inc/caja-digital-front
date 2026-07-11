@@ -9,9 +9,9 @@ export default function ConfirmModal({ open, onClose, onConfirm, dataPreview }) 
       <Modal.Header />
       <Modal.Body>
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-secondary-800 dark:text-white">Confirmar emisión de comprobante</h3>
-          <div className="rounded-lg border border-neutral-200 bg-white p-4 dark:border-slate-600 dark:bg-slate-700">
-            <div className="grid grid-cols-2 gap-4 text-sm text-secondary-700 dark:text-gray-300">
+          <h3 className="font-heading text-lg font-semibold text-neutral-900 dark:text-white">Confirmar emisión de comprobante</h3>
+          <div className="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-600 dark:bg-neutral-700">
+            <div className="grid grid-cols-2 gap-4 text-sm text-neutral-700 dark:text-neutral-300">
               <div>
                 <p className="font-medium">Cliente</p>
                 <p>{invoice?.custumer_name} ({invoice?.custumer_nid})</p>
@@ -31,8 +31,8 @@ export default function ConfirmModal({ open, onClose, onConfirm, dataPreview }) 
             </div>
           </div>
           <div className="flex justify-end gap-3">
-            <Button color="gray" onClick={onClose}>Cancelar</Button>
-            <Button color="green" onClick={onConfirm}>Confirmar y generar</Button>
+            <Button color="gray" onClick={onClose} className="cursor-pointer focus:ring-2 focus:ring-neutral-300 dark:focus:ring-neutral-600">Cancelar</Button>
+            <Button color="success" onClick={onConfirm} className="cursor-pointer focus:ring-2 focus:ring-success-300 dark:focus:ring-success-700">Confirmar y generar</Button>
           </div>
         </div>
       </Modal.Body>
