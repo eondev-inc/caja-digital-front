@@ -55,7 +55,7 @@ export const SalesFormSection = ({
         <Button
           type="button"
           color="gray"
-          className="cursor-pointer"
+          className="cursor-pointer focus:ring-2 focus:ring-neutral-300 dark:focus:ring-neutral-600"
           onClick={handleCancel}
         >
           <FontAwesomeIcon
@@ -69,7 +69,7 @@ export const SalesFormSection = ({
         <Button
           type="submit"
           color="success"
-          className="cursor-pointer"
+          className="cursor-pointer focus:ring-2 focus:ring-success-300 dark:focus:ring-success-700"
           disabled={!isValid || isSubmitting}
         >
           {isSubmitting ? (
