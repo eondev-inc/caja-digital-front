@@ -1,5 +1,5 @@
-import { GeneralModal } from '../../components/Commons/GeneralModal';
-import { ErrorModal } from '../../components/Commons/ErrorModal';
+import { GeneralModal } from '../components/Commons/GeneralModal';
+import { ErrorModal } from '../components/Commons/ErrorModal';
 import { useRegister } from './register/hooks/useRegister';
 import { RegisterHeader } from './register/RegisterHeader';
 import { RegisterForm } from './register/RegisterForm';
