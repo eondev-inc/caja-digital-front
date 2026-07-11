@@ -5,7 +5,7 @@ import { HeaderLogin } from "./HeaderLogin";
 export const LoginLayout = ({ children }) => {
   
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-primary-50 via-gray-50 to-secondary-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-100 dark:from-primary-950 dark:via-secondary-950 dark:to-primary-950">
       <HeaderLogin />
       <main className="relative grow overflow-hidden pt-20">
         {/* Background Pattern for POS App */}
