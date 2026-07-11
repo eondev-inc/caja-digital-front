@@ -25,46 +25,46 @@ export default function ReconciliationSummaryCard({
     <div className="space-y-4">
       {/* Tiles de resumen general */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Monto Inicial</p>
+        <div className="rounded-lg bg-secondary-100 p-3 dark:bg-secondary-900">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">Monto Inicial</p>
           <p className="mt-0.5 text-xl font-bold text-secondary-700 dark:text-secondary-400">
             {formatCurrency(calculationData.initialAmount)}
           </p>
         </div>
-        <div className="dark:bg-primary-900/20 rounded-lg bg-primary-50 p-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Total Transacciones</p>
+        <div className="rounded-lg bg-primary-100 p-3 dark:bg-primary-900">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">Total Transacciones</p>
           <p className="mt-0.5 text-xl font-bold text-primary-700 dark:text-primary-400">
             {formatCurrency(calculationData.totalAmount)}
           </p>
         </div>
-        <div className="dark:bg-purple-900/20 rounded-lg bg-purple-50 p-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Balance Esperado</p>
-          <p className="mt-0.5 text-xl font-bold text-purple-700 dark:text-purple-400">
+        <div className="rounded-lg bg-info-100 p-3 dark:bg-info-900">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">Balance Esperado</p>
+          <p className="mt-0.5 text-xl font-bold text-info-700 dark:text-info-400">
             {formatCurrency(calculationData.expectedBalance)}
           </p>
         </div>
       </div>
 
       {/* Tabla comparativa dinámica */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-600">
+      <div className="overflow-x-auto rounded-lg border border-neutral-200 dark:border-neutral-600">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50 dark:border-slate-600 dark:bg-slate-700">
-              <th className="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            <tr className="border-b border-neutral-200 bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-700">
+              <th className="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 Método de Pago
               </th>
-              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 Esperado
               </th>
-              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 Ingresado
               </th>
-              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 Diferencia
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 bg-white dark:divide-slate-700 dark:bg-slate-800">
+          <tbody className="divide-y divide-neutral-100 bg-white dark:divide-neutral-700 dark:bg-neutral-800">
             {paymentMethods.map((method) => {
               const desc = method.description;
               const methodDiff = differences?.byMethod?.[desc];
@@ -74,14 +74,14 @@ export default function ReconciliationSummaryCard({
               const diffColor =
                 diff === 0
                   ? 'text-primary-600 dark:text-primary-400'
-                  : 'font-medium text-red-600 dark:text-red-400';
+                  : 'font-medium text-error-600 dark:text-error-400';
               return (
-                <tr key={method.id} className="dark:hover:bg-slate-700/50 transition-colors hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-300">{desc}</td>
-                  <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">
+                <tr key={method.id} className="transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-700">
+                  <td className="px-4 py-3 text-neutral-700 dark:text-neutral-300">{desc}</td>
+                  <td className="px-4 py-3 text-right text-neutral-600 dark:text-neutral-400">
                     {formatCurrency(expected)}
                   </td>
-                  <td className="px-4 py-3 text-right text-gray-800 dark:text-white">
+                  <td className="px-4 py-3 text-right text-neutral-800 dark:text-neutral-50">
                     {formatCurrency(entered)}
                   </td>
                   <td className={`px-4 py-3 text-right ${diffColor}`}>
@@ -92,19 +92,19 @@ export default function ReconciliationSummaryCard({
             })}
           </tbody>
           <tfoot>
-            <tr className="border-t-2 border-gray-300 bg-gray-50 dark:border-slate-500 dark:bg-slate-700">
-              <td className="px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <tr className="border-t-2 border-neutral-300 bg-neutral-50 dark:border-neutral-500 dark:bg-neutral-700">
+              <td className="px-4 py-3 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                 Total
               </td>
-              <td className="px-4 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <td className="px-4 py-3 text-right text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                 {formatCurrency(differences?.totalExpected ?? calculationData.totalAmount)}
               </td>
-              <td className="px-4 py-3 text-right text-sm font-semibold text-gray-800 dark:text-white">
+              <td className="px-4 py-3 text-right text-sm font-semibold text-neutral-800 dark:text-neutral-50">
                 {formatCurrency(totalEntered)}
               </td>
               <td className={`px-4 py-3 text-right text-sm font-semibold ${
                 hasDiscrepancies
-                  ? 'text-red-600 dark:text-red-400'
+                  ? 'text-error-600 dark:text-error-400'
                   : 'text-primary-600 dark:text-primary-400'
               }`}>
                 {(differences?.total ?? 0) > 0 ? '+' : ''}
