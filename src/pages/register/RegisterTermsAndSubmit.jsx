@@ -17,13 +17,13 @@ export const RegisterTermsAndSubmit = ({
           id="terms"
           {...register('checkBox')}
           aria-describedby="terms-label"
-          className="mt-1 shrink-0 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-slate-600 dark:text-primary-400"
+          className="mt-1 shrink-0 rounded border-neutral-300 text-primary-600 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:text-primary-400 dark:focus:ring-primary-800"
         />
-        <div className="text-xs text-gray-600 dark:text-gray-400">
+        <div className="text-xs text-neutral-600 dark:text-neutral-400">
           <Label htmlFor="terms" id="terms-label">
             Acepto los{' '}
             <a
-              className="font-medium text-primary-600 underline hover:text-primary-800 dark:text-primary-400"
+              className="font-medium text-primary-600 underline transition-colors duration-fast hover:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 dark:text-primary-400 dark:hover:text-primary-300"
               href="#"
             >
               términos y condiciones
@@ -32,7 +32,7 @@ export const RegisterTermsAndSubmit = ({
           </Label>
           {errors.checkBox && (
             <p
-              className="mt-1 text-xs text-red-600 dark:text-red-400"
+              className="mt-1 text-xs text-error-600 dark:text-error-400"
               role="alert"
             >
               {errors.checkBox.message}
@@ -46,7 +46,7 @@ export const RegisterTermsAndSubmit = ({
         <Button
           type="submit"
           disabled={isSubmitting || loadingEntities}
-          className="w-full rounded-lg bg-gradient-to-r from-primary-600 to-secondary-600 px-5 py-2.5 text-center text-sm font-medium text-white shadow-lg transition-all duration-200 hover:from-primary-700 hover:to-secondary-700 focus:ring-4 focus:ring-primary-300 disabled:opacity-60"
+          className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 px-5 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-base ease-standard hover:from-primary-700 hover:to-secondary-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-primary-800"
         >
           <div className="flex items-center justify-center gap-2">
             {isSubmitting ? (
@@ -60,11 +60,11 @@ export const RegisterTermsAndSubmit = ({
       </div>
 
       <div className="text-center">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-neutral-600 dark:text-neutral-400">
           ¿Ya tienes una cuenta?{' '}
           <a
             href="/login"
-            className="font-medium text-primary-600 underline hover:text-primary-800 dark:text-primary-400"
+            className="font-semibold text-primary-600 underline transition-colors duration-fast hover:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 dark:text-primary-400 dark:hover:text-primary-300"
           >
             Inicia sesión aquí
           </a>
