@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import { Label, Select, TextInput, Spinner } from 'flowbite-react';
+import { Label, Select, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import Skeleton from '../../../components/Skeleton/Skeleton';
 
 export const RegisterAccountFields = ({
   register,
@@ -25,10 +26,7 @@ export const RegisterAccountFields = ({
           Centro de Salud
         </Label>
         {loadingEntities ? (
-          <div className="flex items-center gap-2 py-2 text-sm text-neutral-500 dark:text-neutral-400">
-            <Spinner size="sm" />
-            <span>Cargando centros de salud...</span>
-          </div>
+          <Skeleton variant="text" lines={1} className="py-2" />
         ) : (
           <Select
             id="entity_id"
