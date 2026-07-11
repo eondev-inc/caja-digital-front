@@ -6,10 +6,10 @@ import { faUser, faIdCard } from '@fortawesome/free-solid-svg-icons';
 export const RegisterPersonalFields = ({ register, errors }) => {
   return (
     <div className="space-y-3">
-      <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <Label className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200">
         <FontAwesomeIcon
           icon={faUser}
-          className="text-primary-600 dark:text-primary-400"
+          className="text-primary-500 dark:text-primary-400"
           aria-hidden="true"
         />
         Información Personal
@@ -18,7 +18,7 @@ export const RegisterPersonalFields = ({ register, errors }) => {
         <div className="space-y-1">
           <Label
             htmlFor="forenames"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="text-xs font-medium text-neutral-600 dark:text-neutral-400"
           >
             Nombres
           </Label>
@@ -27,10 +27,12 @@ export const RegisterPersonalFields = ({ register, errors }) => {
             id="forenames"
             {...register('forenames')}
             placeholder="Nombres"
-            className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:focus:border-primary-400"
+            aria-invalid={!!errors.forenames}
+            aria-describedby={errors.forenames ? 'forenames-error' : undefined}
+            className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           />
           {errors.forenames && (
-            <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+            <p id="forenames-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
               {errors.forenames.message}
             </p>
           )}
@@ -38,7 +40,7 @@ export const RegisterPersonalFields = ({ register, errors }) => {
         <div className="space-y-1">
           <Label
             htmlFor="surnames"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="text-xs font-medium text-neutral-600 dark:text-neutral-400"
           >
             Apellidos
           </Label>
@@ -47,10 +49,12 @@ export const RegisterPersonalFields = ({ register, errors }) => {
             id="surnames"
             {...register('surnames')}
             placeholder="Apellidos"
-            className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:focus:border-primary-400"
+            aria-invalid={!!errors.surnames}
+            aria-describedby={errors.surnames ? 'surnames-error' : undefined}
+            className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           />
           {errors.surnames && (
-            <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+            <p id="surnames-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
               {errors.surnames.message}
             </p>
           )}
@@ -60,11 +64,11 @@ export const RegisterPersonalFields = ({ register, errors }) => {
       <div className="space-y-2 pt-2">
         <Label
           htmlFor="nid"
-          className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
         >
           <FontAwesomeIcon
             icon={faIdCard}
-            className="text-primary-600 dark:text-primary-400"
+            className="text-primary-500 dark:text-primary-400"
             aria-hidden="true"
           />
           RUT
@@ -74,10 +78,12 @@ export const RegisterPersonalFields = ({ register, errors }) => {
           id="nid"
           {...register('nid')}
           placeholder="11.111.111-1"
-          className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600"
+          aria-invalid={!!errors.nid}
+          aria-describedby={errors.nid ? 'nid-error' : undefined}
+          className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
         />
         {errors.nid && (
-          <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+          <p id="nid-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
             {errors.nid.message}
           </p>
         )}

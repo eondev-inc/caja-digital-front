@@ -15,17 +15,17 @@ export const RegisterAccountFields = ({
       <div className="space-y-2">
         <Label
           htmlFor="entity_id"
-          className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
         >
           <FontAwesomeIcon
             icon={faBuilding}
-            className="text-primary-600 dark:text-primary-400"
+            className="text-primary-500 dark:text-primary-400"
             aria-hidden="true"
           />
           Centro de Salud
         </Label>
         {loadingEntities ? (
-          <div className="flex items-center gap-2 py-2 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-2 py-2 text-sm text-neutral-500 dark:text-neutral-400">
             <Spinner size="sm" />
             <span>Cargando centros de salud...</span>
           </div>
@@ -33,7 +33,9 @@ export const RegisterAccountFields = ({
           <Select
             id="entity_id"
             {...register('entity_id')}
-            className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600"
+            aria-invalid={!!errors.entity_id}
+            aria-describedby={errors.entity_id ? 'entity_id-error' : undefined}
+            className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           >
             <option value="">Seleccione un centro de salud</option>
             {entities.map((entity) => (
@@ -44,7 +46,7 @@ export const RegisterAccountFields = ({
           </Select>
         )}
         {errors.entity_id && (
-          <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+          <p id="entity_id-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
             {errors.entity_id.message}
           </p>
         )}
@@ -54,11 +56,11 @@ export const RegisterAccountFields = ({
       <div className="space-y-2">
         <Label
           htmlFor="email"
-          className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
         >
           <FontAwesomeIcon
             icon={faEnvelope}
-            className="text-primary-600 dark:text-primary-400"
+            className="text-primary-500 dark:text-primary-400"
             aria-hidden="true"
           />
           Correo Electrónico
@@ -68,10 +70,12 @@ export const RegisterAccountFields = ({
           id="email"
           {...register('email')}
           placeholder="correo@clinica.com"
-          className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
+          className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
         />
         {errors.email && (
-          <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+          <p id="email-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
             {errors.email.message}
           </p>
         )}
@@ -79,10 +83,10 @@ export const RegisterAccountFields = ({
 
       {/* Contraseñas */}
       <div className="space-y-3">
-        <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <Label className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200">
           <FontAwesomeIcon
             icon={faLock}
-            className="text-primary-600 dark:text-primary-400"
+            className="text-primary-500 dark:text-primary-400"
             aria-hidden="true"
           />
           Contraseña
@@ -93,10 +97,12 @@ export const RegisterAccountFields = ({
             id="password"
             {...register('password')}
             placeholder="Contraseña (mín. 8 caracteres)"
-            className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600"
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? 'password-error' : undefined}
+            className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           />
           {errors.password && (
-            <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+            <p id="password-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
               {errors.password.message}
             </p>
           )}
@@ -105,10 +111,12 @@ export const RegisterAccountFields = ({
             id="confirm-password"
             {...register('confirmPassword')}
             placeholder="Confirmar contraseña"
-            className="rounded-lg border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600"
+            aria-invalid={!!errors.confirmPassword}
+            aria-describedby={errors.confirmPassword ? 'confirm-password-error' : undefined}
+            className="rounded-lg border-neutral-300 text-sm transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           />
           {errors.confirmPassword && (
-            <p className="text-xs text-red-600 dark:text-red-400" role="alert">
+            <p id="confirm-password-error" className="text-xs text-error-600 dark:text-error-400" role="alert">
               {errors.confirmPassword.message}
             </p>
           )}

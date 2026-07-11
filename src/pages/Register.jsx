@@ -21,10 +21,16 @@ export const Register = () => {
   } = useRegister();
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-        <div className="mx-auto w-full max-w-md rounded-xl border border-primary-100 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-800 md:max-w-lg xl:p-0">
-          <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-100 dark:from-primary-950 dark:via-secondary-950 dark:to-primary-950">
+      {/* Decorative background elements */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-20 -top-20 size-72 rounded-full bg-primary-100 blur-3xl dark:bg-primary-900" />
+        <div className="absolute -bottom-32 -right-20 size-96 rounded-full bg-secondary-100 blur-3xl dark:bg-secondary-900" />
+      </div>
+
+      <div className="relative z-10 mx-auto flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white shadow-xl dark:border-primary-800 dark:bg-primary-900 md:max-w-lg">
+          <div className="space-y-4 p-6 sm:p-8">
             <RegisterHeader />
             <RegisterForm
               register={register}
