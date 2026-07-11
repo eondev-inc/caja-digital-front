@@ -58,3 +58,29 @@ export const calculateReconciliationSchema = z.object({
     .uuid('El ID de la entidad debe ser un UUID válido')
     .min(1, 'El ID de la entidad es requerido'),
 });
+
+/**
+ * Schema de validación para el formulario de cierre de caja.
+ * Valida los inputs del usuario (montos ingresados + notas).
+ * Los montos vienen como string del input type="number" y se transforman a number.
+ *
+ * Campos validados:
+ * - enteredAmounts: Objeto dinámico { [paymentMethodDescription]: amount }
+ *                   Las claves son descriptions de métodos de pago activos.
+ *                   Los valores se coercenan a número no negativo.
+ * - notes: Notas opcionales (string, máximo 500 caracteres)
+ */
+export const closeRegisterFormSchema = z.object({
+  enteredAmounts: z.record(
+    z.string(),
+    z
+      .union([z.string(), z.number()])
+      .transform((val) => (val === '' ? 0 : Number(val)))
+      .pipe(z.number().nonnegative('El monto no puede ser negativo')),
+  ),
+  notes: z
+    .string()
+    .max(500, 'Las notas no pueden exceder 500 caracteres')
+    .optional()
+    .or(z.literal('')),
+});
