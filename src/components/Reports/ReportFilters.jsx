@@ -43,7 +43,7 @@ const ReportFilters = ({ reportType = '', professionals = [], previsions = [], l
   };
 
   return (
-    <form onSubmit={handleSubmit} className="dark:bg-slate-700/40 flex flex-wrap items-end gap-4 rounded-lg bg-gray-50 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-4 rounded-lg bg-neutral-50 p-4 dark:bg-neutral-700">
       {/* Fecha inicio */}
       <div className="min-w-[140px]">
         <Label htmlFor="startDate" value="Fecha inicio" className="mb-1 block text-sm" />
@@ -54,7 +54,7 @@ const ReportFilters = ({ reportType = '', professionals = [], previsions = [], l
           max={endDate}
           onChange={(e) => setStartDate(e.target.value)}
           required
-          className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+          className="block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-50"
         />
       </div>
 
@@ -68,7 +68,7 @@ const ReportFilters = ({ reportType = '', professionals = [], previsions = [], l
           min={startDate}
           onChange={(e) => setEndDate(e.target.value)}
           required
-          className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+          className="block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-50"
         />
       </div>
 
@@ -129,7 +129,7 @@ const ReportFilters = ({ reportType = '', professionals = [], previsions = [], l
 
       {/* Error de validación */}
       {validationError && (
-        <p className="w-full text-sm text-red-600 dark:text-red-400" role="alert">
+        <p className="w-full text-sm text-error-600 dark:text-error-400" role="alert">
           {validationError}
         </p>
       )}
