@@ -9,6 +9,7 @@ import {
 import { Button } from 'flowbite-react';
 import { formatCurrency, formatDate } from '../../../utils/formatters';
 import Skeleton from '../../../components/Skeleton/Skeleton';
+import EmptyState from '../../../components/EmptyState/EmptyState';
 
 /**
  * Returns a Flowbite Badge for a given transaction status.
@@ -54,19 +55,12 @@ export const CancelList = ({
 
   if (transactions.length === 0) {
     return (
-      <div className="py-16 text-center">
-        <FontAwesomeIcon
-          icon={faExclamationTriangle}
-          className="mb-4 size-12 text-neutral-400 dark:text-neutral-500"
-          aria-hidden="true"
-        />
-        <p className="text-lg text-neutral-600 dark:text-neutral-400">
-          No se encontraron transacciones
-        </p>
-        <p className="text-sm text-neutral-400 dark:text-neutral-500">
-          Intenta con otros términos de búsqueda
-        </p>
-      </div>
+      <EmptyState
+        icon={faExclamationTriangle}
+        title="No se encontraron transacciones"
+        description="Intenta con otros términos de búsqueda"
+        variant="default"
+      />
     );
   }
 
