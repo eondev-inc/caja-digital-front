@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import {
   calculateReconciliation,
@@ -7,10 +9,11 @@ import {
   getPaymentMethods,
 } from '../../../../api';
 import { useStore } from '../../../../app/store';
+import { closeRegisterFormSchema } from '../../../../utils/reconciliationSchema';
 
 /**
  * Hook that manages all CloseRegister page state and side-effects:
- * payment methods loading, reconciliation calculation, amount entry tracking,
+ * payment methods loading, reconciliation calculation, form handling (RHF+Zod),
  * close submission, and approval workflow.
  */
 export const useCloseRegister = () => {
@@ -21,14 +24,32 @@ export const useCloseRegister = () => {
   const [calculationData, setCalculationData] = useState(null);
   const [error, setError] = useState(null);
   const [paymentMethods, setPaymentMethods] = useState([]);
-  const [enteredAmounts, setEnteredAmounts] = useState({});
-  const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [reconciliationId, setReconciliationId] = useState(null);
   const [approving, setApproving] = useState(false);
   const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    reset,
+  } = useForm({
+    resolver: zodResolver(closeRegisterFormSchema),
+    defaultValues: {
+      enteredAmounts: {},
+      notes: '',
+    },
+    mode: 'onBlur',
+  });
+
+  const watchedAmounts = watch('enteredAmounts');
+  const watchedNotes = watch('notes');
+
   useEffect(() => {
     const fetchAll = async () => {
       if (!openRegister?.id) {
@@ -38,7 +59,9 @@ export const useCloseRegister = () => {
       }
 
       const entityId =
-        (userInfo.entity_users?.length > 0 && userInfo.entity_users[0]?.entities?.id) || '';
+        (userInfo.entity_users?.length > 0 &&
+          userInfo.entity_users[0]?.entities?.id) ||
+        '';
 
       setLoading(true);
       setError(null);
@@ -49,13 +72,15 @@ export const useCloseRegister = () => {
       ]);
 
       if (methodsResult.status === 'fulfilled') {
-        const methods = Array.isArray(methodsResult.value) ? methodsResult.value : [];
+        const methods = Array.isArray(methodsResult.value)
+          ? methodsResult.value
+          : [];
         setPaymentMethods(methods);
         const initial = {};
         methods.forEach((m) => {
           initial[m.description] = 0;
         });
-        setEnteredAmounts(initial);
+        reset({ enteredAmounts: initial, notes: '' });
       }
 
       if (calcResult.status === 'fulfilled') {
@@ -63,7 +88,9 @@ export const useCloseRegister = () => {
         if (result.success) {
           setCalculationData(result.data);
         } else {
-          setError(result.error || 'No se pudo cargar la información de cuadratura.');
+          setError(
+            result.error || 'No se pudo cargar la información de cuadratura.',
+          );
         }
       } else {
         setError('No se pudo cargar la información de cuadratura.');
@@ -73,25 +100,28 @@ export const useCloseRegister = () => {
     };
 
     fetchAll();
-  }, [openRegister, userInfo]);
+  }, [openRegister, userInfo, reset]);
 
-  /** Sum of all entered amounts */
   const totalEntered = useMemo(
-    () => Object.values(enteredAmounts).reduce((sum, v) => sum + Number(v), 0),
-    [enteredAmounts],
+    () =>
+      Object.values(watchedAmounts || {}).reduce(
+        (sum, v) => sum + Number(v),
+        0,
+      ),
+    [watchedAmounts],
   );
 
-  /** Differences between expected and entered amounts per payment method */
   const differences = useMemo(() => {
     if (!calculationData) return null;
-    const expected = calculationData.transactionDetailsByPaymentMethod || {};
+    const expected =
+      calculationData.transactionDetailsByPaymentMethod || {};
     const totalExpected = calculationData.totalAmount || 0;
 
     const byMethod = {};
     paymentMethods.forEach((m) => {
       const desc = m.description;
       const exp = expected[desc]?.totalAmount || 0;
-      const entered = Number(enteredAmounts[desc] ?? 0);
+      const entered = Number(watchedAmounts?.[desc] ?? 0);
       byMethod[desc] = {
         expected: exp,
         entered,
@@ -104,19 +134,20 @@ export const useCloseRegister = () => {
       totalExpected,
       total: totalEntered - totalExpected,
     };
-  }, [calculationData, enteredAmounts, paymentMethods, totalEntered]);
+  }, [calculationData, watchedAmounts, paymentMethods, totalEntered]);
 
   const hasDiscrepancies = useMemo(
     () => (differences ? differences.total !== 0 : false),
     [differences],
   );
 
-  /** Format amount as CLP currency */
   const formatCurrency = (amount) =>
-    new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount || 0);
+    new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP',
+    }).format(amount || 0);
 
-  /** Submit close register */
-  const handleSubmitClose = async () => {
+  const onSubmitClose = async (data) => {
     if (!calculationData) return;
     setSubmitting(true);
     setError(null);
@@ -127,7 +158,7 @@ export const useCloseRegister = () => {
     ).reduce((sum, type) => sum + (type.count || 0), 0);
 
     const sales_summary = {};
-    Object.entries(enteredAmounts).forEach(([desc, amount]) => {
+    Object.entries(data.enteredAmounts).forEach(([desc, amount]) => {
       sales_summary[desc] = Number(amount);
     });
 
@@ -136,13 +167,15 @@ export const useCloseRegister = () => {
       closing_balance: calculationData.initialAmount + totalEntered,
       total_sales: totalSales,
       sales_summary,
-      notes: notes.trim() || undefined,
+      notes: (data.notes || '').trim() || undefined,
     });
 
     setSubmitting(false);
 
     if (result.success) {
-      setReconciliationId(result.data?.id || result.data?.reconciliation_id);
+      setReconciliationId(
+        result.data?.id || result.data?.reconciliation_id,
+      );
       setSuccessMessage('Cierre de caja enviado a revisión exitosamente');
       setShowApprovalModal(true);
     } else {
@@ -150,7 +183,6 @@ export const useCloseRegister = () => {
     }
   };
 
-  /** Approve close register */
   const handleApproveClose = async () => {
     if (!reconciliationId) {
       setError('No se encontró el ID de la reconciliación');
@@ -177,10 +209,12 @@ export const useCloseRegister = () => {
     calculationData,
     error,
     paymentMethods,
-    enteredAmounts,
-    setEnteredAmounts,
-    notes,
-    setNotes,
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    watchedAmounts,
+    watchedNotes,
     submitting,
     successMessage,
     showApprovalModal,
@@ -192,7 +226,7 @@ export const useCloseRegister = () => {
     differences,
     hasDiscrepancies,
     formatCurrency,
-    handleSubmitClose,
+    onSubmitClose,
     handleApproveClose,
     navigate,
   };

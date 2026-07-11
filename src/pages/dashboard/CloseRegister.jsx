@@ -54,57 +54,59 @@ const CloseRegister = () => {
           )}
 
           {c.calculationData && (
-            <div className="space-y-4">
-              <ReconciliationSummaryCard
-                calculationData={c.calculationData}
-                paymentMethods={c.paymentMethods}
-                enteredAmounts={c.enteredAmounts}
-                totalEntered={c.totalEntered}
-                differences={c.differences}
-                hasDiscrepancies={c.hasDiscrepancies}
-                formatCurrency={c.formatCurrency}
-              />
+            <form onSubmit={c.handleSubmit(c.onSubmitClose)} noValidate>
+              <div className="space-y-4">
+                <ReconciliationSummaryCard
+                  calculationData={c.calculationData}
+                  paymentMethods={c.paymentMethods}
+                  enteredAmounts={c.watchedAmounts}
+                  totalEntered={c.totalEntered}
+                  differences={c.differences}
+                  hasDiscrepancies={c.hasDiscrepancies}
+                  formatCurrency={c.formatCurrency}
+                />
 
-              <AmountInputCard
-                paymentMethods={c.paymentMethods}
-                enteredAmounts={c.enteredAmounts}
-                setEnteredAmounts={c.setEnteredAmounts}
-                notes={c.notes}
-                differences={c.differences}
-                setNotes={c.setNotes}
-                formatCurrency={c.formatCurrency}
-              />
+                <AmountInputCard
+                  paymentMethods={c.paymentMethods}
+                  watchedAmounts={c.watchedAmounts}
+                  register={c.register}
+                  errors={c.errors}
+                  watchedNotes={c.watchedNotes}
+                  differences={c.differences}
+                  formatCurrency={c.formatCurrency}
+                />
 
-              <div className="flex justify-end gap-4">
-                <Button color="gray" onClick={() => c.navigate('/dashboard')} disabled={c.submitting}>
-                  Cancelar
-                </Button>
-                <Button
-                  color="success"
-                  onClick={c.handleSubmitClose}
-                  disabled={c.submitting || !c.calculationData}
-                >
-                  {c.submitting ? (
-                    <>
-                      <Spinner size="sm" className="mr-2" />
-                      Procesando...
-                    </>
-                  ) : (
-                    <>
+                <div className="flex justify-end gap-4">
+                  <Button
+                    type="button"
+                    color="gray"
+                    onClick={() => c.navigate('/dashboard')}
+                    disabled={c.submitting}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="submit"
+                    color="success"
+                    disabled={c.submitting || !c.calculationData}
+                    isProcessing={c.submitting}
+                  >
+                    {!c.submitting && (
                       <HiCheckCircle className="mr-2 size-5" />
-                      Confirmar Cierre de Caja
-                    </>
-                  )}
-                </Button>
-              </div>
+                    )}
+                    {c.submitting ? 'Procesando...' : 'Confirmar Cierre de Caja'}
+                  </Button>
+                </div>
 
-              {c.hasDiscrepancies && (
-                <Alert color="warning" icon={HiExclamationCircle} role="alert">
-                  <span className="font-medium">Atención:</span>{' '}
-                  Se detectaron diferencias en los montos. Verifique los valores antes de confirmar el cierre.
-                </Alert>
-              )}
-            </div>
+                {c.hasDiscrepancies && (
+                  <Alert color="warning" icon={HiExclamationCircle} role="alert">
+                    <span className="font-medium">Atención:</span>{' '}
+                    Se detectaron diferencias en los montos. Verifique los valores
+                    antes de confirmar el cierre.
+                  </Alert>
+                )}
+              </div>
+            </form>
           )}
         </Card>
 
@@ -114,7 +116,7 @@ const CloseRegister = () => {
           calculationData={c.calculationData}
           paymentMethods={c.paymentMethods}
           totalEntered={c.totalEntered}
-          enteredAmounts={c.enteredAmounts}
+          enteredAmounts={c.watchedAmounts}
           hasDiscrepancies={c.hasDiscrepancies}
           differences={c.differences}
           onClose={() => c.setShowApprovalModal(false)}
