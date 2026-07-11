@@ -235,26 +235,66 @@ All sales page components now use **semantic design tokens only**:
 
 ---
 
+## PR 6 — Reports & Admin Pages Visual Restyle
+
+### Token Discipline
+
+All reports and admin page components now use **semantic design tokens only**:
+- `neutral-*` for text, borders, and backgrounds (replaces raw `gray-*`/`slate-*`)
+- `primary-*` for brand accents and icons
+- `secondary-*` for CloseRegister summary tiles
+- `error-*` for validation errors and destructive actions (replaces raw `red-*`)
+- `warning-*` for devolution and discrepancy highlights (replaces raw `yellow-*`)
+- `info-*` for informational tiles (replaces raw `purple-*`)
+- Zero raw `bg-(gray|slate|zinc|neutral|teal|emerald)-[0-9]` in page code
+- Solid shades used instead of opacity modifiers (Tailwind CSS var limitation)
+- Dark mode parity via `neutral-700`/`neutral-800`/`neutral-900`
+
+### Accessibility
+
+- All inputs have `aria-invalid` and `aria-describedby` linked to error messages
+- Error messages use `role="alert"` for screen reader announcements
+- All interactive elements have visible focus rings (`focus:ring-2 focus:ring-primary-*`)
+
+### Files Restyled
+
+| File | Token Changes | A11y Enhancements |
+|------|--------------|-------------------|
+| `src/pages/dashboard/Reports.jsx` | neutral bg/border/text tokens | — |
+| `src/components/Reports/ReportFilters.jsx` | neutral bg/border tokens, error tokens | role="alert" on validation |
+| `src/components/Reports/ReportViewer.jsx` | neutral border/text tokens | — |
+| `src/pages/dashboard/CloseRegister.jsx` | neutral bg/border tokens | — |
+| `src/pages/dashboard/close/CloseHeader.jsx` | neutral text tokens | — |
+| `src/components/CloseRegister/ReconciliationSummaryCard.jsx` | neutral/secondary/primary/info tokens, solid shades | — |
+| `src/components/CloseRegister/AmountInputCard.jsx` | neutral/error tokens | role="alert" on field errors |
+| `src/components/CloseRegister/ApprovalModal.jsx` | neutral/warning/secondary tokens, solid shades | — |
+| `src/pages/dashboard/CancelTransactions.jsx` | neutral bg/border tokens | — |
+| `src/pages/dashboard/cancel/CancelHeader.jsx` | neutral text tokens | — |
+| `src/pages/dashboard/cancel/CancelFilters.jsx` | neutral text/icon tokens | — |
+| `src/pages/dashboard/cancel/CancelList.jsx` | neutral text/bg tokens | — |
+| `src/components/CancelTransactions/CancelConfirmModal.jsx` | neutral/error tokens, solid shades | — |
+| `src/components/CancelTransactions/DevolutionConfirmModal.jsx` | neutral/warning tokens, solid shades | — |
+
+---
+
 ## Summary
 
 ### Decomposition Stats
 
-| Metric | PR 2A | PR 2B | PR 3 | PR 4 | PR 5 | Total |
-|--------|-------|-------|------|------|------|-------|
-| Pages decomposed | 4 | 4 | 2 (migrated) | — | — | 8 |
-| Pages restyled | — | — | — | 2 + layouts | 12 sales components | 2 + 8 layouts + 12 sales |
-| New files created | 18 | 9 | 3 | 0 | 0 | 30 |
-| Total new lines | ~1,200 | ~800 | ~310 | ~265 (restyle) | ~107 (restyle) | ~2,682 |
-| Max page size (before) | 494 | 331 | 146 | 62 | 73 | 494 |
-| Max page size (after) | 97 | 131 | 148 | 62 | 73 | 73 |
-| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | — | — | 4 |
-| Token-compliant pages | — | — | — | ✅ All auth | ✅ All sales | ✅ Auth + Sales |
+| Metric | PR 2A | PR 2B | PR 3 | PR 4 | PR 5 | PR 6 | Total |
+|--------|-------|-------|------|------|------|------|-------|
+| Pages decomposed | 4 | 4 | 2 (migrated) | — | — | — | 8 |
+| Pages restyled | — | — | — | 2 + layouts | 12 sales | 14 admin/reports | 2 + 8 layouts + 12 sales + 14 admin |
+| New files created | 18 | 9 | 3 | 0 | 0 | 0 | 30 |
+| Total new lines | ~1,200 | ~800 | ~310 | ~265 (restyle) | ~107 (restyle) | ~129 (restyle) | ~2,811 |
+| Max page size (before) | 494 | 331 | 146 | 62 | 73 | 131 | 494 |
+| Max page size (after) | 97 | 131 | 148 | 62 | 73 | 131 | 73 |
+| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | — | — | — | 4 |
+| Token-compliant pages | — | — | — | ✅ All auth | ✅ All sales | ✅ All admin/reports | ✅ Auth + Sales + Admin |
 
 ### Next Steps
 
-- **PR 5**: Sales pages visual redesign
-- **PR 6**: Reports & admin visual redesign
 - **PR 7**: Cross-cutting polish (skeletons, error boundaries, empty states, a11y)
 
 ### Verification Commands
@@ -275,5 +315,5 @@ pnpm build
 
 ---
 
-**Last updated**: PR 5 complete (2026-07-10)
+**Last updated**: PR 6 complete (2026-07-11)
 **Maintainer**: Update this document after each PR to track component status.
