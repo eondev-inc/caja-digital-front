@@ -48,24 +48,24 @@ export default function ApprovalModal({
             <span className="font-medium">¡Cierre enviado a revisión!</span> El cierre de caja se ha registrado correctamente.
           </Alert>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-slate-600 dark:bg-slate-700">
-            <h3 className="mb-3 font-semibold text-gray-800 dark:text-white">Resumen del Cierre</h3>
+          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-600 dark:bg-neutral-700">
+            <h3 className="mb-3 font-semibold text-neutral-800 dark:text-neutral-50">Resumen del Cierre</h3>
 
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Monto Inicial:</span>
-                <span className="font-medium text-gray-800 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Monto Inicial:</span>
+                <span className="font-medium text-neutral-800 dark:text-neutral-50">
                   {formatCurrency(calculationData?.initialAmount || 0)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Total Transacciones:</span>
-                <span className="font-medium text-gray-800 dark:text-white">
+                <span className="text-neutral-600 dark:text-neutral-400">Total Transacciones:</span>
+                <span className="font-medium text-neutral-800 dark:text-neutral-50">
                   {formatCurrency(calculationData?.totalAmount || 0)}
                 </span>
               </div>
-              <div className="flex justify-between border-t pt-2 dark:border-slate-600">
-                <span className="text-gray-600 dark:text-gray-400">Balance Final:</span>
+              <div className="flex justify-between border-t pt-2 dark:border-neutral-600">
+                <span className="text-neutral-600 dark:text-neutral-400">Balance Final:</span>
                 <span className="font-semibold text-primary-700 dark:text-primary-400">
                   {formatCurrency((calculationData?.initialAmount || 0) + totalEntered)}
                 </span>
@@ -74,15 +74,15 @@ export default function ApprovalModal({
 
             {/* Montos ingresados por método — dinámico */}
             {paymentMethods.length > 0 && (
-              <div className="mt-4 border-t pt-3 dark:border-slate-600">
-                <p className="mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">
+              <div className="mt-4 border-t pt-3 dark:border-neutral-600">
+                <p className="mb-2 text-xs font-medium text-neutral-700 dark:text-neutral-300">
                   Montos Ingresados:
                 </p>
                 <div className={`grid gap-2 text-sm ${colClass}`}>
                   {paymentMethods.map((method) => (
                     <div key={method.id} className="text-center">
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{method.description}</p>
-                      <p className="font-medium text-gray-800 dark:text-white">
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400">{method.description}</p>
+                      <p className="font-medium text-neutral-800 dark:text-neutral-50">
                         {formatCurrency(enteredAmounts[method.description] ?? 0)}
                       </p>
                     </div>
@@ -92,8 +92,8 @@ export default function ApprovalModal({
             )}
 
             {hasDiscrepancies && (
-              <div className="dark:bg-yellow-900/20 mt-3 rounded bg-yellow-50 p-2">
-                <p className="flex items-center gap-1 text-xs text-yellow-800 dark:text-yellow-400">
+              <div className="mt-3 rounded bg-warning-100 p-2 dark:bg-warning-900">
+                <p className="flex items-center gap-1 text-xs text-warning-800 dark:text-warning-400">
                   <FontAwesomeIcon icon={faExclamationTriangle} aria-hidden="true" />
                   Nota: Se detectaron diferencias de {formatCurrency(differences?.total || 0)}
                 </p>
@@ -101,7 +101,7 @@ export default function ApprovalModal({
             )}
           </div>
 
-          <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+          <div className="rounded-lg bg-secondary-100 p-4 dark:bg-secondary-900">
             <p className="text-sm text-secondary-800 dark:text-secondary-200">
               <span className="font-medium">¿Desea aprobar este cierre?</span>
               <br />

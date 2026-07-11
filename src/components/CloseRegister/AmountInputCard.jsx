@@ -55,10 +55,10 @@ export default function AmountInputCard({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-base font-semibold text-gray-800 dark:text-white">
+        <h2 className="text-base font-semibold text-neutral-800 dark:text-neutral-50">
           Ingrese los montos contados
         </h2>
-        <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-0.5 text-sm text-neutral-500 dark:text-neutral-400">
           Ingrese el dinero físico y vouchers contados al cerrar la caja.
         </p>
       </div>
@@ -78,7 +78,7 @@ export default function AmountInputCard({
             <div key={method.id}>
               <label
                 htmlFor={inputId}
-                className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300"
               >
                 <FontAwesomeIcon icon={icon} className={color} aria-hidden="true" />
                 {desc}
@@ -99,7 +99,8 @@ export default function AmountInputCard({
               {fieldError && (
                 <p
                   id={`${inputId}-error`}
-                  className="mx-1 mt-1 text-left text-sm text-red-500"
+                  className="mx-1 mt-1 text-left text-sm text-error-500"
+                  role="alert"
                 >
                   {fieldError.message}
                 </p>
@@ -108,8 +109,8 @@ export default function AmountInputCard({
                 <p
                   className={`mt-1 text-xs ${
                     diff === 0
-                      ? 'text-gray-500 dark:text-gray-400'
-                      : 'font-medium text-red-600 dark:text-red-400'
+                      ? 'text-neutral-500 dark:text-neutral-400'
+                      : 'font-medium text-error-600 dark:text-error-400'
                   }`}
                 >
                   Esperado: {formatCurrency(expected)}
@@ -130,7 +131,7 @@ export default function AmountInputCard({
       <div>
         <label
           htmlFor="close-notes"
-          className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
         >
           Notas <span className="font-normal text-neutral-400">(Opcional)</span>
         </label>
@@ -146,7 +147,7 @@ export default function AmountInputCard({
           {...register('notes')}
         />
         {errors?.notes && (
-          <p id="close-notes-error" className="mx-1 mt-1 text-left text-sm text-red-500">
+          <p id="close-notes-error" className="mx-1 mt-1 text-left text-sm text-error-500" role="alert">
             {errors.notes.message}
           </p>
         )}
