@@ -1,4 +1,4 @@
-import { Card, Alert, Spinner } from 'flowbite-react';
+import { Card, Alert } from 'flowbite-react';
 import { HiCheckCircle, HiExclamationCircle } from 'react-icons/hi';
 import CloseHeader from './close/CloseHeader';
 import { useCloseRegister } from './close/hooks/useCloseRegister';
@@ -6,6 +6,7 @@ import ReconciliationSummaryCard from '../../components/CloseRegister/Reconcilia
 import AmountInputCard from '../../components/CloseRegister/AmountInputCard';
 import ApprovalModal from '../../components/CloseRegister/ApprovalModal';
 import NoRegisterModal from '../../components/Commons/NoRegisterModal';
+import Skeleton from '../../components/Skeleton/Skeleton';
 import { Button } from 'flowbite-react';
 
 /**
@@ -20,11 +21,10 @@ const CloseRegister = () => {
     return (
       <section className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
         <div className="container mx-auto max-w-4xl px-4 py-6">
-          <Card className="flex items-center justify-center p-12">
-            <Spinner size="xl" />
-            <p className="mt-4 text-neutral-600 dark:text-neutral-400">
-              Cargando información de cuadratura...
-            </p>
+          <Card className="space-y-4 p-6">
+            <Skeleton variant="text" lines={1} className="w-1/3" />
+            <Skeleton variant="rectangular" height="8rem" />
+            <Skeleton variant="text" lines={3} />
           </Card>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Badge, Table, Spinner, Pagination } from 'flowbite-react';
+import { Badge, Table, Pagination } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUndo,
@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'flowbite-react';
 import { formatCurrency, formatDate } from '../../../utils/formatters';
+import Skeleton from '../../../components/Skeleton/Skeleton';
 
 /**
  * Returns a Flowbite Badge for a given transaction status.
@@ -41,11 +42,12 @@ export const CancelList = ({
 }) => {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-16">
-        <Spinner size="xl" aria-label="Cargando transacciones" />
-        <span className="ml-3 text-lg text-neutral-600 dark:text-neutral-400">
-          Cargando transacciones...
-        </span>
+      <div className="space-y-3 py-8">
+        <Skeleton variant="text" lines={1} className="w-1/4" />
+        <Skeleton variant="rectangular" height="2rem" />
+        <Skeleton variant="rectangular" height="2rem" />
+        <Skeleton variant="rectangular" height="2rem" />
+        <Skeleton variant="rectangular" height="2rem" />
       </div>
     );
   }
