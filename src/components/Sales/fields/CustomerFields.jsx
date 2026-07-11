@@ -32,9 +32,9 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
     <div>
       <Label
         htmlFor="custumer_nid"
-        className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300"
+        className="mb-1 block text-xs font-medium text-neutral-700 dark:text-neutral-300"
       >
-        <FontAwesomeIcon icon={faIdCard} className="mr-1 text-primary-600" aria-hidden="true" />
+        <FontAwesomeIcon icon={faIdCard} className="mr-1 text-primary-600 dark:text-primary-400" aria-hidden="true" />
         RUT
       </Label>
       <Controller
@@ -49,15 +49,18 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
             maxLength={12}
             sizing="sm"
             color={errors.invoice?.custumer_nid ? 'failure' : 'gray'}
+            aria-describedby={errors.invoice?.custumer_nid ? 'custumer_nid-error' : undefined}
+            aria-invalid={!!errors.invoice?.custumer_nid}
             ref={ref}
             value={value ?? ''}
             onBlur={onBlur}
             onChange={(e) => onChange(formatRut(e.target.value))}
+            className="transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:focus:border-primary-400 dark:focus:ring-primary-800"
           />
         )}
       />
       {errors.invoice?.custumer_nid && (
-        <p className="mt-0.5 text-xs text-red-600" role="alert">
+        <p id="custumer_nid-error" className="mt-0.5 text-xs text-error-500 dark:text-error-400" role="alert">
           {errors.invoice.custumer_nid.message}
         </p>
       )}
@@ -67,9 +70,9 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
     <div>
       <Label
         htmlFor="custumer_name"
-        className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300"
+        className="mb-1 block text-xs font-medium text-neutral-700 dark:text-neutral-300"
       >
-        <FontAwesomeIcon icon={faUser} className="mr-1 text-primary-600" aria-hidden="true" />
+        <FontAwesomeIcon icon={faUser} className="mr-1 text-primary-600 dark:text-primary-400" aria-hidden="true" />
         Nombre del Paciente
       </Label>
       <Controller
@@ -81,13 +84,16 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
             placeholder="Nombre completo"
             sizing="sm"
             color={errors.invoice?.custumer_name ? 'failure' : 'gray'}
+            aria-describedby={errors.invoice?.custumer_name ? 'custumer_name-error' : undefined}
+            aria-invalid={!!errors.invoice?.custumer_name}
+            className="transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:focus:border-primary-400 dark:focus:ring-primary-800"
             {...field}
             value={field.value ?? ''}
           />
         )}
       />
       {errors.invoice?.custumer_name && (
-        <p className="mt-0.5 text-xs text-red-600" role="alert">
+        <p id="custumer_name-error" className="mt-0.5 text-xs text-error-500 dark:text-error-400" role="alert">
           {errors.invoice.custumer_name.message}
         </p>
       )}
@@ -95,8 +101,8 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
 
     {/* Date */}
     <div>
-      <Label className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300">
-        <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-primary-600" aria-hidden="true" />
+      <Label className="mb-1 block text-xs font-medium text-neutral-700 dark:text-neutral-300">
+        <FontAwesomeIcon icon={faCalendarAlt} className="mr-1 text-primary-600 dark:text-primary-400" aria-hidden="true" />
         Fecha
       </Label>
       <Controller
@@ -116,7 +122,7 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
         )}
       />
       {errors.invoice?.date && (
-        <p className="mt-0.5 text-xs text-red-600" role="alert">
+        <p className="mt-0.5 text-xs text-error-500 dark:text-error-400" role="alert">
           {errors.invoice.date.message}
         </p>
       )}
@@ -126,16 +132,16 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
     <div>
       <Label
         htmlFor="payment_method_id"
-        className="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300"
+        className="mb-1 block text-xs font-medium text-neutral-700 dark:text-neutral-300"
       >
-        <FontAwesomeIcon icon={faCreditCard} className="mr-1 text-primary-600" aria-hidden="true" />
+        <FontAwesomeIcon icon={faCreditCard} className="mr-1 text-primary-600 dark:text-primary-400" aria-hidden="true" />
         Método de Pago
       </Label>
       <Select
         id="payment_method_id"
         sizing="sm"
         {...register('payment_method_id')}
-        className="w-full"
+        className="w-full transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:focus:border-primary-400 dark:focus:ring-primary-800"
       >
         <option value="">Seleccionar método</option>
         {paymentMethods.map((method) => (
@@ -145,7 +151,7 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
         ))}
       </Select>
       {errors.payment_method_id && (
-        <p className="mt-0.5 text-xs text-red-600" role="alert">
+        <p className="mt-0.5 text-xs text-error-500 dark:text-error-400" role="alert">
           {errors.payment_method_id.message}
         </p>
       )}
