@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import { HeaderNoLogin } from "./HeaderNoLogin";
 import { FooterNoLogin } from "./FooterNoLogin";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 export const NoLoginLayout = ({ children, title }) => {
   const pageTitle = title || "Caja Digital";
@@ -14,7 +15,9 @@ export const NoLoginLayout = ({ children, title }) => {
       {/* Main Content */}
       <main className="w-full flex-1">
         <div className="min-h-full">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </div>
       </main>
       
