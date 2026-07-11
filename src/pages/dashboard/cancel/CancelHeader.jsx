@@ -14,7 +14,7 @@ export const CancelHeader = () => {
         >
           Inicio
         </Breadcrumb.Item>
-        <Breadcrumb.Item className="text-gray-600 dark:text-gray-400">
+        <Breadcrumb.Item className="text-neutral-600 dark:text-neutral-400">
           Anulación de Movimientos
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -26,11 +26,11 @@ export const CancelHeader = () => {
             className="text-2xl text-primary-600 dark:text-primary-400"
             aria-hidden="true"
           />
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+          <h1 className="text-2xl font-bold text-neutral-800 dark:text-neutral-50">
             Anulación de Movimientos
           </h1>
         </div>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
           Gestiona cancelaciones y devoluciones de las transacciones de la caja
           actual.
         </p>
