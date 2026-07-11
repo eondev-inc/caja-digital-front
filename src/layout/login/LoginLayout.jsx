@@ -1,5 +1,6 @@
 import { FooterLogin } from "./FooterLogin";
 import { HeaderLogin } from "./HeaderLogin";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 // eslint-disable-next-line react/prop-types
 export const LoginLayout = ({ children }) => {
@@ -16,7 +17,9 @@ export const LoginLayout = ({ children }) => {
           <div className="absolute bottom-32 right-1/3 size-14 -rotate-12 rounded-lg border-2 border-secondary-300"></div>
         </div>
         <div className="relative z-10">
-          { children }
+          <ErrorBoundary>
+            { children }
+          </ErrorBoundary>
         </div>
       </main>
       <FooterLogin />
