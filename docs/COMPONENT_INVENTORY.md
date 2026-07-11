@@ -38,17 +38,20 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 | `src/pages/dashboard/cancel/CancelDetail.jsx` | ~120 | ✅ Done | Detail modal content |
 | `src/pages/dashboard/cancel/hooks/useCancelTransactions.js` | ~180 | ✅ Done | State + handlers |
 
-### Register.jsx (351 → 58 lines)
+### Register.jsx (351 → 62 lines)
 
 | File | Lines | Status | Notes |
 |------|-------|--------|-------|
-| `src/pages/Register.jsx` | 58 | ✅ Done | Thin orchestrator |
-| `src/pages/register/RegisterHeader.jsx` | ~30 | ✅ Done | Logo + title |
-| `src/pages/register/RegisterForm.jsx` | ~40 | ✅ Done | Form wrapper |
-| `src/pages/register/RegisterPersonalFields.jsx` | ~100 | ✅ Done | RUT, name, email fields |
-| `src/pages/register/RegisterAccountFields.jsx` | ~120 | ✅ Done | Password, entity fields |
-| `src/pages/register/RegisterTermsAndSubmit.jsx` | ~80 | ✅ Done | Terms checkbox + submit |
+| `src/pages/Register.jsx` | 62 | ✅ Done → 🎨 Restyled | Semantic gradient bg, decorative blur |
+| `src/pages/register/RegisterHeader.jsx` | 22 | ✅ Done → 🎨 Restyled | Gradient badge, font-heading |
+| `src/pages/register/RegisterForm.jsx` | 42 | ✅ Done | Form wrapper |
+| `src/pages/register/RegisterPersonalFields.jsx` | 92 | ✅ Done → 🎨 Restyled | Semantic tokens, aria-describedby |
+| `src/pages/register/RegisterAccountFields.jsx` | 126 | ✅ Done → 🎨 Restyled | Semantic tokens, aria-describedby |
+| `src/pages/register/RegisterTermsAndSubmit.jsx` | 82 | ✅ Done → 🎨 Restyled | Semantic tokens, focus rings |
 | `src/pages/register/hooks/useRegister.js` | 112 | ✅ Done | RHF + entities + registration |
+| `src/layout/nologin/HeaderNoLogin.jsx` | 155 | 🎨 Restyled | Neutral tokens, transitions |
+| `src/layout/nologin/FooterNoLogin.jsx` | 191 | 🎨 Restyled | Neutral tokens, semantic bg |
+| `src/layout/nologin/NoLoginLayout.jsx` | 30 | 🎨 Restyled | Semantic bg tokens |
 
 ### Sales.jsx (335 → 73 lines)
 
@@ -84,9 +87,12 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 | File | Lines | Status | Notes |
 |------|-------|--------|-------|
 | `src/pages/Login.jsx` | 24 | ✅ Done | Thin orchestrator |
-| `src/pages/login/LoginHero.jsx` | 20 | ✅ Done | Logo + app title |
-| `src/pages/login/LoginForm.jsx` | 179 | ✅ Done | Email, password, entity, submit |
+| `src/pages/login/LoginHero.jsx` | 28 | ✅ Done → 🎨 Restyled | Gradient badge, font-heading, tagline |
+| `src/pages/login/LoginForm.jsx` | 195 | ✅ Done → 🎨 Restyled | Semantic tokens, focus rings, aria-live |
 | `src/pages/login/hooks/useLogin.js` | 89 | ✅ Done | RHF + entities + authentication |
+| `src/layout/login/HeaderLogin.jsx` | 127 | 🎨 Restyled | Neutral tokens, transitions, focus rings |
+| `src/layout/login/FooterLogin.jsx` | 73 | 🎨 Restyled | Primary gradient bg, neutral text tokens |
+| `src/layout/login/LoginLayout.jsx` | 26 | 🎨 Restyled | Semantic gradient background |
 
 ### Reports.jsx (256 → 131 lines)
 
@@ -144,23 +150,63 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 
 ---
 
+## PR 4 — Auth Pages Visual Restyle
+
+### Token Discipline
+
+All auth page components now use **semantic design tokens only**:
+- `neutral-*` for text and borders (replaces raw `gray-*`/`slate-*`)
+- `primary-*` / `secondary-*` for brand colors and dark mode backgrounds
+- `error-*` for validation errors and destructive actions (replaces raw `red-*`)
+- Zero raw `bg-(gray|slate|zinc|neutral|teal|emerald|cyan|sky)-[0-9]` in page code
+- Dark mode parity via `primary-950`/`secondary-950` gradients
+
+### Accessibility
+
+- All inputs have `aria-invalid` and `aria-describedby` linked to error messages
+- Error messages use `role="alert"` and `aria-live="assertive"` where appropriate
+- All interactive elements have visible focus rings (`focus:ring-2 focus:ring-primary-*`)
+- Dark mode toggle has `aria-label` for screen readers
+
+### Files Restyled
+
+| File | Token Changes | A11y Enhancements |
+|------|--------------|-------------------|
+| `src/pages/Login.jsx` | Semantic gradient bg, decorative blur | — |
+| `src/pages/login/LoginHero.jsx` | Gradient badge, font-heading | — |
+| `src/pages/login/LoginForm.jsx` | neutral/error/primary tokens | aria-live on error alert |
+| `src/pages/Register.jsx` | Semantic gradient bg, decorative blur | — |
+| `src/pages/register/RegisterHeader.jsx` | neutral tokens, font-heading | — |
+| `src/pages/register/RegisterPersonalFields.jsx` | neutral/error tokens | aria-describedby, aria-invalid |
+| `src/pages/register/RegisterAccountFields.jsx` | neutral/error tokens | aria-describedby, aria-invalid |
+| `src/pages/register/RegisterTermsAndSubmit.jsx` | neutral/error/primary tokens | focus rings on links |
+| `src/layout/login/HeaderLogin.jsx` | neutral/error/primary tokens | focus rings on toggle |
+| `src/layout/login/FooterLogin.jsx` | neutral/primary tokens | — |
+| `src/layout/login/LoginLayout.jsx` | Semantic gradient | — |
+| `src/layout/nologin/HeaderNoLogin.jsx` | neutral/primary tokens | focus rings on toggle |
+| `src/layout/nologin/FooterNoLogin.jsx` | neutral/primary tokens | — |
+| `src/layout/nologin/NoLoginLayout.jsx` | Semantic bg | — |
+
+---
+
 ## Summary
 
 ### Decomposition Stats
 
-| Metric | PR 2A | PR 2B | PR 3 | Total |
-|--------|-------|-------|------|-------|
-| Pages decomposed | 4 | 4 | 2 (migrated) | 8 |
-| New files created | 18 | 9 | 3 | 30 |
-| Total new lines | ~1,200 | ~800 | ~310 | ~2,310 |
-| Max page size (before) | 494 | 331 | 146 | 494 |
-| Max page size (after) | 97 | 131 | 148 | 148 |
-| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | 4 |
+| Metric | PR 2A | PR 2B | PR 3 | PR 4 | Total |
+|--------|-------|-------|------|------|-------|
+| Pages decomposed | 4 | 4 | 2 (migrated) | — | 8 |
+| Pages restyled | — | — | — | 2 + layouts | 2 + 8 layouts |
+| New files created | 18 | 9 | 3 | 0 | 30 |
+| Total new lines | ~1,200 | ~800 | ~310 | ~265 (restyle) | ~2,575 |
+| Max page size (before) | 494 | 331 | 146 | 62 | 494 |
+| Max page size (after) | 97 | 131 | 148 | 62 | 148 |
+| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | — | 4 |
+| Token-compliant pages | — | — | — | ✅ All auth | ✅ Auth |
 
 ### Next Steps
 
-- **PR 4**: Auth pages visual redesign (Login, Register)
 - **PR 5**: Sales pages visual redesign
 - **PR 6**: Reports & admin visual redesign
 - **PR 7**: Cross-cutting polish (skeletons, error boundaries, empty states, a11y)
@@ -183,5 +229,5 @@ pnpm build
 
 ---
 
-**Last updated**: PR 3 complete (2026-07-10)
+**Last updated**: PR 4 complete (2026-07-10)
 **Maintainer**: Update this document after each PR to track component status.
