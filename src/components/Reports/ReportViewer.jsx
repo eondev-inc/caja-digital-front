@@ -46,7 +46,7 @@ const ReportViewer = ({ blob, filename, error }) => {
     <div className="mt-4 space-y-3">
       {/* Barra de acciones */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
           Vista previa del reporte generado
         </p>
         <Button color="success" size="sm" onClick={handleDownload}>
@@ -59,7 +59,7 @@ const ReportViewer = ({ blob, filename, error }) => {
       <iframe
         src={objectUrl}
         title="Reporte PDF"
-        className="h-[600px] w-full rounded-lg border border-gray-200 dark:border-slate-600"
+        className="h-[600px] w-full rounded-lg border border-neutral-200 dark:border-neutral-600"
         aria-label="Vista previa del reporte en PDF"
       />
     </div>

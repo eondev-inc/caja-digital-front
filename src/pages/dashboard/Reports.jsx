@@ -21,9 +21,9 @@ const Reports = () => {
   const r = useReports();
 
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
+    <section className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       <div className="container mx-auto max-w-5xl px-4 py-6">
-        <Card className="border border-gray-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+        <Card className="border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
           <Breadcrumb className="mb-4">
             <Breadcrumb.Item
               href="/dashboard"
@@ -32,7 +32,7 @@ const Reports = () => {
             >
               Inicio
             </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-gray-600 dark:text-gray-400">
+            <Breadcrumb.Item className="text-neutral-600 dark:text-neutral-400">
               Reportes
             </Breadcrumb.Item>
           </Breadcrumb>
@@ -44,9 +44,9 @@ const Reports = () => {
                 className="text-2xl text-primary-600 dark:text-primary-400"
                 aria-hidden="true"
               />
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Reportes</h1>
+              <h1 className="text-2xl font-bold text-neutral-800 dark:text-neutral-50">Reportes</h1>
             </div>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
               Genera y descarga reportes del sistema filtrados por fecha.
             </p>
           </div>
@@ -59,7 +59,7 @@ const Reports = () => {
               )}
             >
               <div className="py-4">
-                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
                   Listado de transacciones completadas en el período seleccionado.
                 </p>
                 <ReportFilters reportType="daily-sales" loading={r.loadingDaily} onGenerate={r.handleDailySales} />
@@ -74,7 +74,7 @@ const Reports = () => {
               )}
             >
               <div className="py-4">
-                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
                   Historial de cuadraturas y cierres de caja en el período seleccionado.
                 </p>
                 <ReportFilters reportType="reconciliations" loading={r.loadingRecon} onGenerate={r.handleReconciliations} />
@@ -89,7 +89,7 @@ const Reports = () => {
               )}
             >
               <div className="py-4">
-                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
                   Atenciones y montos agrupados por profesional en el período seleccionado.
                 </p>
                 <ReportFilters
@@ -109,7 +109,7 @@ const Reports = () => {
               )}
             >
               <div className="py-4">
-                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
                   Atenciones y montos agrupados por previsión de salud en el período seleccionado.
                 </p>
                 <ReportFilters
