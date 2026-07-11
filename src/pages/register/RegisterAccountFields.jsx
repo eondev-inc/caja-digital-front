@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Label, Select, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import Skeleton from '../../../components/Skeleton/Skeleton';
+import Skeleton from '../../components/Skeleton/Skeleton';
 
 export const RegisterAccountFields = ({
   register,
