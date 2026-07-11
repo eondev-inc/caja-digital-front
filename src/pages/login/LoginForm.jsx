@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 /**
  * Login form: email, password, entity select, submit button.
+ * Restyled with semantic design tokens and dark mode parity.
  */
 const LoginForm = ({
   register,
@@ -21,13 +22,13 @@ const LoginForm = ({
   errorMessage,
   onSubmit,
 }) => (
-  <div className="dark:bg-gray-800/90 w-full rounded-2xl border-0 bg-white/90 shadow-2xl backdrop-blur-sm sm:max-w-md md:mt-0 xl:p-0">
-    <div className="space-y-6 p-8 sm:p-10 md:space-y-8">
+  <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white shadow-xl backdrop-blur-sm dark:border-primary-800 dark:bg-primary-900 sm:max-w-lg">
+    <div className="space-y-6 p-6 sm:p-8 md:space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-3xl">
+        <h2 className="font-heading text-xl font-bold leading-snug tracking-tight text-neutral-900 dark:text-white md:text-2xl">
           Acceso de Recepción Médica
         </h2>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
           Portal de acceso para personal de recepción
         </p>
       </div>
@@ -35,7 +36,8 @@ const LoginForm = ({
       {errorMessage && (
         <div
           role="alert"
-          className="dark:bg-red-900/30 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:text-red-400"
+          aria-live="assertive"
+          className="flex items-start gap-3 rounded-xl border border-error-200 bg-error-50 p-4 text-sm text-error-700 dark:border-error-800 dark:bg-error-900 dark:text-error-400"
         >
           <FontAwesomeIcon
             icon={faTriangleExclamation}
@@ -47,18 +49,18 @@ const LoginForm = ({
       )}
 
       <form
-        className="space-y-6 md:space-y-8"
+        className="space-y-5 md:space-y-6"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label
             htmlFor="email"
-            className="mb-2 flex items-center text-sm font-medium text-gray-900 dark:text-white"
+            className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
           >
             <FontAwesomeIcon
               icon={faEnvelope}
-              className="mr-2 text-primary-600 dark:text-primary-400"
+              className="text-primary-500 dark:text-primary-400"
               aria-hidden="true"
             />
             Correo Institucional
@@ -71,23 +73,24 @@ const LoginForm = ({
             color={errors.email ? 'failure' : 'gray'}
             aria-describedby={errors.email ? 'email-error' : undefined}
             aria-invalid={!!errors.email}
+            className="rounded-lg border-neutral-300 transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
             {...register('email')}
           />
           {errors.email && (
-            <p id="email-error" className="mx-1 text-left text-sm text-red-500">
+            <p id="email-error" role="alert" className="ml-1 text-left text-sm text-error-500 dark:text-error-400">
               {errors.email.message}
             </p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label
             htmlFor="password"
-            className="mb-2 flex items-center text-sm font-medium text-gray-900 dark:text-white"
+            className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
           >
             <FontAwesomeIcon
               icon={faLock}
-              className="mr-2 text-primary-600 dark:text-primary-400"
+              className="text-primary-500 dark:text-primary-400"
               aria-hidden="true"
             />
             Contraseña
@@ -100,23 +103,24 @@ const LoginForm = ({
             color={errors.password ? 'failure' : 'gray'}
             aria-describedby={errors.password ? 'password-error' : undefined}
             aria-invalid={!!errors.password}
+            className="rounded-lg border-neutral-300 transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
             {...register('password')}
           />
           {errors.password && (
-            <p id="password-error" className="mx-1 text-left text-sm text-red-500">
+            <p id="password-error" role="alert" className="ml-1 text-left text-sm text-error-500 dark:text-error-400">
               {errors.password.message}
             </p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label
             htmlFor="entity"
-            className="mb-2 flex items-center text-sm font-medium text-gray-900 dark:text-white"
+            className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-200"
           >
             <FontAwesomeIcon
               icon={faHospital}
-              className="mr-2 text-primary-600 dark:text-primary-400"
+              className="text-primary-500 dark:text-primary-400"
               aria-hidden="true"
             />
             Centro de Salud / Hospital
@@ -126,6 +130,7 @@ const LoginForm = ({
             color={errors.entity ? 'failure' : 'gray'}
             aria-describedby={errors.entity ? 'entity-error' : undefined}
             aria-invalid={!!errors.entity}
+            className="rounded-lg border-neutral-300 transition-colors duration-fast focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:border-primary-700 dark:bg-primary-950 dark:focus:border-primary-400 dark:focus:ring-primary-800"
             {...register('entity')}
           >
             <option value="">Seleccione su centro de trabajo...</option>
@@ -136,7 +141,7 @@ const LoginForm = ({
             ))}
           </Select>
           {errors.entity && (
-            <p id="entity-error" className="mx-1 text-left text-sm text-red-500">
+            <p id="entity-error" role="alert" className="ml-1 text-left text-sm text-error-500 dark:text-error-400">
               {errors.entity.message}
             </p>
           )}
@@ -147,28 +152,28 @@ const LoginForm = ({
           size="xl"
           disabled={isSubmitting}
           isProcessing={isSubmitting}
-          className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 font-semibold shadow-lg transition-all duration-200 hover:from-primary-700 hover:to-secondary-700 focus:ring-4 focus:ring-primary-300 disabled:opacity-70"
+          className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 font-semibold text-white shadow-lg transition-all duration-base ease-standard hover:from-primary-700 hover:to-secondary-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-primary-800"
           color="blue"
         >
           {!isSubmitting && (
-            <div className="flex items-center justify-center">
-              <FontAwesomeIcon icon={faCashRegister} className="mr-3" aria-hidden="true" />
+            <div className="flex items-center justify-center gap-2">
+              <FontAwesomeIcon icon={faCashRegister} aria-hidden="true" />
               <span>Acceder a Caja de Recepción</span>
             </div>
           )}
         </Button>
 
-        <div className="text-center">
-          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+        <div className="space-y-1.5 text-center">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             ¿Necesita acceso?{' '}
             <a
               href="/register"
-              className="font-medium text-secondary-600 hover:text-secondary-700 hover:underline dark:text-secondary-400"
+              className="font-semibold text-secondary-600 transition-colors duration-fast hover:text-secondary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:ring-offset-2 dark:text-secondary-400 dark:hover:text-secondary-300 dark:focus:ring-secondary-700"
             >
               Solicitar credenciales
             </a>
           </p>
-          <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+          <p className="text-xs text-neutral-400 dark:text-neutral-500">
             Sistema autorizado para personal de recepción médica
           </p>
         </div>

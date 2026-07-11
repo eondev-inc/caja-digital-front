@@ -19,16 +19,12 @@ export const HeaderLogin = () => {
     userInfo?.entity_users?.[0]?.entities?.name ?? "Centro de Salud";
 
   const handleLogout = async () => {
-    // Always clear local state first so the UI never gets stuck
-    // even if the backend call fails (offline, 5xx, etc.).
     setAccessToken('');
     setIsAuthenticated(false);
     setUserInfo({});
     setOpenRegister({});
     navigate('/login');
 
-    // Best-effort backend logout to invalidate the httpOnly refresh cookie.
-    // Failures are intentionally swallowed: the local session is already gone.
     try {
       await logoutRequest();
     } catch (error) {
@@ -38,35 +34,33 @@ export const HeaderLogin = () => {
 
   return (
     <>
-      <Navbar fluid className="fixed inset-x-0 top-0 z-50 border-b-4 border-secondary-500 bg-white shadow-xl dark:border-secondary-600 dark:bg-slate-900">
+      <Navbar fluid className="fixed inset-x-0 top-0 z-50 border-b-2 border-secondary-500 bg-white shadow-lg dark:border-secondary-600 dark:bg-primary-950">
         <Navbar.Brand href="#" className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-lg bg-gradient-to-r from-primary-600 to-secondary-600 shadow-sm">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-secondary-600 shadow-sm">
             <FontAwesomeIcon icon={faCashRegister} className="size-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-gray-800 dark:text-white">Caja Digital</span>
-            <span className="hidden text-xs text-gray-600 dark:text-gray-400 sm:block">Sistema de Recepción</span>
+            <span className="font-heading text-lg font-bold text-neutral-800 dark:text-white">Caja Digital</span>
+            <span className="hidden text-xs text-neutral-500 dark:text-neutral-400 sm:block">Sistema de Recepción</span>
           </div>
         </Navbar.Brand>
 
-        <div className="flex items-center gap-6">
-          {/* Status Indicators for POS */}
-          <div className="hidden items-center gap-4 text-sm text-gray-600 dark:text-gray-400 lg:flex">
+        <div className="flex items-center gap-4 lg:gap-6">
+          <div className="hidden items-center gap-4 text-sm text-neutral-600 dark:text-neutral-400 lg:flex">
             <div className="flex items-center gap-2">
-              <div className="size-2 animate-pulse rounded-full bg-primary-500"></div>
+              <div className="size-2 animate-pulse rounded-full bg-primary-500" />
               <span className="font-medium">Sistema Activo</span>
             </div>
             <div className="flex items-center gap-2">
-              <FontAwesomeIcon icon={faHospital} className="size-3 text-primary-600 dark:text-primary-400" />
+              <FontAwesomeIcon icon={faHospital} className="size-3 text-primary-500 dark:text-primary-400" />
               <span className="font-medium">{entityName}</span>
             </div>
           </div>
 
-          {/* Navigation Menu for POS Functions */}
-          <Navbar.Collapse className="bg-gray-50/80 dark:bg-slate-800/80 rounded-lg border border-gray-200 px-4 py-2 shadow-sm dark:border-slate-700">
+          <Navbar.Collapse className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2 shadow-sm dark:border-primary-800 dark:bg-primary-900">
             <Navbar.Link
               href="/dashboard"
-              className="flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+              className="flex items-center gap-2 font-medium text-primary-600 dark:text-primary-400"
               active
             >
               <FontAwesomeIcon icon={faChartLine} className="size-3" />
@@ -74,33 +68,32 @@ export const HeaderLogin = () => {
             </Navbar.Link>
             <Navbar.Link
               href="/dashboard/open-register"
-              className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+              className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
             >
               <FontAwesomeIcon icon={faCashRegister} className="size-3" />
               Abrir Caja
             </Navbar.Link>
             <Navbar.Link
               href="/dashboard/sales"
-              className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+              className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
             >
               <FontAwesomeIcon icon={faFileInvoice} className="size-3" />
               Ventas
             </Navbar.Link>
             <Navbar.Link
               href="/dashboard/reports"
-              className="flex items-center gap-2 font-medium text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+              className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
             >
               <FontAwesomeIcon icon={faChartBar} className="size-3" />
               Reportes
             </Navbar.Link>
           </Navbar.Collapse>
 
-          {/* Logout Button */}
           <button
             type="button"
             aria-label={darkMode ? "Activar modo claro" : "Activar modo oscuro"}
             onClick={toggleDarkMode}
-            className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white dark:focus:ring-slate-600"
+            className="rounded-xl p-2 text-neutral-500 transition-colors duration-fast hover:bg-neutral-100 hover:text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-300 dark:text-neutral-400 dark:hover:bg-primary-800 dark:hover:text-white dark:focus:ring-primary-700"
           >
             {darkMode ? (
               <svg className="size-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -108,7 +101,7 @@ export const HeaderLogin = () => {
               </svg>
             ) : (
               <svg className="size-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 0110.586 10.586z" />
               </svg>
             )}
           </button>
@@ -117,14 +110,14 @@ export const HeaderLogin = () => {
             size="sm"
             color="light"
             aria-label="Cerrar sesión"
-            className="dark:bg-red-900/20 flex items-center gap-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-300 dark:border-red-800 dark:text-red-400"
+            className="flex items-center gap-2 border-error-200 bg-error-50 text-error-600 transition-colors duration-fast hover:bg-error-100 focus:ring-2 focus:ring-error-300 dark:border-error-800 dark:bg-error-900 dark:text-error-400 dark:hover:bg-error-800"
             onClick={handleLogout}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="size-4" aria-hidden="true" />
-            <span className="ml-2 hidden sm:inline">Cerrar Sesión</span>
+            <span className="ml-1 hidden sm:inline">Cerrar Sesión</span>
           </Button>
         </div>
       </Navbar>
     </>
-  )
+  );
 }
