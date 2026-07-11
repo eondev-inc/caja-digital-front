@@ -109,22 +109,57 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 
 ---
 
+## PR 3 — Form Unification
+
+### OpenRegister.jsx (146 → 148 lines)
+
+| File | Lines | Status | Notes |
+|------|-------|--------|-------|
+| `src/pages/dashboard/OpenRegister.jsx` | 148 | ✅ Done | RHF+Zod form |
+| `src/pages/dashboard/open/hooks/useOpenRegister.js` | 95 | ✅ Done | RHF + openingAmountSchema |
+
+**Schema**: `src/utils/openingAmountSchema.js` — validates `openingAmount` (string→number, required, min 0)
+
+### CloseRegister.jsx (131 → 131 lines)
+
+| File | Lines | Status | Notes |
+|------|-------|--------|-------|
+| `src/pages/dashboard/CloseRegister.jsx` | 131 | ✅ Done | RHF+Zod form wrapper |
+| `src/pages/dashboard/close/CloseHeader.jsx` | 42 | ✅ Done | Breadcrumb + title |
+| `src/pages/dashboard/close/hooks/useCloseRegister.js` | 213 | ✅ Done | RHF + closeRegisterFormSchema |
+| `src/components/CloseRegister/AmountInputCard.jsx` | 149 | ✅ Done | Dynamic RHF register for payment amounts |
+
+**Schema**: `src/utils/reconciliationSchema.js` — `closeRegisterFormSchema` validates `enteredAmounts` (dynamic record) + `notes` (optional string)
+
+### Form Primitives
+
+| Component | Library | Current API | Target API | Status |
+|-----------|---------|-------------|------------|--------|
+| TextInput | Flowbite | `value`/`onChange` | `...register('field')` + `color={errors.field ? 'failure' : 'gray'}` | ✅ Migrated (OpenRegister, CloseRegister) |
+| Textarea | Flowbite | `value`/`onChange` | `...register('field')` + `color={errors.field ? 'failure' : 'gray'}` | ✅ Migrated (CloseRegister) |
+| Select | Flowbite | `value`/`onChange` | `...register('field')` + `color={errors.field ? 'failure' : 'gray'}` | ✅ Already used (Login, Register) |
+| Label | Flowbite | Static | Static | ✅ No change needed |
+
+**Form pattern**: All forms use `useForm` + `zodResolver(schema)` + `mode: 'onBlur'`. Error messages in Spanish (cl). Token classes applied via Flowbite restyle (PR 4-6).
+
+---
+
 ## Summary
 
 ### Decomposition Stats
 
-| Metric | PR 2A | PR 2B | Total |
-|--------|-------|-------|-------|
-| Pages decomposed | 4 | 4 | 8 |
-| New files created | 18 | 9 | 27 |
-| Total new lines | ~1,200 | ~800 | ~2,000 |
-| Max page size (before) | 494 | 331 | 494 |
-| Max page size (after) | 97 | 131 | 131 |
-| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes |
+| Metric | PR 2A | PR 2B | PR 3 | Total |
+|--------|-------|-------|------|-------|
+| Pages decomposed | 4 | 4 | 2 (migrated) | 8 |
+| New files created | 18 | 9 | 3 | 30 |
+| Total new lines | ~1,200 | ~800 | ~310 | ~2,310 |
+| Max page size (before) | 494 | 331 | 146 | 494 |
+| Max page size (after) | 97 | 131 | 148 | 148 |
+| All files ≤200 lines | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
+| Forms using RHF+Zod | 2 (Login, Register) | 0 | 2 (OpenRegister, CloseRegister) | 4 |
 
 ### Next Steps
 
-- **PR 3**: Form unification (OpenRegister + CloseRegister → RHF+Zod)
 - **PR 4**: Auth pages visual redesign (Login, Register)
 - **PR 5**: Sales pages visual redesign
 - **PR 6**: Reports & admin visual redesign
@@ -136,6 +171,9 @@ All page components must be ≤200 lines after decomposition. Extracted sub-comp
 # All pages ≤200 lines
 find src -name "*.jsx" -exec wc -l {} + | awk '$1 > 200'
 
+# No raw useState for form fields in migrated pages
+rg "useState\(" src/pages/dashboard/OpenRegister.jsx src/pages/dashboard/close/hooks/useCloseRegister.js
+
 # Lint pass
 pnpm lint --max-warnings 0
 
@@ -145,5 +183,5 @@ pnpm build
 
 ---
 
-**Last updated**: PR 2B complete (2026-07-10)
+**Last updated**: PR 3 complete (2026-07-10)
 **Maintainer**: Update this document after each PR to track component status.
