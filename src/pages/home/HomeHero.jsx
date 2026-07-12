@@ -17,7 +17,7 @@ const TRUST_BADGES = [
 export const HomeHero = () => {
   return (
     <section
-      className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800"
+      className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800"
       aria-labelledby="main-heading"
     >
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -34,7 +34,7 @@ export const HomeHero = () => {
             <div className="space-y-4">
               <h1
                 id="main-heading"
-                className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl"
+                className="text-5xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-6xl lg:text-7xl"
               >
                 La caja que
                 <span className="block text-primary-600 dark:text-primary-400">
@@ -44,7 +44,7 @@ export const HomeHero = () => {
                   de salud
                 </span>
               </h1>
-              <p className="mx-auto max-w-xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 lg:mx-0">
+              <p className="mx-auto max-w-xl text-xl leading-relaxed text-neutral-600 dark:text-neutral-300 lg:mx-0">
                 Gestión de pagos, facturación médica y reportes especializados —
                 todo en una plataforma diseñada para el sector salud chileno.
               </p>
@@ -91,7 +91,7 @@ export const HomeHero = () => {
                     className="text-primary-500"
                     aria-hidden="true"
                   />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
                     {badge}
                   </span>
                 </div>
@@ -109,23 +109,23 @@ export const HomeHero = () => {
               <img
                 src={cajaImg}
                 alt="Pantalla del sistema de caja registradora para centros médicos"
-                className="relative size-72 rounded-2xl border border-gray-200 object-cover shadow-2xl dark:border-gray-700 sm:size-96"
+                className="relative size-72 rounded-2xl border border-neutral-200 object-cover shadow-2xl dark:border-neutral-700 sm:size-96"
                 loading="eager"
                 width="384"
                 height="384"
               />
               {/* Floating badge */}
               <div
-                className="absolute -bottom-4 -right-4 rounded-xl border border-primary-100 bg-white px-4 py-3 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+                className="absolute -bottom-4 -right-4 rounded-xl border border-primary-100 bg-white px-4 py-3 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
                 aria-hidden="true"
               >
                 <div className="flex items-center gap-2">
                   <div className="size-2 animate-pulse rounded-full bg-primary-500"></div>
-                  <span className="text-sm font-semibold text-gray-800 dark:text-white">
+                  <span className="text-sm font-semibold text-neutral-800 dark:text-white">
                     Sistema activo
                   </span>
                 </div>
-                <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                <p className="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">
                   99.9% uptime garantizado
                 </p>
               </div>

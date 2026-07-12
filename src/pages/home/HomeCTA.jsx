@@ -7,17 +7,17 @@ export const HomeCTA = () => {
   return (
     <section
       id="contact"
-      className="bg-gray-50 dark:bg-slate-900"
+      className="bg-neutral-50 dark:bg-neutral-900"
       aria-labelledby="cta-heading"
     >
       <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
         <h2
           id="cta-heading"
-          className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+          className="mb-4 text-4xl font-bold text-neutral-900 dark:text-white sm:text-5xl"
         >
           Listo para modernizar tu centro de salud
         </h2>
-        <p className="mx-auto mb-10 max-w-xl text-lg text-gray-600 dark:text-gray-400">
+        <p className="mx-auto mb-10 max-w-xl text-lg text-neutral-600 dark:text-neutral-400">
           Únete a más de 500 centros de salud que ya gestionan sus cobros con
           Caja Digital. Implementación en 24 horas.
         </p>
@@ -42,12 +42,12 @@ export const HomeCTA = () => {
             to="/login"
             color="light"
             size="xl"
-            className="transition-all focus:ring-4 focus:ring-gray-200"
+            className="transition-all focus:ring-4 focus:ring-neutral-200"
           >
             Iniciar sesión
           </Button>
         </div>
-        <p className="mt-6 text-sm text-gray-500 dark:text-gray-500">
+        <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-500">
           Sin tarjeta de crédito · Cancela cuando quieras · Soporte en español
         </p>
       </div>
