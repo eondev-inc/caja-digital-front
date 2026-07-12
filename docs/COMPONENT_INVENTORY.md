@@ -315,5 +315,34 @@ pnpm build
 
 ---
 
-**Last updated**: PR 6 complete (2026-07-11)
+## PR 8 — Homepage + Shared Components Final Restyle
+
+### Token Discipline
+
+All homepage landing pages and shared components now use **semantic design tokens only**:
+- `neutral-*` for text, borders, and backgrounds (replaces raw `gray-*`/`slate-*`)
+- `primary-*` / `secondary-*` for brand accents and dark mode backgrounds
+- Zero raw `text-(gray|slate|zinc)-[0-9]` in page code
+- Zero raw `bg-(gray|slate|zinc)-[0-9]` in page code
+- Zero raw `border-(gray|slate|zinc)-[0-9]` in page code
+- Solid shades used instead of opacity modifiers (Tailwind CSS var limitation)
+- Dark mode parity via `dark:text-neutral-*` / `dark:bg-neutral-*` / `dark:border-neutral-*`
+
+### Files Restyled
+
+| File | Token Changes | A11y Enhancements |
+|------|--------------|-------------------|
+| `src/pages/home/HomeHero.jsx` | neutral bg/text/border tokens | — |
+| `src/pages/home/HomePricing.jsx` | neutral bg/text/border tokens | — |
+| `src/pages/home/HomeFeatures.jsx` | neutral bg/text/border tokens | — |
+| `src/pages/home/HomeCTA.jsx` | neutral bg/text tokens | — |
+| `src/pages/home/HomeStats.jsx` | neutral border tokens | — |
+| `src/pages/Home.jsx` | neutral bg tokens | — |
+| `src/components/Commons/NoRegisterModal.jsx` | neutral bg/text/border tokens | — |
+| `src/components/Commons/NotFound.jsx` | neutral bg/text tokens | — |
+| `src/components/Commons/ErrorModal.jsx` | neutral text tokens | — |
+
+---
+
+**Last updated**: PR 8 complete (2026-07-12)
 **Maintainer**: Update this document after each PR to track component status.
