@@ -66,7 +66,7 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
             </ul>
           </div>
 
-          <div className="dark:bg-secondary-900/20 rounded-lg bg-secondary-50 p-4">
+          <div className="rounded-lg bg-secondary-50 p-4 dark:bg-secondary-900">
             <p className="text-sm text-secondary-800 dark:text-secondary-200">
               <span className="font-medium">¿Desea abrir una caja ahora?</span>
               <br />

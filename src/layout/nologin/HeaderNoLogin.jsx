@@ -12,7 +12,7 @@ export const HeaderNoLogin = ({ title }) => {
   return (
     <Navbar
       fluid
-      className="dark:bg-primary-950/95 sticky top-0 z-50 border-b border-neutral-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-primary-800 sm:px-6"
+      className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-primary-800 dark:bg-primary-950 sm:px-6"
     >
       {/* Brand Section */}
       <Navbar.Brand as={Link} to="/" className="flex items-center space-x-3">
