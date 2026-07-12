@@ -57,9 +57,9 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
             <span className="font-medium">Atención:</span> No hay una caja abierta actualmente.
           </Alert>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-slate-600 dark:bg-slate-700">
-            <p className="text-sm text-gray-700 dark:text-gray-300">{descriptionText}</p>
-            <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-600 dark:bg-neutral-700">
+            <p className="text-sm text-neutral-700 dark:text-neutral-300">{descriptionText}</p>
+            <ul className="ml-4 mt-2 list-disc space-y-1 text-sm text-neutral-600 dark:text-neutral-400">
               {items.map((item) => (
                 <li key={item}>{item}</li>
               ))}

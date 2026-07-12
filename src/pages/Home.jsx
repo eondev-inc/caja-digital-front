@@ -8,7 +8,7 @@ import { HomeCTA } from './home/HomeCTA';
 export const Home = () => {
   return (
     <div
-      className="min-h-screen bg-white dark:bg-slate-950"
+      className="min-h-screen bg-white dark:bg-neutral-950"
       aria-labelledby="main-heading"
     >
       <HomeHero />

@@ -21,8 +21,8 @@ export const ErrorModal = ({ message, show, onClose }) => {
       <Modal.Header />
       <Modal.Body>
         <div className="text-center">
-          <HiOutlineExclamationCircle className="mx-auto mb-4 size-14 text-gray-400 dark:text-gray-200" />
-          <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <HiOutlineExclamationCircle className="mx-auto mb-4 size-14 text-neutral-400 dark:text-neutral-200" />
+          <h3 className="mb-5 text-lg font-normal text-neutral-500 dark:text-neutral-400">
             {message}
           </h3>
           <div className="flex justify-center gap-4">
