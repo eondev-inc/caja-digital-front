@@ -16,7 +16,7 @@ const STATS = [
 export const HomeStats = () => {
   return (
     <section
-      className="border-y border-gray-100 bg-primary-600 dark:border-slate-700 dark:bg-primary-800"
+      className="border-y border-neutral-100 bg-primary-600 dark:border-neutral-700 dark:bg-primary-800"
       aria-label="Estadísticas de Caja Digital"
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
