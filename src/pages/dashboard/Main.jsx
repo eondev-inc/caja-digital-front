@@ -44,18 +44,18 @@ const Main = () => {
     navigateTo(route)
   }
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-slate-900">
+    <section className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       <div className="container mx-auto max-w-7xl px-4 py-6">
-        <Card className="mx-2 mt-8 border border-gray-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+        <Card className="mx-2 mt-8 border border-neutral-200 bg-white p-6 shadow-lg dark:border-neutral-700 dark:bg-neutral-800">
           <Breadcrumb>
             <Breadcrumb.Item href="#" icon={HiHome} className="text-primary-600 dark:text-primary-400">Inicio</Breadcrumb.Item>
-            <Breadcrumb.Item href="#" className="text-gray-600 dark:text-slate-400">Sistema POS</Breadcrumb.Item>
+            <Breadcrumb.Item href="#" className="text-neutral-600 dark:text-neutral-400">Sistema POS</Breadcrumb.Item>
           </Breadcrumb>
           <div className="mb-6 mt-4">
-            <h1 className="mb-2 text-3xl font-bold text-gray-800 dark:text-slate-100">
+            <h1 className="mb-2 text-3xl font-bold text-neutral-800 dark:text-neutral-100">
               Sistema de Caja Registradora
             </h1>
-            <p className="text-lg leading-relaxed text-gray-600 dark:text-slate-400">
+            <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
               Gestiona las finanzas de tu centro médico con todas las herramientas necesarias. 
               <span className="font-semibold text-secondary-700 dark:text-secondary-400">
                 {' '}Abre y cierra tu caja registradora, 
@@ -67,8 +67,12 @@ const Main = () => {
           { [...dashboardOptions].map((element, index) => (
             <Card 
               key={index}
-              className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-all duration-200 hover:bg-gray-50 hover:shadow-lg dark:border-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600"
+              className="cursor-pointer rounded-lg border border-neutral-200 bg-white p-4 transition-all duration-200 hover:bg-neutral-50 hover:shadow-lg dark:border-neutral-700 dark:bg-neutral-700 dark:hover:bg-neutral-600"
               onClick={() => goTo(element.link)}
+              role="button"
+              tabIndex={0}
+              aria-label={element.title}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(element.link); } }}
             >
               <div className="flex items-center gap-6">
                 {/* Icono */}
@@ -79,16 +83,16 @@ const Main = () => {
                 
                 {/* Contenido */}
                 <div className="flex-1">
-                  <h5 className="mb-1 text-lg font-semibold text-gray-800 dark:text-slate-100">
+                  <h5 className="mb-1 text-lg font-semibold text-neutral-800 dark:text-neutral-100">
                     { element.title }
                   </h5>
-                  <p className="text-sm leading-relaxed text-gray-600 dark:text-slate-400">
+                  <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                     { element.description }
                   </p>
                 </div>
 
                 {/* Indicador de acción */}
-                <div className="flex size-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 dark:bg-slate-600 dark:text-slate-300">
+                <div className="flex size-8 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-600 dark:text-neutral-300">
                   <HiChevronRight className="size-5" />
                 </div>
               </div>
