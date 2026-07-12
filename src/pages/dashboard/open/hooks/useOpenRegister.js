@@ -12,6 +12,8 @@ import { getOpenRegister, createOpenRegister } from '../../../../api';
  */
 export const useOpenRegister = () => {
   const [showAlreadyOpenModal, setShowAlreadyOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { userInfo, setOpenRegister, openRegister } = useStore();
   const navigateTo = useNavigate();
 
@@ -50,17 +52,25 @@ export const useOpenRegister = () => {
       const [userEntityInfo] = userInfo.entity_users.map((entities) => entities);
 
       const fetchOpenRegister = async (entityId) => {
-        const registerResponse = await getOpenRegister(entityId);
+        try {
+          setIsLoading(true);
+          const registerResponse = await getOpenRegister(entityId);
 
-        if (registerResponse.status === 200) {
-          setOpenRegister(registerResponse.data);
-          setShowAlreadyOpenModal(true);
+          if (registerResponse.status === 200) {
+            setOpenRegister(registerResponse.data);
+            setShowAlreadyOpenModal(true);
+          }
+        } catch (err) {
+          setError(err.message || 'Error al verificar el estado de la caja');
+        } finally {
+          setIsLoading(false);
         }
       };
 
       fetchOpenRegister(userEntityInfo.entities.id);
     } else {
       setShowAlreadyOpenModal(true);
+      setIsLoading(false);
     }
   }, [openRegister, setOpenRegister, navigateTo, userInfo.entity_users]);
 
@@ -73,5 +83,7 @@ export const useOpenRegister = () => {
     showAlreadyOpenModal,
     handleCloseAlreadyOpenModal,
     userInfo,
+    isLoading,
+    error,
   };
 };

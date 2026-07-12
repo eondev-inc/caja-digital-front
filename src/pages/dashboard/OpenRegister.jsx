@@ -2,6 +2,8 @@ import { Breadcrumb, Button, Card, Label, TextInput } from 'flowbite-react';
 import { HiArrowLeft } from 'react-icons/hi';
 import { GeneralModal } from '../../components/Commons/GeneralModal';
 import { useOpenRegister } from './open/hooks/useOpenRegister';
+import Skeleton from '../../components/Skeleton/Skeleton';
+import EmptyState from '../../components/EmptyState/EmptyState';
 
 const OpenRegister = () => {
   const {
@@ -13,7 +15,42 @@ const OpenRegister = () => {
     showAlreadyOpenModal,
     handleCloseAlreadyOpenModal,
     userInfo,
+    isLoading,
+    error,
   } = useOpenRegister();
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-[1080px] p-4">
+        <EmptyState
+          variant="error"
+          title="Error al cargar"
+          description={error}
+        />
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-[1080px] p-4">
+        <Card className="mb-6">
+          <div className="mb-6">
+            <Skeleton variant="text" lines={1} className="w-48" />
+          </div>
+          <div className="mb-6 space-y-2">
+            <Skeleton variant="text" lines={1} className="w-64" />
+            <Skeleton variant="text" lines={2} />
+          </div>
+          <div className="space-y-6">
+            <Skeleton variant="rectangular" height="2rem" className="w-48" />
+            <Skeleton variant="rectangular" height="8rem" />
+            <Skeleton variant="rectangular" height="4rem" className="w-72" />
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-[1080px] p-4">
