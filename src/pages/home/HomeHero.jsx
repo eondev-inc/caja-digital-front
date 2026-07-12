@@ -24,7 +24,7 @@ export const HomeHero = () => {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Text */}
           <div className="space-y-8 text-center lg:text-left">
-            <div className="dark:bg-primary-900/30 inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 dark:border-primary-800">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 dark:border-primary-800 dark:bg-primary-900">
               <span className="size-2 rounded-full bg-primary-500"></span>
               <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
                 Para centros de salud en Chile
