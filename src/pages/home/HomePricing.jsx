@@ -56,18 +56,18 @@ export const HomePricing = () => {
   return (
     <section
       id="pricing"
-      className="bg-white dark:bg-slate-950"
+      className="bg-white dark:bg-neutral-950"
       aria-labelledby="pricing-heading"
     >
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h2
             id="pricing-heading"
-            className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+            className="mb-4 text-4xl font-bold text-neutral-900 dark:text-white sm:text-5xl"
           >
             Planes para cada centro de salud
           </h2>
-          <p className="mx-auto max-w-xl text-lg text-gray-600 dark:text-gray-400">
+          <p className="mx-auto max-w-xl text-lg text-neutral-600 dark:text-neutral-400">
             Precios en pesos chilenos. Sin costos ocultos. Cancela cuando
             quieras.
           </p>
@@ -82,7 +82,7 @@ export const HomePricing = () => {
                   'relative flex flex-col rounded-2xl p-8',
                   highlight
                     ? 'border-2 border-primary-500 bg-primary-50 shadow-xl dark:border-primary-400 dark:bg-primary-900'
-                    : 'border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800',
+                    : 'border border-neutral-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800',
                 ].join(' ')}
               >
                 {highlight && (
@@ -93,19 +93,19 @@ export const HomePricing = () => {
                   </div>
                 )}
                 <div className="mb-6">
-                  <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+                  <h3 className="mb-1 text-xl font-bold text-neutral-900 dark:text-white">
                     {name}
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
                     {description}
                   </p>
                 </div>
                 <div className="mb-6">
-                  <span className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                  <span className="text-4xl font-extrabold text-neutral-900 dark:text-white">
                     {price}
                   </span>
                   {period && (
-                    <span className="ml-1 text-base text-gray-500 dark:text-gray-400">
+                    <span className="ml-1 text-base text-neutral-500 dark:text-neutral-400">
                       {period}
                     </span>
                   )}
@@ -121,7 +121,7 @@ export const HomePricing = () => {
                         className="mt-0.5 shrink-0 text-primary-500 dark:text-primary-400"
                         aria-hidden="true"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                      <span className="text-sm text-neutral-700 dark:text-neutral-300">
                         {f}
                       </span>
                     </li>
@@ -136,7 +136,7 @@ export const HomePricing = () => {
                     'w-full transition-all focus:ring-4',
                     highlight
                       ? 'shadow-md hover:shadow-lg focus:ring-primary-300'
-                      : 'focus:ring-gray-200',
+                      : 'focus:ring-neutral-200',
                   ].join(' ')}
                 >
                   {cta}

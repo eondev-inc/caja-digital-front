@@ -74,18 +74,18 @@ export const HomeFeatures = () => {
   return (
     <section
       id="features"
-      className="bg-gray-50 dark:bg-slate-900"
+      className="bg-neutral-50 dark:bg-neutral-900"
       aria-labelledby="features-heading"
     >
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h2
             id="features-heading"
-            className="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl"
+            className="mb-4 text-4xl font-bold text-neutral-900 dark:text-white sm:text-5xl"
           >
             Diseñado para centros de salud
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
+          <p className="mx-auto max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
             Cada función pensada para el flujo de trabajo médico y las
             regulaciones del sector salud chileno.
           </p>
@@ -95,7 +95,7 @@ export const HomeFeatures = () => {
           {FEATURES.map(({ icon, color, title, description }) => (
             <article
               key={title}
-              className="group rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
+              className="group rounded-2xl border border-neutral-100 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800"
             >
               <div className="mb-5">
                 <div
@@ -108,10 +108,10 @@ export const HomeFeatures = () => {
                   />
                 </div>
               </div>
-              <h3 className="mb-3 text-lg font-bold text-gray-900 dark:text-white">
+              <h3 className="mb-3 text-lg font-bold text-neutral-900 dark:text-white">
                 {title}
               </h3>
-              <p className="leading-relaxed text-gray-600 dark:text-gray-400">
+              <p className="leading-relaxed text-neutral-600 dark:text-neutral-400">
                 {description}
               </p>
             </article>
