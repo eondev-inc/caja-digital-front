@@ -31,10 +31,10 @@ const OpenRegister = () => {
         </div>
 
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
             Apertura de caja
           </h1>
-          <p className="text-gray-600 dark:text-slate-400">
+          <p className="text-neutral-600 dark:text-neutral-400">
             Abre tu caja para registrar, ingresar comprobantes, anular y ver tu
             historial de movimientos.
           </p>
@@ -42,7 +42,7 @@ const OpenRegister = () => {
 
         <div className="space-y-6">
           <div className="flex items-center gap-2 pb-4">
-            <div className="dark:bg-primary-900/30 rounded bg-primary-100 p-2">
+            <div className="rounded bg-primary-100 p-2 dark:bg-primary-900">
               <svg
                 className="size-6 text-primary-500 dark:text-primary-400"
                 fill="none"
@@ -62,28 +62,28 @@ const OpenRegister = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm dark:border-slate-600 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 rounded-xl border-2 p-4 shadow-sm dark:border-neutral-600 md:grid-cols-2">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+              <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Nombre cajero
               </p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">
+              <p className="mt-1 text-neutral-900 dark:text-neutral-100">
                 {userInfo.surnames} {userInfo.forenames}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+              <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Rut cajero
               </p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">
+              <p className="mt-1 text-neutral-900 dark:text-neutral-100">
                 {userInfo.nid}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+              <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Fecha Apertura
               </p>
-              <p className="mt-1 text-gray-900 dark:text-slate-100">
+              <p className="mt-1 text-neutral-900 dark:text-neutral-100">
                 {new Date().toLocaleDateString()}
               </p>
             </div>
@@ -93,7 +93,7 @@ const OpenRegister = () => {
             <div className="mt-8">
               <Label
                 htmlFor="openingAmount"
-                className="text-lg font-medium text-gray-700 dark:text-slate-300"
+                className="text-lg font-medium text-neutral-700 dark:text-neutral-300"
               >
                 ¿Con qué monto abrirás tu caja hoy?
               </Label>
@@ -124,7 +124,7 @@ const OpenRegister = () => {
                 {errors.openingAmount && (
                   <p
                     id="openingAmount-error"
-                    className="mx-1 mt-1 text-left text-sm text-red-500"
+                    className="mx-1 mt-1 text-left text-sm text-error-500"
                   >
                     {errors.openingAmount.message}
                   </p>
@@ -143,7 +143,7 @@ const OpenRegister = () => {
           buttonMessage="Ir al dashboard"
           onClose={handleCloseAlreadyOpenModal}
         >
-          <p className="text-center text-gray-700 dark:text-slate-300">
+          <p className="text-center text-neutral-700 dark:text-neutral-300">
             Ya existe una caja abierta asociada a tu usuario. Serás redirigido
             al dashboard para continuar.
           </p>
