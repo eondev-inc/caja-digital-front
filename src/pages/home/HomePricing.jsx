@@ -81,7 +81,7 @@ export const HomePricing = () => {
                 className={[
                   'relative flex flex-col rounded-2xl p-8',
                   highlight
-                    ? 'border-2 border-primary-500 bg-primary-50 shadow-xl dark:border-primary-400 dark:bg-primary-900/20'
+                    ? 'border-2 border-primary-500 bg-primary-50 shadow-xl dark:border-primary-400 dark:bg-primary-900'
                     : 'border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800',
                 ].join(' ')}
               >

@@ -12,14 +12,14 @@ const COLOR_CLASSES = {
   primary: {
     bg: 'bg-primary-100',
     bgHover: 'group-hover:bg-primary-200',
-    bgDark: 'dark:bg-primary-900/40',
+    bgDark: 'dark:bg-primary-950',
     text: 'text-primary-600',
     textDark: 'dark:text-primary-400',
   },
   secondary: {
     bg: 'bg-secondary-100',
     bgHover: 'group-hover:bg-secondary-200',
-    bgDark: 'dark:bg-secondary-900/40',
+    bgDark: 'dark:bg-secondary-950',
     text: 'text-secondary-600',
     textDark: 'dark:text-secondary-400',
   },
