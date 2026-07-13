@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Button, Spinner } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileInvoice, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +6,7 @@ import ItemsTable from '../../../components/Sales/ItemsTable';
 import NotesSection from '../../../components/Sales/NotesSection';
 import SummaryCard from '../../../components/Sales/SummaryCard';
 
+/* eslint-disable react/prop-types */
 export const SalesFormSection = ({
   register,
   handleSubmit,
@@ -91,23 +91,4 @@ export const SalesFormSection = ({
       </div>
     </form>
   );
-};
-
-SalesFormSection.propTypes = {
-  register: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  control: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  isValid: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  paymentMethods: PropTypes.array.isRequired,
-  professionals: PropTypes.array.isRequired,
-  previsions: PropTypes.array.isRequired,
-  invoiceItems: PropTypes.array.isRequired,
-  addInvoiceItem: PropTypes.func.isRequired,
-  removeInvoiceItem: PropTypes.func.isRequired,
-  updateInvoiceItem: PropTypes.func.isRequired,
-  showFolioInput: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired,
 };

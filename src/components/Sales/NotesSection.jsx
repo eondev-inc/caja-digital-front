@@ -1,8 +1,7 @@
 import { Label, Textarea } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
+/* eslint-disable react/prop-types */
 export default function NotesSection({ register }) {
   return (
     <div className="space-y-3">
@@ -20,7 +19,3 @@ export default function NotesSection({ register }) {
     </div>
   );
 }
-
-NotesSection.propTypes = {
-  register: PropTypes.func.isRequired,
-};

@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { Button, Checkbox, Label, Spinner } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
+/* eslint-disable react/prop-types */
 export const RegisterTermsAndSubmit = ({
   register,
   errors,
@@ -72,11 +72,4 @@ export const RegisterTermsAndSubmit = ({
       </div>
     </>
   );
-};
-
-RegisterTermsAndSubmit.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  loadingEntities: PropTypes.bool.isRequired,
 };

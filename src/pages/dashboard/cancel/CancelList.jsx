@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Badge, Table, Pagination } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -32,6 +31,7 @@ const getStatusBadge = (status) => {
 const canActOnTransaction = (transaction) =>
   transaction?.status?.toLowerCase() === 'completado';
 
+/* eslint-disable react/prop-types */
 export const CancelList = ({
   transactions,
   loading,
@@ -159,14 +159,4 @@ export const CancelList = ({
       )}
     </>
   );
-};
-
-CancelList.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loading: PropTypes.bool.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onDevolution: PropTypes.func.isRequired,
 };

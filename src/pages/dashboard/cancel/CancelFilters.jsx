@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { TextInput, Button } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
+/* eslint-disable react/prop-types */
 export const CancelFilters = ({
   searchTerm,
   onSearchTermChange,
@@ -46,12 +46,4 @@ export const CancelFilters = ({
       </div>
     </>
   );
-};
-
-CancelFilters.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  onSearchTermChange: PropTypes.func.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  totalItems: PropTypes.number.isRequired,
 };

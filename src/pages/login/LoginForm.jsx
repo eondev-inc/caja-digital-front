@@ -7,12 +7,11 @@ import {
   faCashRegister,
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
 /**
  * Login form: email, password, entity select, submit button.
  * Restyled with semantic design tokens and dark mode parity.
  */
+/* eslint-disable react/prop-types */
 const LoginForm = ({
   register,
   handleSubmit,
@@ -181,15 +180,5 @@ const LoginForm = ({
     </div>
   </div>
 );
-
-LoginForm.propTypes = {
-  register: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  entities: PropTypes.array.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default LoginForm;

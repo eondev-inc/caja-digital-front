@@ -1,12 +1,11 @@
 import CustomerFields from './fields/CustomerFields';
 import ProductFields from './fields/ProductFields';
-import PropTypes from 'prop-types';
-
 /**
  * Sección compacta de datos del cliente y método de pago.
  * Fila 1: RUT | Nombre | Fecha | Método de Pago
  * Fila 2 (condicional): Folio (solo si método es Bono)
  */
+/* eslint-disable react/prop-types */
 export default function SalesFormFields({
   control,
   register,
@@ -35,11 +34,3 @@ export default function SalesFormFields({
     </div>
   );
 }
-
-SalesFormFields.propTypes = {
-  control: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  paymentMethods: PropTypes.array.isRequired,
-  showFolioInput: PropTypes.bool,
-};

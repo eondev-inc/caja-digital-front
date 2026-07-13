@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { Label, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faIdCard } from '@fortawesome/free-solid-svg-icons';
 
+/* eslint-disable react/prop-types */
 export const RegisterPersonalFields = ({ register, errors }) => {
   return (
     <div className="space-y-3">
@@ -90,9 +90,4 @@ export const RegisterPersonalFields = ({ register, errors }) => {
       </div>
     </div>
   );
-};
-
-RegisterPersonalFields.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };

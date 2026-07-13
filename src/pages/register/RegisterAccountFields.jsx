@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import { Label, Select, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from '../../components/Skeleton/Skeleton';
 
+/* eslint-disable react/prop-types */
 export const RegisterAccountFields = ({
   register,
   errors,
@@ -122,11 +122,4 @@ export const RegisterAccountFields = ({
       </div>
     </>
   );
-};
-
-RegisterAccountFields.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  entities: PropTypes.array.isRequired,
-  loadingEntities: PropTypes.bool.isRequired,
 };

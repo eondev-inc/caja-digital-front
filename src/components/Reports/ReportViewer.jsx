@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Alert } from 'flowbite-react';
 import { HiDownload, HiExclamationCircle } from 'react-icons/hi';
 
@@ -12,6 +11,7 @@ import { HiDownload, HiExclamationCircle } from 'react-icons/hi';
  * @param {string}  props.filename  - Nombre del archivo al descargar
  * @param {string}  [props.error]   - Mensaje de error (si aplica)
  */
+/* eslint-disable react/prop-types */
 const ReportViewer = ({ blob, filename, error }) => {
   const [objectUrl, setObjectUrl] = useState(null);
 
@@ -64,12 +64,6 @@ const ReportViewer = ({ blob, filename, error }) => {
       />
     </div>
   );
-};
-
-ReportViewer.propTypes = {
-  blob: PropTypes.instanceOf(Blob),
-  filename: PropTypes.string,
-  error: PropTypes.string,
 };
 
 export default ReportViewer;

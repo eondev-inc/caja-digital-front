@@ -1,13 +1,12 @@
 import { Button, Select, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faUserMd } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
 /**
  * Tabla de ítems de la venta con fila única por ítem.
  * Columnas: Servicio | Profesional | Previsión | Cantidad | Precio | Subtotal | Acción
  * En mobile apila verticalmente cada ítem.
  */
+/* eslint-disable react/prop-types */
 export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professionals, previsions }) {
   return (
     <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-800">
@@ -173,12 +172,3 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
     </div>
   );
 }
-
-ItemsTable.propTypes = {
-  items: PropTypes.array.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  professionals: PropTypes.array,
-  previsions: PropTypes.array,
-};

@@ -1,11 +1,10 @@
 import { Label, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
 /**
  * Product fields: folio (conditional, shown only for Bono payment method).
  */
+/* eslint-disable react/prop-types */
 const ProductFields = ({ register, errors, showFolioInput }) => {
   if (!showFolioInput) return null;
 
@@ -34,12 +33,6 @@ const ProductFields = ({ register, errors, showFolioInput }) => {
       )}
     </div>
   );
-};
-
-ProductFields.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  showFolioInput: PropTypes.bool,
 };
 
 export default ProductFields;

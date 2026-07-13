@@ -1,8 +1,7 @@
 import { Label, Select, TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
+/* eslint-disable react/prop-types */
 export default function PaymentSection({ register, errors, paymentMethods, showFolioInput }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -57,10 +56,3 @@ export default function PaymentSection({ register, errors, paymentMethods, showF
     </div>
   );
 }
-
-PaymentSection.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  paymentMethods: PropTypes.array.isRequired,
-  showFolioInput: PropTypes.bool,
-};

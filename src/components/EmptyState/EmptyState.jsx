@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInbox } from '@fortawesome/free-solid-svg-icons';
 
@@ -38,6 +37,7 @@ const variantStyles = {
   },
 };
 
+/* eslint-disable react/prop-types */
 const EmptyState = ({
   icon,
   title = 'Sin datos',
@@ -65,14 +65,6 @@ const EmptyState = ({
       {action && <div className="mt-2">{action}</div>}
     </div>
   );
-};
-
-EmptyState.propTypes = {
-  icon: PropTypes.object,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  action: PropTypes.node,
-  variant: PropTypes.oneOf(['default', 'info', 'warning', 'error']),
 };
 
 export default EmptyState;

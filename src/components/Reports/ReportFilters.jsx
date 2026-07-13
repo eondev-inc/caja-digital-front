@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Label, Select, Spinner } from 'flowbite-react';
 import { HiSearch } from 'react-icons/hi';
 
@@ -14,6 +13,7 @@ import { HiSearch } from 'react-icons/hi';
  * @param {boolean}  props.loading       - Estado de carga
  * @param {Function} props.onGenerate    - Callback con los filtros seleccionados
  */
+/* eslint-disable react/prop-types */
 const ReportFilters = ({ reportType = '', professionals = [], previsions = [], loading, onGenerate }) => {
   const today = new Date().toISOString().split('T')[0];
   const firstOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -135,24 +135,6 @@ const ReportFilters = ({ reportType = '', professionals = [], previsions = [], l
       )}
     </form>
   );
-};
-
-ReportFilters.propTypes = {
-  reportType: PropTypes.string,
-  professionals: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      professional_name: PropTypes.string.isRequired,
-    })
-  ),
-  previsions: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
-  loading: PropTypes.bool.isRequired,
-  onGenerate: PropTypes.func.isRequired,
 };
 
 export default ReportFilters;

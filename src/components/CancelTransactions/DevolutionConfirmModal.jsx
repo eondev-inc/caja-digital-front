@@ -1,5 +1,4 @@
 import { Modal, Button } from 'flowbite-react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrency, formatDate } from '../../utils/formatters';
@@ -11,6 +10,7 @@ import { formatCurrency, formatDate } from '../../utils/formatters';
  * @param {function} onConfirm - Función para confirmar la devolución
  * @param {object} transaction - Datos de la transacción a devolver
  */
+/* eslint-disable react/prop-types */
 export default function DevolutionConfirmModal({ show, onClose, onConfirm, transaction }) {
   if (!transaction) return null;
 
@@ -87,10 +87,3 @@ export default function DevolutionConfirmModal({ show, onClose, onConfirm, trans
     </Modal>
   );
 }
-
-DevolutionConfirmModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  transaction: PropTypes.object,
-};

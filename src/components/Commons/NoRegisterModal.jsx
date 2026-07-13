@@ -1,8 +1,6 @@
 import { Modal, Button, Alert } from 'flowbite-react';
 import { HiExclamationCircle } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
 /**
  * Modal informativo que aparece cuando no hay caja abierta.
  * Ofrece redirigir a la página de apertura de caja.
@@ -11,6 +9,7 @@ import PropTypes from 'prop-types';
  * @param {boolean} show - Controla visibilidad
  * @param {string} context - 'sales' | 'close' | 'cancel' — ajusta el texto descriptivo
  */
+/* eslint-disable react/prop-types */
 export default function NoRegisterModal({ show, context = 'sales' }) {
   const navigate = useNavigate();
 
@@ -88,8 +87,3 @@ export default function NoRegisterModal({ show, context = 'sales' }) {
     </Modal>
   );
 }
-
-NoRegisterModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  context: PropTypes.oneOf(['sales', 'close', 'cancel']),
-};

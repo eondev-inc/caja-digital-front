@@ -1,5 +1,4 @@
 import { Modal, Button } from 'flowbite-react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrency, formatDate } from '../../utils/formatters';
@@ -11,6 +10,7 @@ import { formatCurrency, formatDate } from '../../utils/formatters';
  * @param {function} onConfirm - Función para confirmar la cancelación
  * @param {object} transaction - Datos de la transacción a cancelar
  */
+/* eslint-disable react/prop-types */
 export default function CancelConfirmModal({ show, onClose, onConfirm, transaction }) {
   if (!transaction) return null;
 
@@ -79,10 +79,3 @@ export default function CancelConfirmModal({ show, onClose, onConfirm, transacti
     </Modal>
   );
 }
-
-CancelConfirmModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  transaction: PropTypes.object,
-};

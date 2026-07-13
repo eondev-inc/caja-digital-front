@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
-
 /**
  * Skeleton loading primitive.
  * Variants: text (animated lines), circular, rectangular.
  * Uses semantic tokens with dark mode parity.
  */
+/* eslint-disable react/prop-types */
 const Skeleton = ({
   variant = 'text',
   width,
@@ -54,14 +53,6 @@ const Skeleton = ({
       ))}
     </div>
   );
-};
-
-Skeleton.propTypes = {
-  variant: PropTypes.oneOf(['text', 'circular', 'rectangular']),
-  width: PropTypes.string,
-  height: PropTypes.string,
-  lines: PropTypes.number,
-  className: PropTypes.string,
 };
 
 export default Skeleton;

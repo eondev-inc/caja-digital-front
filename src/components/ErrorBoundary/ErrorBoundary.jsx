@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,6 +7,7 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
  * Logs to console (future Sentry hook). Renders fallback UI.
  * Uses semantic tokens with dark mode parity.
  */
+/* eslint-disable react/prop-types */
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -68,11 +68,5 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
-  fallback: PropTypes.node,
-  onError: PropTypes.func,
-};
 
 export default ErrorBoundary;

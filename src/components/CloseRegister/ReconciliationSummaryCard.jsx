@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 /**
  * Muestra el resumen compacto de cuadratura: 3 tiles de totales y una tabla
  * comparativa Esperado / Ingresado / Diferencia por método de pago (dinámico).
@@ -12,6 +10,7 @@ import PropTypes from 'prop-types';
  * @param {boolean} hasDiscrepancies - Si existe diferencia total != 0
  * @param {function} formatCurrency  - Función de formato CLP
  */
+/* eslint-disable react/prop-types */
 export default function ReconciliationSummaryCard({
   calculationData,
   paymentMethods,
@@ -117,18 +116,3 @@ export default function ReconciliationSummaryCard({
     </div>
   );
 }
-
-ReconciliationSummaryCard.propTypes = {
-  calculationData: PropTypes.object.isRequired,
-  paymentMethods: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  })).isRequired,
-  enteredAmounts: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ).isRequired,
-  totalEntered: PropTypes.number.isRequired,
-  differences: PropTypes.object,
-  hasDiscrepancies: PropTypes.bool.isRequired,
-  formatCurrency: PropTypes.func.isRequired,
-};

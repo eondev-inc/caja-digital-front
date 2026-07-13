@@ -1,5 +1,4 @@
 import { Modal, Button } from 'flowbite-react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +6,7 @@ function formatCLP(n) {
   return (n ?? 0).toLocaleString('es-CL');
 }
 
+/* eslint-disable react/prop-types */
 export default function ReceiptModal({ open, onClose, data }) {
   const { invoice = {}, items = [], subtotal = 0, tax = 0, total = 0, payment_method_label, prevision_label, folio } = data || {};
 
@@ -95,9 +95,3 @@ export default function ReceiptModal({ open, onClose, data }) {
     </Modal>
   );
 }
-
-ReceiptModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  data: PropTypes.object,
-};

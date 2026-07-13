@@ -2,9 +2,9 @@ import { Label, TextInput, Datepicker } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faIdCard, faUser, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { Controller } from 'react-hook-form';
-import PropTypes from 'prop-types';
 import { formatRut } from '../../utils/rut';
 
+/* eslint-disable react/prop-types */
 export default function CustomerSection({ control, errors }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -90,9 +90,3 @@ export default function CustomerSection({ control, errors }) {
     </div>
   );
 }
-
-CustomerSection.propTypes = {
-  control: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
-

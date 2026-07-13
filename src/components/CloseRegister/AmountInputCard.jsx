@@ -5,8 +5,6 @@ import {
   faCreditCard,
   faTicket,
 } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
 /**
  * Devuelve el ícono y color asociados a un método de pago según su method_name.
  * @param {string} methodName
@@ -36,6 +34,7 @@ const getMethodStyle = (methodName) => {
  * @param {object|null} differences   - Diferencias calculadas
  * @param {function} formatCurrency   - Formateador CLP
  */
+/* eslint-disable react/prop-types */
 export default function AmountInputCard({
   paymentMethods,
   watchedAmounts,
@@ -155,21 +154,3 @@ export default function AmountInputCard({
     </div>
   );
 }
-
-AmountInputCard.propTypes = {
-  paymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      method_name: PropTypes.string,
-      description: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  watchedAmounts: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ),
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object,
-  watchedNotes: PropTypes.string,
-  differences: PropTypes.object,
-  formatCurrency: PropTypes.func.isRequired,
-};

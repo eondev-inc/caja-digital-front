@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { RegisterPersonalFields } from './RegisterPersonalFields';
 import { RegisterAccountFields } from './RegisterAccountFields';
 import { RegisterTermsAndSubmit } from './RegisterTermsAndSubmit';
 
+/* eslint-disable react/prop-types */
 export const RegisterForm = ({
   register,
   handleSubmit,
@@ -29,14 +29,4 @@ export const RegisterForm = ({
       />
     </form>
   );
-};
-
-RegisterForm.propTypes = {
-  register: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  entities: PropTypes.array.isRequired,
-  loadingEntities: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };

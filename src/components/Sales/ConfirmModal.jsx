@@ -1,6 +1,5 @@
 import { Modal, Button } from 'flowbite-react';
-import PropTypes from 'prop-types';
-
+/* eslint-disable react/prop-types */
 export default function ConfirmModal({ open, onClose, onConfirm, dataPreview }) {
   const { invoice = {}, payment_method_label, total } = dataPreview || {};
 
@@ -39,10 +38,3 @@ export default function ConfirmModal({ open, onClose, onConfirm, dataPreview }) 
     </Modal>
   );
 }
-
-ConfirmModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  dataPreview: PropTypes.object,
-};

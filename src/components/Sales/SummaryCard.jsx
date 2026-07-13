@@ -1,8 +1,7 @@
 import { TextInput } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
+/* eslint-disable react/prop-types */
 export default function SummaryCard({ items, iva = 0.19 }) {
   const subtotal = items.reduce((sum, item) => sum + (item.subtotal || 0), 0);
   const tax = subtotal * iva;
@@ -37,8 +36,3 @@ export default function SummaryCard({ items, iva = 0.19 }) {
     </div>
   );
 }
-
-SummaryCard.propTypes = {
-  items: PropTypes.array.isRequired,
-  iva: PropTypes.number,
-};

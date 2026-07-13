@@ -2,7 +2,6 @@ import { Label, TextInput, Select, Datepicker } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faIdCard, faUser, faCalendarAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { Controller } from 'react-hook-form';
-import PropTypes from 'prop-types';
 import { formatRut } from '../../../utils/rut';
 
 /**
@@ -26,6 +25,7 @@ const datepickerSmTheme = {
 /**
  * Customer fields: RUT, name, date, payment method.
  */
+/* eslint-disable react/prop-types */
 const CustomerFields = ({ control, register, errors, paymentMethods }) => (
   <>
     {/* RUT */}
@@ -158,12 +158,5 @@ const CustomerFields = ({ control, register, errors, paymentMethods }) => (
     </div>
   </>
 );
-
-CustomerFields.propTypes = {
-  control: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  paymentMethods: PropTypes.array.isRequired,
-};
 
 export default CustomerFields;

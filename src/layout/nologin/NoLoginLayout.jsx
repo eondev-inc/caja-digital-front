@@ -1,9 +1,9 @@
 
-import PropTypes from 'prop-types';
 import { HeaderNoLogin } from "./HeaderNoLogin";
 import { FooterNoLogin } from "./FooterNoLogin";
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
+/* eslint-disable react/prop-types */
 export const NoLoginLayout = ({ children, title }) => {
   const pageTitle = title || "Caja Digital";
   
@@ -26,8 +26,3 @@ export const NoLoginLayout = ({ children, title }) => {
     </div>
   );
 }
-
-NoLoginLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string
-};

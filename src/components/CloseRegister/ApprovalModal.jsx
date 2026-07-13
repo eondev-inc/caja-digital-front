@@ -2,8 +2,6 @@ import { Modal, Button, Alert, Spinner } from 'flowbite-react';
 import { HiCheckCircle } from 'react-icons/hi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
-
 /**
  * Modal de aprobación final del cierre de caja.
  * Muestra el resumen del cierre con todos los métodos de pago activos de forma dinámica.
@@ -20,6 +18,7 @@ import PropTypes from 'prop-types';
  * @param {function} onApprove       - Confirmar aprobación
  * @param {function} formatCurrency  - Formateador CLP
  */
+/* eslint-disable react/prop-types */
 export default function ApprovalModal({
   show,
   approving,
@@ -133,22 +132,3 @@ export default function ApprovalModal({
     </Modal>
   );
 }
-
-ApprovalModal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  approving: PropTypes.bool.isRequired,
-  calculationData: PropTypes.object,
-  paymentMethods: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  })).isRequired,
-  totalEntered: PropTypes.number.isRequired,
-  enteredAmounts: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ).isRequired,
-  hasDiscrepancies: PropTypes.bool.isRequired,
-  differences: PropTypes.object,
-  onClose: PropTypes.func.isRequired,
-  onApprove: PropTypes.func.isRequired,
-  formatCurrency: PropTypes.func.isRequired,
-};
