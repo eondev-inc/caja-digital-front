@@ -31,11 +31,36 @@ export const useStore = create(
       // Preferencia de modo oscuro — persiste en sessionStorage
       darkMode: false,
       setDarkMode: (darkMode) => set({ darkMode }),
-
     }),
     {
       name: 'allData',
       storage: createJSONStorage(() => sessionStorage),
-    }
-  )
+      version: 2,
+      // Persist only non-sensitive UI state. Auth/session data must remain in memory.
+      partialize: (state) => ({
+        formData: state.formData,
+        darkMode: state.darkMode,
+      }),
+      migrate: (persistedState = {}, version) => {
+        if (version < 2) {
+          // Whitelist: only non-sensitive UI state. Drops any legacy
+          // auth/session keys (accessToken, isAuthenticated, userInfo,
+          // openRegister) so they cannot leak across the v1 -> v2 upgrade.
+          return {
+            formData: persistedState.formData ?? {
+              forenames: '',
+              surnames: '',
+              nid: '',
+              email: '',
+              entity_id: '',
+              checkBox: false,
+            },
+            darkMode: persistedState.darkMode ?? false,
+          };
+        }
+
+        return persistedState;
+      },
+    },
+  ),
 );
