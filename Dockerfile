@@ -1,7 +1,7 @@
 # Stage 1: Build the React Vite app
 # node:16-alpine is EOL (April 2023) and the source of F-08.
 # node:22-alpine is the current LTS; uses corepack to pin pnpm 10.
-FROM node:22-alpine AS build
+FROM node:lts-alpine3.28 AS build
 
 WORKDIR /app
 

@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.22
+FROM node:lts-alpine3.28
 LABEL version="1.0.0"
 
 # Instalar dependencias necesarias
