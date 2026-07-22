@@ -21,6 +21,13 @@ const drainQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+const redirectToLogin = () => {
+  if (typeof window === 'undefined') return;
+
+  const loginUrl = new URL('/login', window.location.origin);
+  window.location.replace(loginUrl.toString());
+};
+
 const axiosInstance = axios.create({
   baseURL: `${apiUrl}/api/v1/`,
   timeout: 8000,
@@ -90,7 +97,7 @@ axiosInstance.interceptors.response.use(
       useStore.getState().setAccessToken('');
       useStore.getState().setIsAuthenticated(false);
       useStore.getState().setUserInfo({});
-      window.location.href = '/login';
+      redirectToLogin();
 
       return Promise.reject(refreshError);
     } finally {
