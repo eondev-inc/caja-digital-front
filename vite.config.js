@@ -20,11 +20,7 @@ export default defineConfig({
   },
   build: {
     minify: 'terser',
-    // 'hidden' emits .map files but strips the //# sourceMappingURL comment
-    // from bundles, so DevTools does not auto-load them in production.
-    // Switch to false to drop them entirely once an error-reporting pipeline
-    // (Sentry, Datadog) is in place to consume them.
-    sourcemap: 'hidden',
+    sourcemap: false,
     chunkSizeWarningLimit: 500,
   }
 })

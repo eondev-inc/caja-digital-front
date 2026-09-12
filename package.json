@@ -25,7 +25,6 @@
     "react-hook-form": "^7.53.0",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.30.4",
-    "validar-rut": "^3.1.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.5"
   },
@@ -46,7 +45,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "tailwindcss": "^3.4.10",
     "terser": "^5.36.0",
-    "vite": "^5.2.0",
+    "vite": "catalog:default",
     "vite-plugin-compression": "^0.5.1"
   },
   "husky": {
@@ -58,17 +57,5 @@
     "*.{js,jsx}": [
       "eslint --report-unused-disable-directives --max-warnings 0 --fix"
     ]
-  },
-  "pnpm": {
-    "overrides": {
-      "brace-expansion": "^2.1.2",
-      "glob": "^10.5.0",
-      "minimatch": "^9.0.7",
-      "rollup": "^4.59.0",
-      "yaml": "^2.8.3",
-      "postcss": "^8.5.10",
-      "picomatch@^2.0.0": "^2.3.2",
-      "picomatch@^4.0.0": "^4.0.4"
-    }
   }
 }

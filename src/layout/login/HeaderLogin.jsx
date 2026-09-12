@@ -1,6 +1,13 @@
-import { Navbar, Button } from "flowbite-react";
+import { Navbar, Button } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faHospital, faChartLine, faSignOutAlt, faFileInvoice, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCashRegister,
+  faHospital,
+  faChartLine,
+  faSignOutAlt,
+  faFileInvoice,
+  faChartBar,
+} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../app/store';
 import { useDarkMode } from '../../hooks/useDarkMode';
@@ -15,33 +22,39 @@ export const HeaderLogin = () => {
   const userInfo = useStore((s) => s.userInfo);
   const { darkMode, toggleDarkMode } = useDarkMode();
 
-  const entityName =
-    userInfo?.entity_users?.[0]?.entities?.name ?? "Centro de Salud";
+  const entityName = userInfo?.entity_users?.[0]?.entities?.name ?? 'Centro de Salud';
 
   const handleLogout = async () => {
-    setAccessToken('');
-    setIsAuthenticated(false);
-    setUserInfo({});
-    setOpenRegister({});
-    navigate('/login');
-
     try {
       await logoutRequest();
     } catch (error) {
       console.error('Backend logout failed; local session cleared.', error);
+    } finally {
+      setAccessToken('');
+      setIsAuthenticated(false);
+      setUserInfo({});
+      setOpenRegister({});
+      navigate('/login');
     }
   };
 
   return (
     <>
-      <Navbar fluid className="fixed inset-x-0 top-0 z-50 border-b-2 border-secondary-500 bg-white shadow-lg dark:border-secondary-600 dark:bg-primary-950">
+      <Navbar
+        fluid
+        className="fixed inset-x-0 top-0 z-50 border-b-2 border-secondary-500 bg-white shadow-lg dark:border-secondary-600 dark:bg-primary-950"
+      >
         <Navbar.Brand href="#" className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-secondary-600 shadow-sm">
             <FontAwesomeIcon icon={faCashRegister} className="size-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-heading text-lg font-bold text-neutral-800 dark:text-white">Caja Digital</span>
-            <span className="hidden text-xs text-neutral-500 dark:text-neutral-400 sm:block">Sistema de Recepción</span>
+            <span className="font-heading text-lg font-bold text-neutral-800 dark:text-white">
+              Caja Digital
+            </span>
+            <span className="hidden text-xs text-neutral-500 dark:text-neutral-400 sm:block">
+              Sistema de Recepción
+            </span>
           </div>
         </Navbar.Brand>
 
@@ -91,13 +104,17 @@ export const HeaderLogin = () => {
 
           <button
             type="button"
-            aria-label={darkMode ? "Activar modo claro" : "Activar modo oscuro"}
+            aria-label={darkMode ? 'Activar modo claro' : 'Activar modo oscuro'}
             onClick={toggleDarkMode}
             className="rounded-xl p-2 text-neutral-500 transition-colors duration-fast hover:bg-neutral-100 hover:text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-300 dark:text-neutral-400 dark:hover:bg-primary-800 dark:hover:text-white dark:focus:ring-primary-700"
           >
             {darkMode ? (
               <svg className="size-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                  clipRule="evenodd"
+                />
               </svg>
             ) : (
               <svg className="size-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -120,4 +137,4 @@ export const HeaderLogin = () => {
       </Navbar>
     </>
   );
-}
+};

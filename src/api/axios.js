@@ -23,19 +23,42 @@ const drainQueue = (error, token = null) => {
 
 const redirectToLogin = () => {
   if (typeof window === 'undefined') return;
-
+  // clear queue before redirect to avoid dangling promises
+  drainQueue(new Error('redirect to login'), null);
   const loginUrl = new URL('/login', window.location.origin);
   window.location.replace(loginUrl.toString());
 };
 
+function getCsrfToken() {
+  if (typeof document === 'undefined') return null;
+  // 1) cookie csrf_token
+  const match = document.cookie.match(/(?:^|; )csrf_token=([^;]*)/);
+  if (match) return decodeURIComponent(match[1]);
+  // 2) <meta name="csrf-token" content="...">
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta) return meta.getAttribute('content');
+  return null;
+}
+
+function buildHeaders() {
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  if (apiKey) {
+    headers.apikey = apiKey;
+  }
+  const csrf = getCsrfToken();
+  if (csrf) {
+    headers['X-CSRF-Token'] = csrf;
+  }
+  return headers;
+}
+
 const axiosInstance = axios.create({
   baseURL: `${apiUrl}/api/v1/`,
   timeout: 8000,
-  withCredentials: true, // necesario para enviar la cookie httpOnly del refresh token
-  headers: {
-    'Content-Type': 'application/json',
-    apikey: apiKey,
-  },
+  withCredentials: true,
+  headers: buildHeaders(),
 });
 
 // ── Request interceptor: adjuntar access token en cada request ────────────
@@ -43,6 +66,15 @@ axiosInstance.interceptors.request.use((config) => {
   const { accessToken } = useStore.getState();
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  // attach CSRF if available and not already set (H-04 gated: only if backend issues token)
+  const csrf = getCsrfToken();
+  if (csrf && !config.headers['X-CSRF-Token']) {
+    config.headers['X-CSRF-Token'] = csrf;
+  }
+  // ensure apikey omitted when empty (C-01 fail-secure)
+  if (!apiKey && config.headers.apikey) {
+    delete config.headers.apikey;
   }
   return config;
 });
