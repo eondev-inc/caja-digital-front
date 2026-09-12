@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.28
+FROM node:lts-alpine3.22
 LABEL version="1.0.0"
 
 # Instalar dependencias necesarias
@@ -18,7 +18,7 @@ RUN npm install -g pnpm@10
 WORKDIR /src
 
 # Copiar archivos necesarios y ajustar permisos
-COPY package*.json pnpm-lock.yaml postcss.config.js tailwind.config.js vite.config.js index.html ./
+COPY package*.json pnpm-lock.yaml pnpm-workspace.yaml postcss.config.js tailwind.config.js vite.config.js index.html ./
 
 # Instalar dependencias de la app
 RUN pnpm install
