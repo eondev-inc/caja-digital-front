@@ -1,0 +1,26 @@
+packages:
+  - '.'
+
+allowBuilds:
+  esbuild: true
+
+catalogs:
+  default:
+    brace-expansion: ^2.1.4
+    flatted: ^3.4.2
+    js-yaml: ^4.3.1
+    vite: ^6.4.3
+    esbuild: ^0.25.0
+    nanoid: ^3.3.18
+    browserslist: ^4.28.8
+    postcss: ^8.5.0
+
+overrides:
+  brace-expansion: catalog:default
+  flatted: catalog:default
+  js-yaml: catalog:default
+  vite: catalog:default
+  esbuild: catalog:default
+  nanoid: catalog:default
+  browserslist: catalog:default
+  postcss: catalog:default

@@ -1,16 +1,14 @@
-
-import { Routes, BrowserRouter as Router, Route } from 'react-router-dom'
-import './App.css'
-import routes from './routes'
+import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+import './App.css';
+import routes from './routes';
 import { PrivateRoute } from './components/Wrappers/PrivateRoute';
 import { RouterWrapper } from './components/Wrappers/RouterWrapper';
 import { ScrollToTop } from './components/Commons/ScrollToTop';
 import { useStore } from './app/store';
 import { useDarkMode } from './hooks/useDarkMode';
 
-
 function App() {
-  const { isAuthenticated } = useStore();
+  const { accessToken } = useStore();
 
   // Activa/sincroniza la clase `dark` en <html> de forma global
   useDarkMode();
@@ -26,20 +24,17 @@ function App() {
               path={path}
               element={
                 isProtected ? (
-                  <PrivateRoute isAuthenticated={isAuthenticated} element={element} layout={layout} />
+                  <PrivateRoute accessToken={accessToken} element={element} layout={layout} />
                 ) : (
                   <RouterWrapper element={element} layout={layout} />
                 )
               }
             />
-          )
-        })
-
-        }
+          );
+        })}
       </Routes>
     </Router>
   );
-
 }
 
-export default App
+export default App;
