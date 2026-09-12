@@ -33,7 +33,13 @@ function getCsrfToken() {
   if (typeof document === 'undefined') return null;
   // 1) cookie csrf_token
   const match = document.cookie.match(/(?:^|; )csrf_token=([^;]*)/);
-  if (match) return decodeURIComponent(match[1]);
+  if (match) {
+    try {
+      return decodeURIComponent(match[1]);
+    } catch {
+      return match[1];
+    }
+  }
   // 2) <meta name="csrf-token" content="...">
   const meta = document.querySelector('meta[name="csrf-token"]');
   if (meta) return meta.getAttribute('content');

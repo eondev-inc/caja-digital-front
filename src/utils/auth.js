@@ -10,7 +10,8 @@ export function isTokenExpired(token) {
   try {
     const payload = parts[1];
     // base64url -> base64
-    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    let base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    base64 += '='.repeat((4 - (base64.length % 4)) % 4);
     const json = atob(base64);
     const data = JSON.parse(json);
     if (!data.exp || typeof data.exp !== 'number') return true;
