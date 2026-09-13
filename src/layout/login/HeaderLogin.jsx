@@ -8,16 +8,18 @@ import {
   faFileInvoice,
   faChartBar,
 } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useStore } from '../../app/store';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { logout as logoutRequest } from '../../api/auth/logout.post';
 
 export const HeaderLogin = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const setAccessToken = useStore((s) => s.setAccessToken);
   const setIsAuthenticated = useStore((s) => s.setIsAuthenticated);
   const setUserInfo = useStore((s) => s.setUserInfo);
+  const setAuthStatus = useStore((s) => s.setAuthStatus);
   const setOpenRegister = useStore((s) => s.setOpenRegister);
   const userInfo = useStore((s) => s.userInfo);
   const { darkMode, toggleDarkMode } = useDarkMode();
@@ -33,6 +35,7 @@ export const HeaderLogin = () => {
       setAccessToken('');
       setIsAuthenticated(false);
       setUserInfo({});
+      setAuthStatus('guest');
       setOpenRegister({});
       navigate('/login');
     }
@@ -44,7 +47,7 @@ export const HeaderLogin = () => {
         fluid
         className="fixed inset-x-0 top-0 z-50 border-b-2 border-secondary-500 bg-white shadow-lg dark:border-secondary-600 dark:bg-primary-950"
       >
-        <Navbar.Brand href="#" className="flex items-center gap-3">
+        <Navbar.Brand as={Link} to="/dashboard" className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-secondary-600 shadow-sm">
             <FontAwesomeIcon icon={faCashRegister} className="size-5 text-white" />
           </div>
@@ -72,30 +75,37 @@ export const HeaderLogin = () => {
 
           <Navbar.Collapse className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2 shadow-sm dark:border-primary-800 dark:bg-primary-900">
             <Navbar.Link
-              href="/dashboard"
+              as={Link}
+              to="/dashboard"
               className="flex items-center gap-2 font-medium text-primary-600 dark:text-primary-400"
-              active
+              active={pathname === '/dashboard'}
             >
               <FontAwesomeIcon icon={faChartLine} className="size-3" />
               Panel Principal
             </Navbar.Link>
             <Navbar.Link
-              href="/dashboard/open-register"
+              as={Link}
+              to="/dashboard/open-register"
               className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
+              active={pathname === '/dashboard/open-register'}
             >
               <FontAwesomeIcon icon={faCashRegister} className="size-3" />
               Abrir Caja
             </Navbar.Link>
             <Navbar.Link
-              href="/dashboard/sales"
+              as={Link}
+              to="/dashboard/sales"
               className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
+              active={pathname === '/dashboard/sales'}
             >
               <FontAwesomeIcon icon={faFileInvoice} className="size-3" />
               Ventas
             </Navbar.Link>
             <Navbar.Link
-              href="/dashboard/reports"
+              as={Link}
+              to="/dashboard/reports"
               className="flex items-center gap-2 font-medium text-neutral-600 transition-colors duration-fast hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400"
+              active={pathname === '/dashboard/reports'}
             >
               <FontAwesomeIcon icon={faChartBar} className="size-3" />
               Reportes
