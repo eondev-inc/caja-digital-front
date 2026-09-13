@@ -25,6 +25,15 @@ export const useStore = create(
       userInfo: {},
       setUserInfo: (userInfo) => set({ userInfo }),
 
+      // Bootstrap status: 'pending' until AuthBootstrap settles the session
+      // via POST /auth/refresh. Never persisted (memory-only like all auth).
+      authStatus: 'pending',
+      setAuthStatus: (authStatus) => set({ authStatus }),
+
+      // Bootstrap network error (memory-only, never persisted).
+      bootstrapError: null,
+      setBootstrapError: (bootstrapError) => set({ bootstrapError }),
+
       openRegister: {},
       setOpenRegister: (openRegister) => set({ openRegister }),
 
