@@ -2,6 +2,7 @@ import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import routes from './routes';
 import { PrivateRoute } from './components/Wrappers/PrivateRoute';
+import { AuthBootstrap } from './components/Auth/AuthBootstrap';
 import { RouterWrapper } from './components/Wrappers/RouterWrapper';
 import { ScrollToTop } from './components/Commons/ScrollToTop';
 import { useStore } from './app/store';
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <Router>
+      <AuthBootstrap />
       <ScrollToTop />
       <Routes>
         {routes.map(({ path, element, layout, isProtected }, index) => {
