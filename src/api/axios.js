@@ -5,6 +5,21 @@ import { useStore } from '../app/store';
 let isRefreshing = false;
 let failedQueue = [];
 
+// Router-free bridge: axios cannot useNavigate, so a confirmed session
+// death is signaled once per cascade via CustomEvent. AuthBootstrap
+// (inside <Router>) consumes it with a single SPA navigate.
+let authExpiredDispatched = false;
+
+export const resetAuthExpiredFlag = () => {
+  authExpiredDispatched = false;
+};
+
+const notifyAuthExpired = () => {
+  if (typeof window === 'undefined' || authExpiredDispatched) return;
+  authExpiredDispatched = true;
+  window.dispatchEvent(new CustomEvent('auth:expired'));
+};
+
 /**
  * Drena la cola de requests que esperaban el refresh.
  * @param {string|null} error - Si hay error, rechaza todas. Si no, las resuelve con el nuevo token.
@@ -19,14 +34,6 @@ const drainQueue = (error, token = null) => {
     }
   });
   failedQueue = [];
-};
-
-const redirectToLogin = () => {
-  if (typeof window === 'undefined') return;
-  // clear queue before redirect to avoid dangling promises
-  drainQueue(new Error('redirect to login'), null);
-  const loginUrl = new URL('/login', window.location.origin);
-  window.location.replace(loginUrl.toString());
 };
 
 function getCsrfToken() {
@@ -121,6 +128,10 @@ axiosInstance.interceptors.response.use(
 
       // Actualizar el store con el nuevo access token
       useStore.getState().setAccessToken(newToken);
+      useStore.getState().setIsAuthenticated(true);
+      useStore.getState().setAuthStatus('authed');
+      useStore.getState().setBootstrapError(null);
+      resetAuthExpiredFlag();
 
       // Resolver todas las requests encoladas con el nuevo token
       drainQueue(null, newToken);
@@ -131,11 +142,15 @@ axiosInstance.interceptors.response.use(
     } catch (refreshError) {
       drainQueue(refreshError, null);
 
-      // Limpiar estado de auth y redirigir a login
-      useStore.getState().setAccessToken('');
-      useStore.getState().setIsAuthenticated(false);
-      useStore.getState().setUserInfo({});
-      redirectToLogin();
+      // Only a confirmed 401 means the session is dead. Network errors
+      // (no response) reject so the caller can retry — never redirect.
+      if (refreshError?.response?.status === 401) {
+        useStore.getState().setAccessToken('');
+        useStore.getState().setIsAuthenticated(false);
+        useStore.getState().setUserInfo({});
+        useStore.getState().setAuthStatus('guest');
+        notifyAuthExpired();
+      }
 
       return Promise.reject(refreshError);
     } finally {

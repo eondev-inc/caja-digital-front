@@ -5,6 +5,7 @@ import { loginSchema } from '../../../utils/loginSchema';
 import { useStore } from '../../../app/store';
 import { useNavigate } from 'react-router-dom';
 import { getEntities, login } from '../../../api';
+import { resetAuthExpiredFlag } from '../../../api/axios';
 
 /**
  * Map HTTP error status to Spanish error message.
@@ -44,7 +45,7 @@ export const useLogin = () => {
     mode: 'onBlur',
   });
 
-  const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo, accessToken } =
+  const { setAccessToken, setIsAuthenticated, isAuthenticated, setUserInfo, accessToken, setAuthStatus, setBootstrapError } =
     useStore();
 
   const onSubmit = async (data) => {
@@ -54,6 +55,9 @@ export const useLogin = () => {
       setAccessToken(response.accessToken);
       setUserInfo(response.user);
       setIsAuthenticated(true);
+      setAuthStatus('authed');
+      setBootstrapError(null);
+      resetAuthExpiredFlag();
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     }
