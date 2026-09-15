@@ -26,10 +26,18 @@ export const useOpenRegister = () => {
     mode: 'onBlur',
   });
 
+  // Primitive dep (narrowed from userInfo.entity_users object chain) so the
+  // effect below never derefs undefined and only re-runs on id change.
+  const entityId = userInfo?.entity_users?.[0]?.entities?.id;
+
   const onSubmit = async (data) => {
+    if (entityId == null) {
+      setError('Sesión sin datos de usuario. Iniciá sesión nuevamente.');
+      return;
+    }
     const payload = {
       initial_amount: data.openingAmount,
-      entity_id: userInfo.entity_users[0].entities.id,
+      entity_id: entityId,
     };
 
     const response = await createOpenRegister(payload);
@@ -48,31 +56,38 @@ export const useOpenRegister = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(openRegister).length <= 0) {
-      const [userEntityInfo] = userInfo.entity_users.map((entities) => entities);
-
-      const fetchOpenRegister = async (entityId) => {
-        try {
-          setIsLoading(true);
-          const registerResponse = await getOpenRegister(entityId);
-
-          if (registerResponse.status === 200) {
-            setOpenRegister(registerResponse.data);
-            setShowAlreadyOpenModal(true);
-          }
-        } catch (err) {
-          setError(err.message || 'Error al verificar el estado de la caja');
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchOpenRegister(userEntityInfo.entities.id);
-    } else {
+    if (Object.keys(openRegister ?? {}).length > 0) {
       setShowAlreadyOpenModal(true);
       setIsLoading(false);
+      return;
     }
-  }, [openRegister, setOpenRegister, navigateTo, userInfo.entity_users]);
+
+    // After reload-with-session, POST /auth/refresh returns {accessToken}
+    // only and userInfo stays {} until next login — skip fetch, no .map.
+    if (entityId == null) {
+      setError('Sesión sin datos de usuario. Iniciá sesión nuevamente.');
+      setIsLoading(false);
+      return;
+    }
+
+    const fetchOpenRegister = async (id) => {
+      try {
+        setIsLoading(true);
+        const registerResponse = await getOpenRegister(id);
+
+        if (registerResponse.status === 200) {
+          setOpenRegister(registerResponse.data);
+          setShowAlreadyOpenModal(true);
+        }
+      } catch (err) {
+        setError(err.message || 'Error al verificar el estado de la caja');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOpenRegister(entityId);
+  }, [openRegister, setOpenRegister, entityId]);
 
   return {
     register,
