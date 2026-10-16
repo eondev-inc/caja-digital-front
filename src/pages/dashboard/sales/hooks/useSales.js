@@ -4,12 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema, isBono } from '../../../../utils/transactionSchema';
 import { createTransaction } from '../../../../api';
 import { useSalesCatalogs } from './useSalesCatalogs';
+import { useStore } from '../../../../app/store';
 
 const EMPTY_ITEM = () => ({ description: '', quantity: 1, total_price: 0 });
 
 export const useSales = () => {
   const { paymentMethods, previsions, professionals, ventaTransactionTypeId, openRegister } = useSalesCatalogs();
 
+  const registerSynced = useStore((state) => state.registerSynced);
   const [showFolioInput, setShowFolioInput] = useState(false);
   const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
   const [invoiceItems, setInvoiceItems] = useState([EMPTY_ITEM()]);
@@ -37,8 +39,10 @@ export const useSales = () => {
   };
 
   useEffect(() => {
-    if (!openRegister?.id) setShowNoRegisterModal(true);
-  }, [openRegister]);
+    // Wait for the initial register sync before deciding (see OpenRegisterSync).
+    if (!registerSynced) return;
+    setShowNoRegisterModal(!openRegister?.id);
+  }, [openRegister, registerSynced]);
 
   useEffect(() => {
     const selected = paymentMethods.find((m) => m.id === paymentMethod);

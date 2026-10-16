@@ -37,6 +37,12 @@ export const useStore = create(
       openRegister: {},
       setOpenRegister: (openRegister) => set({ openRegister }),
 
+      // `false` until OpenRegisterSync resolves the initial register state
+      // against the server. Screens must wait for `true` before concluding
+      // that there is no open register. Memory-only, never persisted.
+      registerSynced: false,
+      setRegisterSynced: (registerSynced) => set({ registerSynced }),
+
       // Preferencia de modo oscuro — persiste en sessionStorage
       darkMode: false,
       setDarkMode: (darkMode) => set({ darkMode }),
