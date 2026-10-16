@@ -25,10 +25,12 @@ const runAuthBootstrap = async () => {
   setBootstrapError(null);
   try {
     // Bypasses the 401-retry interceptor (URL guard) by design.
-    // Backend returns {accessToken} only; userInfo stays {} until next login.
+    // Backend returns { accessToken, user }; restoring userInfo keeps
+    // screens gated on userInfo/entityId working after a reload.
     const { data } = await axiosInstance.post('/auth/refresh');
     if (data?.accessToken) {
       setAccessToken(data.accessToken);
+      if (data.user) setUserInfo(data.user);
       setIsAuthenticated(true);
       setAuthStatus('authed');
       setBootstrapError(null);
