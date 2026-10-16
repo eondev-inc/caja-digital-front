@@ -24,7 +24,7 @@ export const RegisterTermsAndSubmit = ({
             Acepto los{' '}
             <a
               className="font-medium text-primary-600 underline transition-colors duration-fast hover:text-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 dark:text-primary-400 dark:hover:text-primary-300"
-              href="#"
+              href="#terms"
             >
               términos y condiciones
             </a>

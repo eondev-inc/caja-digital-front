@@ -11,16 +11,16 @@ const Skeleton = ({
   lines = 1,
   className = '',
 }) => {
+  // `block` keeps the div layout after switching to <output> (inline by default)
   const baseClasses =
-    'animate-pulse bg-neutral-200 dark:bg-neutral-700 rounded';
+    'animate-pulse bg-neutral-200 dark:bg-neutral-700 rounded block';
 
   if (variant === 'circular') {
     const size = width || height || '3rem';
     return (
-      <div
+      <output
         className={`${baseClasses} rounded-full ${className}`}
         style={{ width: size, height: size }}
-        role="status"
         aria-label="Cargando..."
       />
     );
@@ -28,13 +28,12 @@ const Skeleton = ({
 
   if (variant === 'rectangular') {
     return (
-      <div
+      <output
         className={`${baseClasses} ${className}`}
         style={{
           width: width || '100%',
           height: height || '1rem',
         }}
-        role="status"
         aria-label="Cargando..."
       />
     );
@@ -42,16 +41,16 @@ const Skeleton = ({
 
   // Text variant: multiple lines
   return (
-    <div className={`space-y-2 ${className}`} role="status" aria-label="Cargando...">
+    <output className={`block space-y-2 ${className}`} aria-label="Cargando...">
       {Array.from({ length: lines }).map((_, i) => (
-        <div
+        <span
           key={i}
           className={`${baseClasses} h-4 ${
             i === lines - 1 ? 'w-3/4' : 'w-full'
           }`}
         />
       ))}
-    </div>
+    </output>
   );
 };
 

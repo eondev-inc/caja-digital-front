@@ -3,6 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 /* eslint-disable react/prop-types */
+
+const SearchFieldIcon = () => (
+  <FontAwesomeIcon
+    icon={faSearch}
+    className="size-4 text-neutral-400"
+    aria-hidden="true"
+  />
+);
+
 export const CancelFilters = ({
   searchTerm,
   onSearchTermChange,
@@ -15,13 +24,7 @@ export const CancelFilters = ({
       <div className="mb-4 flex gap-3">
         <TextInput
           className="flex-1"
-          icon={() => (
-            <FontAwesomeIcon
-              icon={faSearch}
-              className="size-4 text-neutral-400"
-              aria-hidden="true"
-            />
-          )}
+          icon={SearchFieldIcon}
           placeholder="Buscar por folio o descripción..."
           value={searchTerm}
           onChange={(e) => onSearchTermChange(e.target.value)}

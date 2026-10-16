@@ -50,13 +50,15 @@ export const useStore = create(
         formData: state.formData,
         darkMode: state.darkMode,
       }),
-      migrate: (persistedState = {}, version) => {
+      migrate: (persistedState, version) => {
+        // Default params must come last (S1788); guard the value inside instead.
+        const state = persistedState ?? {};
         if (version < 2) {
           // Whitelist: only non-sensitive UI state. Drops any legacy
           // auth/session keys (accessToken, isAuthenticated, userInfo,
           // openRegister) so they cannot leak across the v1 -> v2 upgrade.
           return {
-            formData: persistedState.formData ?? {
+            formData: state.formData ?? {
               forenames: '',
               surnames: '',
               nid: '',
@@ -64,11 +66,11 @@ export const useStore = create(
               entity_id: '',
               checkBox: false,
             },
-            darkMode: persistedState.darkMode ?? false,
+            darkMode: state.darkMode ?? false,
           };
         }
 
-        return persistedState;
+        return state;
       },
     },
   ),

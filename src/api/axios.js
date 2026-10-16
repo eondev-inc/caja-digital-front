@@ -100,12 +100,11 @@ axiosInstance.interceptors.response.use(
 
     // Si no es 401, o ya reintentamos, o es el propio endpoint de refresh → propagar
     if (
-      !error.response ||
-      error.response.status !== 401 ||
+      error.response?.status !== 401 ||
       originalRequest._retry ||
       originalRequest.url?.includes('/auth/refresh')
     ) {
-      return Promise.reject(error);
+      throw error;
     }
 
     if (isRefreshing) {
@@ -152,7 +151,7 @@ axiosInstance.interceptors.response.use(
         notifyAuthExpired();
       }
 
-      return Promise.reject(refreshError);
+      throw refreshError;
     } finally {
       isRefreshing = false;
     }
