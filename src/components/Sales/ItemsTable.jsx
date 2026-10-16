@@ -39,10 +39,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-12 lg:items-center">
             {/* Servicio */}
             <div className="lg:col-span-3">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-description`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Servicio / Tratamiento
               </label>
               <TextInput
+                id={`item-${index}-description`}
                 sizing="sm"
                 placeholder="Ej: Consulta, Examen..."
                 value={item.description}
@@ -52,10 +56,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Profesional */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-professional`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Profesional (opcional)
               </label>
               <Select
+                id={`item-${index}-professional`}
                 sizing="sm"
                 value={item.professional_uuid || ''}
                 onChange={(e) => onUpdate(index, 'professional_uuid', e.target.value)}
@@ -73,10 +81,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Previsión */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-prevision`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Previsión (opcional)
               </label>
               <Select
+                id={`item-${index}-prevision`}
                 sizing="sm"
                 value={item.prevision_id || ''}
                 onChange={(e) => onUpdate(index, 'prevision_id', e.target.value)}
@@ -93,10 +105,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Cantidad */}
             <div className="lg:col-span-1">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-quantity`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Cantidad
               </label>
               <TextInput
+                id={`item-${index}-quantity`}
                 sizing="sm"
                 type="number"
                 min="1"
@@ -108,10 +124,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Precio */}
             <div className="lg:col-span-2">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-price`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Precio unit.
               </label>
               <TextInput
+                id={`item-${index}-price`}
                 sizing="sm"
                 type="number"
                 min="0"
@@ -125,10 +145,14 @@ export default function ItemsTable({ items, onAdd, onRemove, onUpdate, professio
 
             {/* Subtotal (readonly) */}
             <div className="lg:col-span-1">
-              <label className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden">
+              <label
+                htmlFor={`item-${index}-subtotal`}
+                className="mb-0.5 block text-xs text-neutral-500 dark:text-neutral-400 lg:hidden"
+              >
                 Subtotal
               </label>
               <TextInput
+                id={`item-${index}-subtotal`}
                 sizing="sm"
                 type="text"
                 className="cursor-default bg-neutral-50 text-center font-semibold text-primary-700 dark:bg-neutral-700 dark:text-primary-400"

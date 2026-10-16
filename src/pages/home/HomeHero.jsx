@@ -36,7 +36,7 @@ export const HomeHero = () => {
                 id="main-heading"
                 className="text-5xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-6xl lg:text-7xl"
               >
-                La caja que
+                La caja que{' '}
                 <span className="block text-primary-600 dark:text-primary-400">
                   cuida tu centro
                 </span>

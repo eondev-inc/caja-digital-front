@@ -56,17 +56,17 @@ const Main = () => {
               Sistema de Caja Registradora
             </h1>
             <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-              Gestiona las finanzas de tu centro médico con todas las herramientas necesarias. 
+              Gestiona las finanzas de tu centro médico con todas las herramientas necesarias.{' '}
               <span className="font-semibold text-secondary-700 dark:text-secondary-400">
-                {' '}Abre y cierra tu caja registradora, 
+                Abre y cierra tu caja registradora, 
                 anula transacciones, balancea movimientos, ingresa comprobantes y revisa reportes.
               </span>
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          { [...dashboardOptions].map((element, index) => (
+          { [...dashboardOptions].map((element) => (
             <Card 
-              key={index}
+              key={element.link}
               className="cursor-pointer rounded-lg border border-neutral-200 bg-white p-4 transition-all duration-200 hover:bg-neutral-50 hover:shadow-lg dark:border-neutral-700 dark:bg-neutral-700 dark:hover:bg-neutral-600"
               onClick={() => goTo(element.link)}
               role="button"

@@ -10,37 +10,43 @@ import { useNavigate } from 'react-router-dom';
  * @param {string} context - 'sales' | 'close' | 'cancel' — ajusta el texto descriptivo
  */
 /* eslint-disable react/prop-types */
+
+const DESCRIPTION_BY_CONTEXT = {
+  close:
+    'Para realizar el cierre de caja, primero debe abrir una caja registradora. La apertura de caja le permite:',
+  cancel:
+    'Para gestionar anulaciones y devoluciones, primero debe abrir una caja registradora. La apertura de caja le permite:',
+  sales:
+    'Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. La apertura de caja le permite:',
+};
+
+const ITEMS_BY_CONTEXT = {
+  close: [
+    'Registrar el monto inicial',
+    'Asociar transacciones a la caja',
+    'Realizar seguimiento de movimientos',
+    'Generar reportes y cierres',
+  ],
+  cancel: [
+    'Asociar transacciones a la caja',
+    'Realizar anulaciones y devoluciones',
+    'Mantener trazabilidad de movimientos',
+    'Generar reportes de cierre',
+  ],
+  sales: [
+    'Registrar el monto inicial del día',
+    'Asociar todas las ventas a la caja',
+    'Mantener control de ingresos y egresos',
+    'Realizar el cierre diario correctamente',
+  ],
+};
+
 export default function NoRegisterModal({ show, context = 'sales' }) {
   const navigate = useNavigate();
 
   const descriptionText =
-    context === 'close'
-      ? 'Para realizar el cierre de caja, primero debe abrir una caja registradora. La apertura de caja le permite:'
-      : context === 'cancel'
-        ? 'Para gestionar anulaciones y devoluciones, primero debe abrir una caja registradora. La apertura de caja le permite:'
-        : 'Para realizar ventas y registrar transacciones, primero debe abrir una caja registradora. La apertura de caja le permite:';
-
-  const items =
-    context === 'close'
-      ? [
-          'Registrar el monto inicial',
-          'Asociar transacciones a la caja',
-          'Realizar seguimiento de movimientos',
-          'Generar reportes y cierres',
-        ]
-      : context === 'cancel'
-        ? [
-            'Asociar transacciones a la caja',
-            'Realizar anulaciones y devoluciones',
-            'Mantener trazabilidad de movimientos',
-            'Generar reportes de cierre',
-          ]
-        : [
-            'Registrar el monto inicial del día',
-            'Asociar todas las ventas a la caja',
-            'Mantener control de ingresos y egresos',
-            'Realizar el cierre diario correctamente',
-          ];
+    DESCRIPTION_BY_CONTEXT[context] ?? DESCRIPTION_BY_CONTEXT.sales;
+  const items = ITEMS_BY_CONTEXT[context] ?? ITEMS_BY_CONTEXT.sales;
 
   return (
     <Modal show={show} onClose={() => {}} dismissible={false} size="md">

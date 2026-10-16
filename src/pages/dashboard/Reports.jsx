@@ -12,6 +12,22 @@ import ReportFilters from '../../components/Reports/ReportFilters';
 import ReportViewer from '../../components/Reports/ReportViewer';
 import { useReports } from './reports/hooks/useReports';
 
+const DailySalesTabIcon = () => (
+  <FontAwesomeIcon icon={faChartLine} className="mr-2 text-primary-600" aria-hidden="true" />
+);
+
+const ReconciliationsTabIcon = () => (
+  <FontAwesomeIcon icon={faBalanceScale} className="mr-2 text-primary-600" aria-hidden="true" />
+);
+
+const ByProfessionalTabIcon = () => (
+  <FontAwesomeIcon icon={faUserMd} className="mr-2 text-primary-600" aria-hidden="true" />
+);
+
+const ByPrevisionTabIcon = () => (
+  <FontAwesomeIcon icon={faHeartPulse} className="mr-2 text-primary-600" aria-hidden="true" />
+);
+
 /**
  * Página de Reportes.
  * Contiene 4 tabs: Ventas Diarias, Cuadraturas, Por Profesional, Por Previsión.
@@ -54,9 +70,7 @@ const Reports = () => {
           <Tabs aria-label="Reportes disponibles" variant="underline">
             <Tabs.Item
               title="Ventas Diarias"
-              icon={() => (
-                <FontAwesomeIcon icon={faChartLine} className="mr-2 text-primary-600" aria-hidden="true" />
-              )}
+              icon={DailySalesTabIcon}
             >
               <div className="py-4">
                 <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
@@ -69,9 +83,7 @@ const Reports = () => {
 
             <Tabs.Item
               title="Cuadraturas"
-              icon={() => (
-                <FontAwesomeIcon icon={faBalanceScale} className="mr-2 text-primary-600" aria-hidden="true" />
-              )}
+              icon={ReconciliationsTabIcon}
             >
               <div className="py-4">
                 <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
@@ -84,9 +96,7 @@ const Reports = () => {
 
             <Tabs.Item
               title="Por Profesional"
-              icon={() => (
-                <FontAwesomeIcon icon={faUserMd} className="mr-2 text-primary-600" aria-hidden="true" />
-              )}
+              icon={ByProfessionalTabIcon}
             >
               <div className="py-4">
                 <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
@@ -104,9 +114,7 @@ const Reports = () => {
 
             <Tabs.Item
               title="Por Previsión"
-              icon={() => (
-                <FontAwesomeIcon icon={faHeartPulse} className="mr-2 text-primary-600" aria-hidden="true" />
-              )}
+              icon={ByPrevisionTabIcon}
             >
               <div className="py-4">
                 <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">

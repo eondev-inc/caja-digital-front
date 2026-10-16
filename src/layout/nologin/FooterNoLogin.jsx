@@ -148,7 +148,7 @@ export const FooterNoLogin = () => {
             {/* Social Links */}
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="#linkedin"
                 className="text-secondary-400 transition-colors duration-fast hover:text-primary-500 dark:text-neutral-500 dark:hover:text-primary-400"
                 aria-label="LinkedIn"
               >
@@ -161,7 +161,7 @@ export const FooterNoLogin = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="#twitter"
                 className="text-secondary-400 transition-colors duration-fast hover:text-primary-500 dark:text-neutral-500 dark:hover:text-primary-400"
                 aria-label="Twitter"
               >
@@ -170,7 +170,7 @@ export const FooterNoLogin = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="#github"
                 className="text-secondary-400 transition-colors duration-fast hover:text-primary-500 dark:text-neutral-500 dark:hover:text-primary-400"
                 aria-label="GitHub"
               >

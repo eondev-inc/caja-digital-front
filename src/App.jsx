@@ -19,10 +19,10 @@ function App() {
       <AuthBootstrap />
       <ScrollToTop />
       <Routes>
-        {routes.map(({ path, element, layout, isProtected }, index) => {
+        {routes.map(({ path, element, layout, isProtected }) => {
           return (
             <Route
-              key={index}
+              key={path}
               path={path}
               element={
                 isProtected ? (
