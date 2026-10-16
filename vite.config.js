@@ -14,8 +14,8 @@ export default defineConfig({
     port: 3000,
     host: '0.0.0.0',
     strictPort: true,
-    // Permite que Vite responda cuando el host es caja.local (via Traefik)
-    allowedHosts: ['caja.local'],
+    // Permite que Vite responda cuando el host es caja.io (via Traefik)
+    allowedHosts: ['caja.io'],
     historyApiFallback: true,
   },
   build: {
