@@ -1,7 +1,7 @@
 # AGENTS.md — caja-digital-front
 
 React 18 + Vite frontend for "Caja Digital", a Chilean healthcare cashier system.
-Talks to a NestJS backend at `api.caja.local` over a Traefik local network.
+Talks to a NestJS backend at `api.caja.io` over a Traefik local network.
 
 ## Toolchain (read this before running anything)
 
@@ -14,7 +14,7 @@ Talks to a NestJS backend at `api.caja.local` over a Traefik local network.
 
 | Command | Purpose |
 | --- | --- |
-| `pnpm dev` | Vite dev server, **port 3000, host 0.0.0.0, `strictPort`**. Requires `caja.local` + `api.caja.local` resolvable (Traefik / `/etc/hosts`). |
+| `pnpm dev` | Vite dev server, **port 3000, host 0.0.0.0, `strictPort`**. Requires `caja.io` + `api.caja.io` resolvable (Traefik / `/etc/hosts`). |
 | `pnpm build` | Production build to `dist/`. `terser` minify, `hidden` sourcemaps (kept but stripped), brotli compression, bundle visualizer. |
 | `pnpm preview` | Serve the built bundle. |
 | `pnpm lint` | `eslint . --ext js,jsx --max-warnings 0 --fix`. **Zero warnings enforced** — pre-commit will reject otherwise. |

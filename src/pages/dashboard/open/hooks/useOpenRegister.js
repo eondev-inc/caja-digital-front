@@ -62,8 +62,9 @@ export const useOpenRegister = () => {
       return;
     }
 
-    // After reload-with-session, POST /auth/refresh returns {accessToken}
-    // only and userInfo stays {} until next login — skip fetch, no .map.
+    // Defensive guard: after a reload the session bootstrap restores
+    // userInfo (refresh returns { accessToken, user }), so entityId should
+    // exist; a user without entities still gets the error below.
     if (entityId == null) {
       setError('Sesión sin datos de usuario. Iniciá sesión nuevamente.');
       setIsLoading(false);

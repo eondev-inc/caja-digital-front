@@ -18,7 +18,7 @@ import { closeRegisterFormSchema } from '../../../../utils/reconciliationSchema'
  */
 export const useCloseRegister = () => {
   const navigate = useNavigate();
-  const { openRegister, userInfo, setOpenRegister } = useStore();
+  const { openRegister, userInfo, setOpenRegister, registerSynced } = useStore();
 
   const [loading, setLoading] = useState(true);
   const [calculationData, setCalculationData] = useState(null);
@@ -52,11 +52,17 @@ export const useCloseRegister = () => {
 
   useEffect(() => {
     const fetchAll = async () => {
+      // Wait for the initial register sync (OpenRegisterSync); otherwise a
+      // cold page load latches "no register" while the fetch is in flight.
+      if (!registerSynced) return;
+
       if (!openRegister?.id) {
         setLoading(false);
         setShowNoRegisterModal(true);
         return;
       }
+
+      setShowNoRegisterModal(false);
 
       const entityId =
         (userInfo.entity_users?.length > 0 &&
@@ -100,7 +106,7 @@ export const useCloseRegister = () => {
     };
 
     fetchAll();
-  }, [openRegister, userInfo, reset]);
+  }, [openRegister, userInfo, reset, registerSynced]);
 
   const totalEntered = useMemo(
     () =>
