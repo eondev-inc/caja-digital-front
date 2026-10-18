@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 10;
  * data loading, pagination, search, cancel/devolution actions, and alerts.
  */
 export const useCancelTransactions = () => {
-  const { openRegister, userInfo } = useStore();
+  const { openRegister, userInfo, registerSynced } = useStore();
 
   // Register guard
   const [showNoRegisterModal, setShowNoRegisterModal] = useState(false);
@@ -32,12 +32,11 @@ export const useCancelTransactions = () => {
   const [showDevolutionModal, setShowDevolutionModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
-  // Check for open register on mount
+  // Wait for the initial register sync before deciding (see OpenRegisterSync).
   useEffect(() => {
-    if (!openRegister?.id) {
-      setShowNoRegisterModal(true);
-    }
-  }, [openRegister]);
+    if (!registerSynced) return;
+    setShowNoRegisterModal(!openRegister?.id);
+  }, [openRegister, registerSynced]);
 
   /**
    * Displays a temporary alert that auto-dismisses after 5 seconds.

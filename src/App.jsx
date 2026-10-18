@@ -3,6 +3,7 @@ import './App.css';
 import routes from './routes';
 import { PrivateRoute } from './components/Wrappers/PrivateRoute';
 import { AuthBootstrap } from './components/Auth/AuthBootstrap';
+import { OpenRegisterSync } from './components/Auth/OpenRegisterSync';
 import { RouterWrapper } from './components/Wrappers/RouterWrapper';
 import { ScrollToTop } from './components/Commons/ScrollToTop';
 import { useStore } from './app/store';
@@ -17,6 +18,7 @@ function App() {
   return (
     <Router>
       <AuthBootstrap />
+      <OpenRegisterSync />
       <ScrollToTop />
       <Routes>
         {routes.map(({ path, element, layout, isProtected }) => {
